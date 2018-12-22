@@ -10,7 +10,7 @@
 	<!-- core modules built by maven -->
 		<module>../org.commonreality.api</module>
 		<module>../org.commonreality.time</module>
-		<module>../org.commonreality</module>
+		<module>../org.commonreality.core</module>
 
 		<module>../org.commonreality.net</module>
 		<module>../org.commonreality.netty</module>

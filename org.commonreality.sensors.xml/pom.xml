@@ -8,7 +8,7 @@
    <version>1.5.0-SNAPSHOT</version>
    <relativePath>../org.commonreality.distro/pom.xml</relativePath>
   </parent>
-  
+  <packaging>jar</packaging>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
