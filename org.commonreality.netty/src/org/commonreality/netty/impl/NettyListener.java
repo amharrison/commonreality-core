@@ -9,8 +9,8 @@ import io.netty.channel.ChannelPromise;
 
 import java.net.SocketAddress;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.session.ISessionInfo;
 import org.commonreality.net.session.ISessionListener;
 import org.commonreality.netty.NettySessionInfo;
@@ -20,8 +20,8 @@ public class NettyListener extends ChannelHandlerAdapter
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(NettyListener.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(NettyListener.class);
 
   private final ISessionListener     _listener;
 

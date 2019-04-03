@@ -6,8 +6,8 @@ package org.commonreality.netty.impl;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.filter.IMessageFilter;
 import org.commonreality.netty.NettySessionInfo;
 
@@ -16,8 +16,8 @@ public class NettyMessageFilter extends ChannelHandlerAdapter
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(NettyMessageFilter.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(NettyMessageFilter.class);
 
   private final IMessageFilter       _filter;
 

@@ -9,16 +9,16 @@ import io.netty.channel.ChannelPromise;
 
 import java.net.SocketAddress;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 
 public class LoggingHandler implements ChannelHandler
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(LoggingHandler.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(LoggingHandler.class);
 
   private String                     _prefix;
 

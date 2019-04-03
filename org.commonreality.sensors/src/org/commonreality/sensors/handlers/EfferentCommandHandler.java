@@ -8,8 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.Executor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.efferent.IEfferentCommandManager;
 import org.commonreality.efferent.IEfferentCommandTemplate;
@@ -27,6 +25,7 @@ import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.object.identifier.ISensoryIdentifier;
 import org.commonreality.object.manager.event.IObjectEvent;
 import org.commonreality.sensors.ISensor;
+import org.slf4j.LoggerFactory;
 
 /**
  * general handler to deal with {@link IEfferentCommand}s. After instantiating a
@@ -53,8 +52,8 @@ public class EfferentCommandHandler implements IEfferentCommandListener
   /**
    * Logger definition
    */
-  static private final transient Log          LOGGER              = LogFactory
-                                                                      .getLog(EfferentCommandHandler.class);
+  static private final transient org.slf4j.Logger LOGGER              = LoggerFactory
+                                                                      .getLogger(EfferentCommandHandler.class);
 
   static private final String                 ASSOCIATED_DELEGATE = "AssociatedDelegate";
 

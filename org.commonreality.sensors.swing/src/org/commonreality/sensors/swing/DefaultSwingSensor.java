@@ -12,8 +12,8 @@ import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.object.manager.IObjectManager;
 import org.commonreality.sensors.ISensor;
 import org.commonreality.sensors.base.BaseSensor;
@@ -43,8 +43,8 @@ public class DefaultSwingSensor extends BaseSensor
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER              = LogFactory
-                                                             .getLog(DefaultSwingSensor.class);
+  static private final transient org.slf4j.Logger LOGGER              = LoggerFactory
+                                                             .getLogger(DefaultSwingSensor.class);
 
 
   private URL                        _visualConfigurationURL;

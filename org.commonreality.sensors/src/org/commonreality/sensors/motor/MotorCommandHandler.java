@@ -3,8 +3,8 @@ package org.commonreality.sensors.motor;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.modalities.motor.MotorUtilities;
 import org.commonreality.modalities.motor.MovementCommand;
@@ -23,8 +23,8 @@ public class MotorCommandHandler extends AbstractCommandHandlerDelegate
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(MotorCommandHandler.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(MotorCommandHandler.class);
 
   private IActuator                  _actuator;
 

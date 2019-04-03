@@ -3,8 +3,8 @@ package org.commonreality.sensors.motor.interpolator;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.motor.MovementCommand;
 import org.commonreality.object.IAgentObject;
 import org.commonreality.object.IMutableObject;
@@ -16,8 +16,8 @@ public class BasicActuatorCompletion implements IActuatorCompletion
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(BasicActuatorCompletion.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(BasicActuatorCompletion.class);
   
   private EfferentCommandHandler _handler;
   

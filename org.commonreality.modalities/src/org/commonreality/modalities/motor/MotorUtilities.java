@@ -6,8 +6,8 @@ package org.commonreality.modalities.motor;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IEfferentObject;
 import org.commonreality.object.ISimulationObject;
@@ -17,8 +17,8 @@ public class MotorUtilities
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(MotorUtilities.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(MotorUtilities.class);
 
   
   

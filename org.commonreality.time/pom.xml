@@ -28,24 +28,13 @@
     </plugins>
   </build>
   
-  
-  <dependencies>
-  	<dependency>
-  		<groupId>commons-logging</groupId>
-  		<artifactId>commons-logging</artifactId>
-  		<version>1.2</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.junit</groupId>
-  		<artifactId>junit4-engine</artifactId>
-  		<version>5.0.0-ALPHA</version>
-  		<scope>test</scope>
-  		<optional>true</optional>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.commonreality.api</groupId>
-  		<artifactId>org.commonreality.api</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
+   <dependencies>
+    
+    <dependency>
+      <groupId>org.commonreality</groupId>
+      <artifactId>org.commonreality.api</artifactId>
+      <version>1.5.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
+ 
 </project>

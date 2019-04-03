@@ -8,8 +8,8 @@ import java.awt.Button;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.visual.IVisualPropertyHandler;
 import org.commonreality.object.IMutableObject;
 import org.commonreality.sensors.base.PerceptManager;
@@ -25,8 +25,8 @@ public class ButtonCreator extends AWTObjectCreator
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(ButtonCreator.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(ButtonCreator.class);
 
   public boolean handles(Object object)
   {

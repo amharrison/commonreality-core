@@ -7,8 +7,8 @@ import java.awt.Component;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.visual.IVisualPropertyHandler;
 import org.commonreality.object.IMutableObject;
 import org.commonreality.sensors.base.IObjectProcessor;
@@ -25,8 +25,8 @@ public class VisibilityProcessor extends AbstractComponentProcessor
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER             = LogFactory
-                                                            .getLog(VisibilityProcessor.class);
+  static private final transient org.slf4j.Logger LOGGER             = LoggerFactory
+                                                            .getLogger(VisibilityProcessor.class);
 
   private ComponentListener          _componentListener = new ComponentListener() {
 

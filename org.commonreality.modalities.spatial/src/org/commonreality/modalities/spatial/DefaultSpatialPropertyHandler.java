@@ -13,8 +13,8 @@
  */
 package org.commonreality.modalities.spatial;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.visual.DefaultVisualPropertyHandler;
 import org.commonreality.object.ISimulationObject;
 import org.commonreality.object.ISensoryObject;
@@ -24,8 +24,8 @@ public class DefaultSpatialPropertyHandler extends DefaultVisualPropertyHandler 
   /**
    logger definition
    */
-  static public final Log LOGGER = LogFactory
-                                     .getLog(DefaultSpatialPropertyHandler.class);
+  static public final org.slf4j.Logger LOGGER = LoggerFactory
+                                     .getLogger(DefaultSpatialPropertyHandler.class);
 
   
   public boolean hasModality(ISensoryObject object)

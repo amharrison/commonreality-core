@@ -6,8 +6,8 @@ import java.util.Objects;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.agents.IAgent;
 import org.commonreality.fluent.service.ClientConfigurator;
 import org.commonreality.fluent.service.ServerConfigurator;
@@ -23,8 +23,8 @@ public class ParticipantConfigurator<R>
   /**
   * Logger definition
   */
-  static private final transient Log LOGGER = LogFactory
-      .getLog(ParticipantConfigurator.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(ParticipantConfigurator.class);
 
 
   private ICredentials               _credentials;

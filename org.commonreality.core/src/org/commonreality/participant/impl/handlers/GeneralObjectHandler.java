@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.IMessage;
@@ -49,8 +49,8 @@ public class GeneralObjectHandler
   /**
    * logger definition
    */
-  static private final Log                     LOGGER = LogFactory
-                                                          .getLog(GeneralObjectHandler.class);
+  static private final transient org.slf4j.Logger                     LOGGER = LoggerFactory
+                                                          .getLogger(GeneralObjectHandler.class);
 
   private IParticipant                         _participant;
 

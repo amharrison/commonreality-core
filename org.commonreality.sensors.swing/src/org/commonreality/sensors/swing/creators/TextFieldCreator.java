@@ -7,8 +7,8 @@ import java.awt.TextField;
 
 import javax.swing.JTextField;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.visual.IVisualPropertyHandler;
 import org.commonreality.object.IMutableObject;
 import org.commonreality.sensors.base.PerceptManager;
@@ -24,8 +24,8 @@ public class TextFieldCreator extends AWTObjectCreator
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(TextFieldCreator.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(TextFieldCreator.class);
 
   public boolean handles(Object object)
   {

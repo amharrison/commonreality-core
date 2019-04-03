@@ -9,8 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.modalities.motor.MotorConstants;
@@ -26,6 +24,7 @@ import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.sensors.ISensor;
 import org.commonreality.sensors.handlers.EfferentCommandHandler;
 import org.commonreality.sensors.motor.IActuator;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author harrison
@@ -35,8 +34,8 @@ public class BasicInterpolator implements IInterpolator
   /**
    * Logger definition
    */
-  static private final transient Log      LOGGER = LogFactory
-                                                     .getLog(BasicInterpolator.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                     .getLogger(BasicInterpolator.class);
 
   private EfferentCommandHandler          _handler;
 

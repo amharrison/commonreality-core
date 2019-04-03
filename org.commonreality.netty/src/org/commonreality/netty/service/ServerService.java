@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.protocol.IProtocolConfiguration;
 import org.commonreality.net.service.IServerService;
@@ -34,7 +34,7 @@ public class ServerService extends AbstractNettyNetworkService implements
   /**
    * Logger definition
    */
-  static final transient Log LOGGER = LogFactory.getLog(ServerService.class);
+  static final transient org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ServerService.class);
 
   private EventLoopGroup     _serverGroup;
 

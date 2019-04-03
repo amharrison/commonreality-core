@@ -18,8 +18,8 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.identifier.impl.BasicIdentifier;
 import org.commonreality.net.handler.IMessageHandler;
@@ -66,8 +66,8 @@ public class DefaultReality extends AbstractParticipant implements IReality
   /**
    * logger definition
    */
-  static private final Log                LOGGER                      = LogFactory
-                                                                          .getLog(DefaultReality.class);
+  static private final transient org.slf4j.Logger                LOGGER                      = LoggerFactory
+                                                                          .getLogger(DefaultReality.class);
 
   private OwnedClock                      _masterClock;
 

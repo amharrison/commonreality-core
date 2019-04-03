@@ -16,8 +16,8 @@ package org.commonreality.participant.impl;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.efferent.IEfferentCommandTemplate;
 import org.commonreality.efferent.event.IEfferentCommandListener;
@@ -41,8 +41,8 @@ public class RequestableEfferentCommandManager extends EfferentCommandManager
   /**
    * logger definition
    */
-  static private final Log                 LOGGER = LogFactory
-                                                      .getLog(RequestableEfferentCommandManager.class);
+  static private final transient org.slf4j.Logger                 LOGGER = LoggerFactory
+                                                      .getLogger(RequestableEfferentCommandManager.class);
 
   private IParticipant                     _participant;
 

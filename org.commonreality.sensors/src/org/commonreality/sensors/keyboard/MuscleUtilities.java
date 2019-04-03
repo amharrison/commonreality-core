@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.efferent.IEfferentCommandTemplate;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.modalities.motor.MotorConstants;
@@ -24,14 +22,15 @@ import org.commonreality.object.delta.DeltaTracker;
 import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.sensors.ISensor;
 import org.commonreality.sensors.keyboard.map.IDeviceMap;
+import org.slf4j.LoggerFactory;
 
 public class MuscleUtilities
 {
   /**
    * Logger definition
    */
-  static private final transient Log                             LOGGER = LogFactory
-                                                                            .getLog(MuscleUtilities.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                                            .getLogger(MuscleUtilities.class);
 
   private ISensor                                                _sensor;
 
@@ -176,7 +175,7 @@ public class MuscleUtilities
     children.add(finger.getIdentifier());
     rtn.add(finger);
 
-    finger = createFinger(name + "-thumb", object, (x - 2 * offset), y - 2);
+    finger = createFinger(name + "-thumb", object, x - 2 * offset, y - 2);
     children.add(finger.getIdentifier());
     rtn.add(finger);
 

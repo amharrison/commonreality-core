@@ -11,8 +11,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.efferent.IEfferentCommandManager;
 import org.commonreality.efferent.impl.EfferentCommandManager;
 import org.commonreality.identifier.IIdentifier;
@@ -43,8 +43,8 @@ public class ThinParticipant implements IParticipant
   /**
    * logger definition
    */
-  static final Log                                  LOGGER       = LogFactory
-                                                                     .getLog(ThinParticipant.class);
+  static final transient org.slf4j.Logger                                  LOGGER       = LoggerFactory
+                                                                     .getLogger(ThinParticipant.class);
 
   static public CompletableFuture<IAcknowledgement> EMPTY_ACK;
 

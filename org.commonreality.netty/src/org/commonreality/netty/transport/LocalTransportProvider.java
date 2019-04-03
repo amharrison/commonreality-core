@@ -12,8 +12,8 @@ import io.netty.channel.local.LocalServerChannel;
 import java.net.SocketAddress;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.transport.ITransportProvider;
 
 public class LocalTransportProvider implements ITransportProvider
@@ -21,8 +21,8 @@ public class LocalTransportProvider implements ITransportProvider
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(LocalTransportProvider.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(LocalTransportProvider.class);
 
   public LocalTransportProvider()
   {

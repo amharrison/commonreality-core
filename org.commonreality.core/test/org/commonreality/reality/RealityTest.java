@@ -16,8 +16,8 @@ package org.commonreality.reality;
 import java.net.SocketAddress;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.agents.AbstractAgent;
 import org.commonreality.agents.IAgent;
 import org.commonreality.net.message.credentials.PlainTextCredentials;
@@ -44,7 +44,7 @@ public class RealityTest extends TestCase
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(RealityTest.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(RealityTest.class);
 
   IReality                 _reality;
 

@@ -3,8 +3,8 @@ package org.commonreality.modalities.vocal;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.agents.IAgent;
 import org.commonreality.efferent.AbstractEfferentCommandTemplate;
 import org.commonreality.efferent.IEfferentCommand;
@@ -23,8 +23,8 @@ public class VocalizationCommandTemplate extends
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(VocalizationCommandTemplate.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(VocalizationCommandTemplate.class);
 
   
   public VocalizationCommandTemplate(String name, String description)

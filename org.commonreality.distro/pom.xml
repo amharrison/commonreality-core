@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.commonreality</groupId>
 	<artifactId>org.commonreality.distro</artifactId>
@@ -7,7 +9,7 @@
 
 
 	<modules>
-	<!-- core modules built by maven -->
+		<!-- core modules built by maven -->
 		<module>../org.commonreality.api</module>
 		<module>../org.commonreality.time</module>
 		<module>../org.commonreality.core</module>
@@ -24,10 +26,11 @@
 
 
 	<dependencies>
+		
 		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.26</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit</groupId>

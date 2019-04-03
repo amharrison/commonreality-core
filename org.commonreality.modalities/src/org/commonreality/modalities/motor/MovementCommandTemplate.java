@@ -3,8 +3,8 @@ package org.commonreality.modalities.motor;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.agents.IAgent;
 import org.commonreality.efferent.AbstractEfferentCommandTemplate;
 import org.commonreality.efferent.IEfferentCommand;
@@ -22,8 +22,8 @@ public class MovementCommandTemplate<M extends MovementCommand>
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER           = LogFactory
-                                                          .getLog(MovementCommandTemplate.class);
+  static private final transient org.slf4j.Logger LOGGER           = LoggerFactory
+                                                          .getLogger(MovementCommandTemplate.class);
 
   public MovementCommandTemplate(String name, String desc)
   {

@@ -19,8 +19,8 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.protocol.IProtocolConfiguration;
 import org.commonreality.netty.impl.LoggingHandler;
 
@@ -32,8 +32,8 @@ public class SerializingProtocol implements IProtocolConfiguration
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory
-                                      .getLog(SerializingProtocol.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory
+                                      .getLogger(SerializingProtocol.class);
 
   @Override
   public void configure(Object session)

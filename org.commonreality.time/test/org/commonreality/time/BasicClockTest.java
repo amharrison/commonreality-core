@@ -6,21 +6,21 @@ package org.commonreality.time;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.time.impl.BasicClock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+ 
+import org.slf4j.LoggerFactory;
 
 public class BasicClockTest
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(BasicClockTest.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(BasicClockTest.class);
 
   
   

@@ -3,8 +3,8 @@ package org.commonreality.sensors.aural;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.modalities.aural.IAuralPropertyHandler;
 import org.commonreality.modalities.aural.ICommonTypes;
@@ -26,8 +26,8 @@ public class AuralUtilities
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(AuralUtilities.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(AuralUtilities.class);
 
   private ISensor                    _sensor;
 

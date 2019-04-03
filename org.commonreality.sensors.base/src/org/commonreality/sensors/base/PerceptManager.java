@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IAfferentObject;
 import org.commonreality.object.IMutableObject;
@@ -25,6 +23,7 @@ import org.commonreality.object.identifier.ISensoryIdentifier;
 import org.commonreality.object.manager.IAgentObjectManager;
 import org.commonreality.object.manager.IObjectManager;
 import org.commonreality.sensors.ISensor;
+import org.slf4j.LoggerFactory;
 
 /**
  * the percept manager is tailored (primarily for afferent percepts) to create
@@ -52,8 +51,8 @@ public class PerceptManager
   /**
    * Logger definition
    */
-  static private final transient Log       LOGGER = LogFactory
-                                                      .getLog(PerceptManager.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                      .getLogger(PerceptManager.class);
 
   private Map<Object, Set<IObjectKey>>     _objectToKey;
 

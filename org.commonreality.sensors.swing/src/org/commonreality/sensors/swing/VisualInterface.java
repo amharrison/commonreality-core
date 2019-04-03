@@ -10,8 +10,8 @@ import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.sensors.base.BaseSensor;
 import org.commonreality.sensors.base.IObjectCreator;
 import org.commonreality.sensors.base.IObjectProcessor;
@@ -26,8 +26,8 @@ public class VisualInterface
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(VisualInterface.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(VisualInterface.class);
 
   private PerceptManager             _visualPerceptManager;
 

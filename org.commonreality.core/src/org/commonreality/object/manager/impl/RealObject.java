@@ -13,8 +13,8 @@
  */
 package org.commonreality.object.manager.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IRealObject;
 
@@ -26,7 +26,7 @@ public class RealObject extends BasicObject implements IRealObject
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(RealObject.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(RealObject.class);
 
   /**
    * @param identifier

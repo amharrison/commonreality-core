@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.visual.geom.Point2D;
 
 /**
@@ -27,8 +27,8 @@ public abstract class AbstractDeviceMap implements IDeviceMap
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(AbstractDeviceMap.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(AbstractDeviceMap.class);
   
   private SortedMap<Integer, Point2D> _keyToLocation;
   private Map<Point2D, Integer> _locationToKey;

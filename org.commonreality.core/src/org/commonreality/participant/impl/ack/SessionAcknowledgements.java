@@ -8,12 +8,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.net.message.IAcknowledgement;
 import org.commonreality.net.message.IMessage;
 import org.commonreality.net.session.ISessionInfo;
 import org.commonreality.net.session.ISessionListener;
+import org.slf4j.LoggerFactory;
 
 /**
  * contains session specific ack data. Many IMessages require an acknowledgment.
@@ -34,8 +33,8 @@ public class SessionAcknowledgements
   /**
    * Logger definition
    */
-  static private final transient Log                           LOGGER                  = LogFactory
-                                                                                           .getLog(SessionAcknowledgements.class);
+  static private final transient org.slf4j.Logger              LOGGER                  = LoggerFactory
+                                                                                           .getLogger(SessionAcknowledgements.class);
 
   private final ISessionInfo                                   _session;
 

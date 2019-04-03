@@ -13,8 +13,8 @@
  */
 package org.commonreality.participant.impl.handlers;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.message.request.connect.ConnectionAcknowledgment;
@@ -30,8 +30,8 @@ public class ConnectionHandler implements
   /**
    * logger definition
    */
-  static private final Log    LOGGER = LogFactory
-                                         .getLog(ConnectionHandler.class);
+  static private final transient org.slf4j.Logger    LOGGER = LoggerFactory
+                                         .getLogger(ConnectionHandler.class);
 
   private AbstractParticipant _participant;
 

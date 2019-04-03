@@ -15,8 +15,8 @@ package org.commonreality.participant.addressing.impl;
 
 import java.net.SocketAddress;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.participant.addressing.IAddressingInformation;
 
 /**
@@ -32,8 +32,8 @@ public class BasicAddressingInformation implements IAddressingInformation
   /**
    * logger definition
    */
-  static private final Log    LOGGER = LogFactory
-                                         .getLog(BasicAddressingInformation.class);
+  static private final transient org.slf4j.Logger    LOGGER = LoggerFactory
+                                         .getLogger(BasicAddressingInformation.class);
 
   final private SocketAddress _address;
 

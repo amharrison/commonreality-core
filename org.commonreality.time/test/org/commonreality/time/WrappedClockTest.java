@@ -6,21 +6,21 @@ package org.commonreality.time;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.time.impl.OwnedClock;
 import org.commonreality.time.impl.OwnedClock.OwnedAuthoritativeClock;
 import org.commonreality.time.impl.WrappedClock;
 import org.junit.Assert;
 import org.junit.Test;
+ 
+import org.slf4j.LoggerFactory;
 
 public class WrappedClockTest
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(WrappedClockTest.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(WrappedClockTest.class);
 
   /**
    * create three clocks (owned ("a","b"), and two wrapped clocks

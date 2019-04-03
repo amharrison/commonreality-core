@@ -22,8 +22,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Condition;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.event.EventDispatcher;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IMutableObject;
@@ -48,8 +48,8 @@ public class GeneralObjectManager<O extends ISimulationObject, L extends IObject
   /**
    * logger definition
    */
-  static private final Log                      LOGGER      = LogFactory
-                                                                .getLog(GeneralObjectManager.class);
+  static private final transient org.slf4j.Logger                      LOGGER      = LoggerFactory
+                                                                .getLogger(GeneralObjectManager.class);
 
   private Map<IIdentifier, O>                   _objectMap;
 

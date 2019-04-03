@@ -8,8 +8,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.executor.InlineExecutor;
 import org.commonreality.object.IAgentObject;
 import org.commonreality.sensors.AbstractSensor;
@@ -24,6 +22,8 @@ import org.commonreality.sensors.motor.interpolator.IActuatorCompletion;
 import org.commonreality.sensors.motor.interpolator.IInterpolator;
 import org.commonreality.sensors.motor.interpolator.InterpolatorActuator;
 import org.commonreality.time.IAuthoritativeClock;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * generic keyboard & mouse handler.
@@ -35,8 +35,8 @@ public class DefaultKeyboardSensor extends AbstractSensor
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER            = LogFactory
-                                                           .getLog(DefaultKeyboardSensor.class);
+  static private final transient org.slf4j.Logger LOGGER            = LoggerFactory
+                                                           .getLogger(DefaultKeyboardSensor.class);
 
   static public final String         DEVICE_MAP        = "DeviceMap";
 
@@ -212,7 +212,7 @@ public class DefaultKeyboardSensor extends AbstractSensor
         }
         catch (ExecutionException ee)
         {
-          LOGGER.error(ee);
+          LOGGER.error(ee.getMessage(), ee);
         }
         finally
         {

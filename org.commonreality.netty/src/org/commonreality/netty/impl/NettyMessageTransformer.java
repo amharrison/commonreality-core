@@ -8,8 +8,8 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.util.Collection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.transform.IMessageTransfromer;
 
 public class NettyMessageTransformer extends ChannelHandlerAdapter
@@ -17,8 +17,8 @@ public class NettyMessageTransformer extends ChannelHandlerAdapter
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(NettyMessageTransformer.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(NettyMessageTransformer.class);
 
   private final IMessageTransfromer  _filter;
 

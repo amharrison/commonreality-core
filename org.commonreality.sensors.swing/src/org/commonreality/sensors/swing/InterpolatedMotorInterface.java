@@ -7,8 +7,8 @@ import java.awt.Robot;
 import java.net.URL;
 import java.util.Collection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.executor.InlineExecutor;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IAgentObject;
@@ -38,8 +38,8 @@ public class InterpolatedMotorInterface
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(InterpolatedMotorInterface.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(InterpolatedMotorInterface.class);
 
   private IDeviceMap                 _deviceMap;
 

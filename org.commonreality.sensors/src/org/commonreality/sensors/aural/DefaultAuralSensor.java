@@ -9,8 +9,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.agents.IAgent;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IAfferentObject;
@@ -18,6 +16,8 @@ import org.commonreality.object.IRealObject;
 import org.commonreality.sensors.AbstractSensor;
 import org.commonreality.sensors.aural.GeneralAuralProcessor.IAuralMutator;
 import org.commonreality.time.IAuthoritativeClock;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * quick and easy way to get sounds out to the system is to extend this sensor
@@ -38,8 +38,8 @@ public class DefaultAuralSensor extends AbstractSensor
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER         = LogFactory
-                                                        .getLog(DefaultAuralSensor.class);
+  static private final transient org.slf4j.Logger LOGGER         = LoggerFactory
+                                                        .getLogger(DefaultAuralSensor.class);
 
   static public final String         MUTATOR_PREFIX = "IAuralMutator.";
 
@@ -102,7 +102,7 @@ public class DefaultAuralSensor extends AbstractSensor
         }
         catch (ExecutionException ee)
         {
-          LOGGER.error(ee);
+          LOGGER.error(ee.getMessage(), ee);
         }
 
         /*

@@ -16,8 +16,6 @@ package org.commonreality.agents;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.efferent.IEfferentCommandManager;
 import org.commonreality.executor.InlineExecutor;
@@ -42,6 +40,8 @@ import org.commonreality.participant.impl.RequestableEfferentCommandManager;
 import org.commonreality.reality.CommonReality;
 import org.commonreality.time.IClock;
 import org.commonreality.time.impl.NetworkedClock;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * @author developer
@@ -53,7 +53,8 @@ public abstract class AbstractAgent extends AbstractParticipant implements
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(AbstractAgent.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(AbstractAgent.class);
 
   private ICredentials     _credentials;
 

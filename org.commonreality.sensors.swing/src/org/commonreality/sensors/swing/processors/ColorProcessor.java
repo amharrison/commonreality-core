@@ -8,8 +8,8 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.visual.IVisualPropertyHandler;
 import org.commonreality.object.IMutableObject;
 import org.commonreality.sensors.base.IObjectProcessor;
@@ -29,8 +29,8 @@ public class ColorProcessor extends AbstractComponentProcessor
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER               = LogFactory
-                                                              .getLog(ColorProcessor.class);
+  static private final transient org.slf4j.Logger LOGGER               = LoggerFactory
+                                                              .getLogger(ColorProcessor.class);
 
   PropertyChangeListener             _colorChangeListener = new PropertyChangeListener() {
 

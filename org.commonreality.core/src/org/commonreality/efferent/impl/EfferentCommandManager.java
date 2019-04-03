@@ -11,8 +11,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.efferent.IEfferentCommandManager;
 import org.commonreality.efferent.event.IEfferentCommandListener;
@@ -21,6 +19,7 @@ import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.object.manager.event.IObjectEvent;
 import org.commonreality.object.manager.impl.GeneralObjectManager;
+import org.slf4j.LoggerFactory;
 
 public class EfferentCommandManager extends
     GeneralObjectManager<IEfferentCommand, IEfferentCommandListener> implements
@@ -29,8 +28,8 @@ public class EfferentCommandManager extends
   /**
    * Logger definition
    */
-  static private final transient Log                                               LOGGER = LogFactory
-                                                                                              .getLog(EfferentCommandManager.class);
+  static private final transient org.slf4j.Logger                                  LOGGER = LoggerFactory
+                                                                                              .getLogger(EfferentCommandManager.class);
 
   private Map<IEfferentCommand.RequestedState, Map<IIdentifier, IEfferentCommand>> _requestedStates;
 

@@ -13,8 +13,8 @@
  */
 package org.commonreality.modalities.visual.geom;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * this is pathetic - java.awt.geom.Dimension2D only naturally supports 
@@ -32,7 +32,7 @@ public class Dimension2D  implements java.io.Serializable
   /**
    logger definition
    */
-  static public final Log LOGGER = LogFactory.getLog(Dimension2D.class);
+  static public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Dimension2D.class);
 
   private double _width;
   private double _height;

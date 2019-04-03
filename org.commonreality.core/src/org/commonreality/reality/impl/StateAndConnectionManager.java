@@ -17,8 +17,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.IAcknowledgement;
@@ -49,6 +47,7 @@ import org.commonreality.reality.impl.handler.ObjectCommandHandler;
 import org.commonreality.time.IClock;
 import org.commonreality.time.impl.OwnedClock.OwnedAuthoritativeClock;
 import org.commonreality.util.LockUtilities;
+import org.slf4j.LoggerFactory;
 
 /**
  * state and connection manager does just that but is centralized so that we can
@@ -66,8 +65,8 @@ public class StateAndConnectionManager
   /**
    * Logger definition
    */
-  static private final transient Log        LOGGER                  = LogFactory
-                                                                        .getLog(StateAndConnectionManager.class);
+  static private final transient org.slf4j.Logger LOGGER                  = LoggerFactory
+                                                                        .getLogger(StateAndConnectionManager.class);
 
   static public final String                CREDENTIALS             = StateAndConnectionManager.class
                                                                         .getName()

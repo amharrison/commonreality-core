@@ -11,8 +11,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.command.object.IObjectCommand;
 import org.commonreality.net.message.request.object.ObjectCommandRequest;
@@ -23,6 +21,7 @@ import org.commonreality.object.delta.FullObjectDelta;
 import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.sensors.ISensor;
 import org.commonreality.time.impl.BasicClock;
+import org.slf4j.LoggerFactory;
 
 /**
  * utility class that tracks the time to live for {@link ISimulationObject}s,
@@ -35,8 +34,8 @@ public class AddRemoveTracker
   /**
    * Logger definition
    */
-  static private final transient Log                     LOGGER = LogFactory
-                                                                    .getLog(AddRemoveTracker.class);
+  static private final transient org.slf4j.Logger        LOGGER = LoggerFactory
+                                                                    .getLogger(AddRemoveTracker.class);
 
   private TreeMap<Double, Collection<ISimulationObject>> _removeObjects;
 

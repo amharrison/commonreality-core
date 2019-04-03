@@ -15,8 +15,8 @@ package org.commonreality.object.identifier;
 
 import java.io.Serializable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.identifier.impl.BasicIdentifier;
 
@@ -34,8 +34,8 @@ public class BasicSensoryIdentifier extends BasicIdentifier implements
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory
-                                      .getLog(BasicSensoryIdentifier.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory
+                                      .getLogger(BasicSensoryIdentifier.class);
 
   private IIdentifier      _agent;
   private IIdentifier _sensor;

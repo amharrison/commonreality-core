@@ -8,11 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.commonreality.sensors.swing.jactr.encoders.ButtonComponentVisualEncoder;
-import org.commonreality.sensors.swing.jactr.encoders.LabelComponentVisualEncoder;
-import org.commonreality.sensors.swing.jactr.encoders.TextFieldComponentVisualEncoder;
 import org.jactr.core.extensions.IExtension;
 import org.jactr.core.extensions.IllegalExtensionStateException;
 import org.jactr.core.model.IModel;
@@ -22,6 +17,7 @@ import org.jactr.core.utils.parameter.ParameterHandler;
 import org.jactr.modules.pm.common.memory.IPerceptualEncoder;
 import org.jactr.modules.pm.visual.IVisualModule;
 import org.jactr.modules.pm.visual.memory.IVisualMemory;
+import org.slf4j.LoggerFactory;
 
 /**
  * basic extension that automatically injects the appropriate encoders into a
@@ -35,8 +31,8 @@ public class SwingExtension implements IExtension
   /**
    * Logger definition
    */
-  static private final transient Log     LOGGER    = LogFactory
-                                                       .getLog(SwingExtension.class);
+  static private final transient org.slf4j.Logger LOGGER             = LoggerFactory
+                                                       .getLogger(SwingExtension.class);
 
   private IModel                         _model;
 
@@ -102,14 +98,12 @@ public class SwingExtension implements IExtension
         if(install)
          _encodersToInstall.add((IPerceptualEncoder) clazz.newInstance());
         else
-        {
           for(Iterator<IPerceptualEncoder> itr = _encodersToInstall.iterator();itr.hasNext();)
           {
             IPerceptualEncoder encoder = itr.next();
             if(clazz.isAssignableFrom(encoder.getClass()))
               itr.remove();
           }
-        }
       }
       catch (Exception e)
       {

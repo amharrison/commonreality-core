@@ -6,20 +6,20 @@ package org.commonreality.time;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.time.impl.OwnedClock;
 import org.commonreality.time.impl.OwnedClock.OwnedAuthoritativeClock;
 import org.junit.Assert;
 import org.junit.Test;
+ 
+import org.slf4j.LoggerFactory;
 
 public class OwnedClockTest
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(OwnedClockTest.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(OwnedClockTest.class);
 
 
   protected IClock createNewClock()

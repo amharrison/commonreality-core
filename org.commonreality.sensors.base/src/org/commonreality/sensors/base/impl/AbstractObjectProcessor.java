@@ -5,8 +5,8 @@ package org.commonreality.sensors.base.impl;
  */
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.sensors.base.IObjectProcessor;
 import org.commonreality.sensors.base.PerceptManager;
 
@@ -15,8 +15,8 @@ public abstract class AbstractObjectProcessor implements IObjectProcessor<Defaul
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(AbstractObjectProcessor.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(AbstractObjectProcessor.class);
 
   public void configure(Map<String, String> options)
   {

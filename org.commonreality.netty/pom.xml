@@ -26,9 +26,9 @@
   </build>
   <dependencies>
   	<dependency>
-  		<groupId>org.commonreality.net</groupId>
+  		<groupId>org.commonreality</groupId>
   		<artifactId>org.commonreality.net</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
+  		<version>1.5.0-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>io.netty</groupId>
@@ -36,9 +36,9 @@
   		<version>5.0.0.Alpha2</version>
   	</dependency>
   	<dependency>
-  		<groupId>org.commonreality.api</groupId>
+  		<groupId>org.commonreality</groupId>
   		<artifactId>org.commonreality.api</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
+  		<version>1.5.0-SNAPSHOT</version>
   	</dependency>
   </dependencies>
 </project>

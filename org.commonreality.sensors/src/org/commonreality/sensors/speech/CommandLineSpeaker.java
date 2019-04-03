@@ -6,8 +6,8 @@ package org.commonreality.sensors.speech;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.vocal.VocalizationCommand;
 import org.commonreality.object.IAgentObject;
 
@@ -16,8 +16,8 @@ public class CommandLineSpeaker implements ISpeaker
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER    = LogFactory
-                                                   .getLog(CommandLineSpeaker.class);
+  static private final transient org.slf4j.Logger LOGGER    = LoggerFactory
+                                                   .getLogger(CommandLineSpeaker.class);
 
   static public final String         PATH      = "Path";
 

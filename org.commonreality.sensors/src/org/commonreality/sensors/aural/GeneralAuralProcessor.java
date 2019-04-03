@@ -8,8 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.modalities.aural.DefaultAuralPropertyHandler;
 import org.commonreality.modalities.aural.IAuralPropertyHandler;
@@ -24,6 +22,7 @@ import org.commonreality.object.manager.impl.AfferentObject;
 import org.commonreality.object.manager.impl.RealObjectManager;
 import org.commonreality.sensors.ISensor;
 import org.commonreality.sensors.handlers.AddRemoveTracker;
+import org.slf4j.LoggerFactory;
 
 /**
  * the general aural processor is a component that monitors all the realobjects
@@ -50,8 +49,8 @@ public class GeneralAuralProcessor implements IRealObjectListener
   /**
    * Logger definition
    */
-  static private final transient Log  LOGGER        = LogFactory
-                                                        .getLog(GeneralAuralProcessor.class);
+  static private final transient org.slf4j.Logger LOGGER        = LoggerFactory
+                                                        .getLogger(GeneralAuralProcessor.class);
 
   private AddRemoveTracker            _tracker      = new AddRemoveTracker();
 
@@ -83,7 +82,7 @@ public class GeneralAuralProcessor implements IRealObjectListener
     return _tracker.update(currentTime, _sensor);
   }
 
-  protected void addAural(IRealObject auralObject)
+  public void addAural(IRealObject auralObject)
   {
     double onset = _auralHandler.getOnset(auralObject);
     double duration = _auralHandler.getDuration(auralObject);

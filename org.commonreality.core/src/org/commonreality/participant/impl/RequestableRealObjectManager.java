@@ -16,8 +16,8 @@ package org.commonreality.participant.impl;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.identifier.impl.BasicIdentifier;
 import org.commonreality.object.IRealObject;
@@ -37,8 +37,8 @@ public class RequestableRealObjectManager extends RealObjectManager implements
   /**
    * logger definition
    */
-  static private final Log                 LOGGER = LogFactory
-                                                      .getLog(RequestableRealObjectManager.class);
+  static private final transient org.slf4j.Logger                 LOGGER = LoggerFactory
+                                                      .getLogger(RequestableRealObjectManager.class);
 
   private IParticipant                     _participant;
 

@@ -5,8 +5,8 @@ package org.commonreality.modalities.motor;
  */
 import java.util.Collection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 
 public class MotorConstants
@@ -14,8 +14,8 @@ public class MotorConstants
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(MotorConstants.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(MotorConstants.class);
 
   /**
    * general marker for all motor systems (ie. muscles and actuators)
@@ -38,24 +38,24 @@ public class MotorConstants
    * current position of the motor in the parent's coordinates, a primitive
    * double[] of unspecified length and format
    */
-  static public String POSITION = "motor.position";
+  static public final String         POSITION          = "motor.position";
   
   /**
    * range of positions, again a double[] that is 2xPOSITION. Each pair
    * of doubles represents the minimum and maximum for that position.
    */
-  static public String POSITION_RANGE = "motor.positionRange";
+  static public final String         POSITION_RANGE    = "motor.positionRange";
   
   /**
    * current movement rate double[] that is POSITION[]/s
    */
-  static public String RATE = "motor.rate";
+  static public final String         RATE              = "motor.rate";
   
   /**
    * range of rates
    */
-  static public String RATE_RANGE = "motor.rateRange";
+  static public final String         RATE_RANGE        = "motor.rateRange";
   
-  static public String NAME = "motor.name";
+  static public final String         NAME              = "motor.name";
   
 }

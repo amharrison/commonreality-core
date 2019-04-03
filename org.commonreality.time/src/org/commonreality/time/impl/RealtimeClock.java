@@ -7,8 +7,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * realtime clock that provides no authority. The #
@@ -20,8 +20,8 @@ public class RealtimeClock extends BasicClock
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER          = LogFactory
-                                                         .getLog(RealtimeClock.class);
+  static private final transient org.slf4j.Logger LOGGER          = LoggerFactory
+      .getLogger(RealtimeClock.class);
 
   private ScheduledExecutorService   _executor;
 

@@ -3,8 +3,8 @@ package org.commonreality.sensors.keyboard;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.agents.IAgent;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.identifier.IIdentifier;
@@ -18,8 +18,8 @@ public class PressCommandTemplate extends MovementCommandTemplate<PressCommand>
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(PressCommandTemplate.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(PressCommandTemplate.class);
 
   /**
    * 

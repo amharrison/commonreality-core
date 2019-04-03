@@ -10,8 +10,8 @@ import java.util.Set;
 
 import javax.swing.KeyStroke;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 
 public class ACTRDeviceMap extends AbstractDeviceMap
 {
@@ -23,8 +23,8 @@ public class ACTRDeviceMap extends AbstractDeviceMap
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER           = LogFactory
-                                                          .getLog(ACTRDeviceMap.class);
+  static private final transient org.slf4j.Logger LOGGER           = LoggerFactory
+                                                          .getLogger(ACTRDeviceMap.class);
 
   public ACTRDeviceMap()
   {

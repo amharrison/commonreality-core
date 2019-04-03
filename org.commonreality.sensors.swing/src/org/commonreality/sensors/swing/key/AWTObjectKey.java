@@ -5,8 +5,8 @@ package org.commonreality.sensors.swing.key;
  */
 import java.awt.Component;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.sensors.base.IObjectCreator;
 import org.commonreality.sensors.base.impl.DefaultObjectKey;
 
@@ -15,8 +15,8 @@ public class AWTObjectKey extends DefaultObjectKey
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(AWTObjectKey.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(AWTObjectKey.class);
 
   public AWTObjectKey(Component component, IObjectCreator<AWTObjectKey> creator)
   {

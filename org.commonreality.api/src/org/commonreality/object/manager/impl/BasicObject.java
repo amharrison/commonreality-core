@@ -18,11 +18,11 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IMutableObject;
 import org.commonreality.object.UnknownPropertyNameException;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * @author developer
@@ -37,8 +37,8 @@ public class BasicObject implements IMutableObject
   /**
    * logger definition
    */
-  static private final Log    LOGGER           = LogFactory
-                                                   .getLog(BasicObject.class);
+  static private final org.slf4j.Logger LOGGER           = LoggerFactory
+      .getLogger(BasicObject.class);
 
   private IIdentifier         _identifier;
 
@@ -107,7 +107,7 @@ public class BasicObject implements IMutableObject
     final int prime = 31;
     int result = 1;
     result = prime * result
-        + ((_identifier == null) ? 0 : _identifier.hashCode());
+        + (_identifier == null ? 0 : _identifier.hashCode());
     return result;
   }
 
@@ -134,6 +134,7 @@ public class BasicObject implements IMutableObject
     return Collections.unmodifiableMap(_properties);
   }
 
+  @Override
   public String toString()
   {
     return _identifier.toString();

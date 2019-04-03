@@ -23,8 +23,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.IMessage;
 import org.commonreality.net.message.command.object.IObjectCommand;
@@ -39,6 +37,8 @@ import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.object.identifier.ISensoryIdentifier;
 import org.commonreality.sensors.AbstractSensor;
 import org.commonreality.time.impl.RealtimeClock;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * skeletal sensor that utilizes a {@link PerceptManager} to create and process
@@ -62,8 +62,8 @@ public abstract class BaseSensor extends AbstractSensor
   /**
    * logger definition
    */
-  static private final Log                                LOGGER            = LogFactory
-                                                                                .getLog(BaseSensor.class);
+  static private final transient org.slf4j.Logger                                LOGGER            = LoggerFactory
+                                                                                .getLogger(BaseSensor.class);
 
   private ExecutorService                                 _service;
 
@@ -471,7 +471,7 @@ public abstract class BaseSensor extends AbstractSensor
       }
       catch (ExecutionException ee)
       {
-        LOGGER.error(ee);
+        LOGGER.error(ee.getMessage(), ee);
       }
     }
 

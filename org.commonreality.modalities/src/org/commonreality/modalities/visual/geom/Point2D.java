@@ -5,8 +5,8 @@ package org.commonreality.modalities.visual.geom;
  */
 import java.io.Serializable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 
 public class Point2D implements Serializable
 {
@@ -18,7 +18,7 @@ public class Point2D implements Serializable
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory.getLog(Point2D.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Point2D.class);
 
   private double _x;
   private double _y;

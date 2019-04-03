@@ -1,20 +1,21 @@
 package org.commonreality.sensors.motor.interpolator;
 
+import org.commonreality.modalities.motor.MovementCommand;
+import org.commonreality.time.impl.BasicClock;
+
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.commonreality.modalities.motor.MovementCommand;
-import org.commonreality.time.impl.BasicClock;
+ 
+import org.slf4j.LoggerFactory;
 
 public class InterpolatorEvent
 {
   /**
    * Logger definition
    */
-  static private final transient Log                     LOGGER          = LogFactory
-                                                                             .getLog(InterpolatorEvent.class);
+  static private final transient org.slf4j.Logger LOGGER          = LoggerFactory
+                                                                             .getLogger(InterpolatorEvent.class);
 
   private MovementCommand                                _command;
 

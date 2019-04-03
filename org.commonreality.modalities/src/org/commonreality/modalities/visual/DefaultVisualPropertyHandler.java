@@ -13,8 +13,8 @@
  */
 package org.commonreality.modalities.visual;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.DefaultPropertyHandler;
 import org.commonreality.modalities.visual.geom.Dimension2D;
 import org.commonreality.modalities.visual.geom.Point2D;
@@ -28,8 +28,8 @@ public class DefaultVisualPropertyHandler extends DefaultPropertyHandler
   /**
    * logger definition
    */
-  static public final Log LOGGER = LogFactory
-                                     .getLog(DefaultVisualPropertyHandler.class);
+  static public final org.slf4j.Logger LOGGER = LoggerFactory
+                                     .getLogger(DefaultVisualPropertyHandler.class);
 
   public boolean isVisible(ISimulationObject realObject)
       throws UnknownPropertyNameException

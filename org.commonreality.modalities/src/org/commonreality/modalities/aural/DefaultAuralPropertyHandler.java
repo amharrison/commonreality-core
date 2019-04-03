@@ -13,8 +13,8 @@
  */
 package org.commonreality.modalities.aural;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.DefaultPropertyHandler;
 import org.commonreality.object.IAfferentObject;
 import org.commonreality.object.ISensoryObject;
@@ -30,8 +30,8 @@ public class DefaultAuralPropertyHandler extends DefaultPropertyHandler
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory
-                                      .getLog(DefaultAuralPropertyHandler.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory
+                                      .getLogger(DefaultAuralPropertyHandler.class);
 
   /**
    * @see org.commonreality.modalities.aural.IAuralPropertyHandler#isAudible()

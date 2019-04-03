@@ -19,8 +19,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.executor.InlineExecutor;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.command.object.IObjectCommand;
@@ -63,8 +63,8 @@ public abstract class AbstractSensor extends AbstractParticipant implements
    * Logger definition
    */
 
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(AbstractSensor.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(AbstractSensor.class);
 
 
 

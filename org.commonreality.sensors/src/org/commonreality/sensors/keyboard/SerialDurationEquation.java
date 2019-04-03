@@ -3,8 +3,8 @@ package org.commonreality.sensors.keyboard;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.modalities.motor.MovementCommand;
 import org.commonreality.object.IMutableObject;
@@ -16,8 +16,8 @@ public class SerialDurationEquation implements ICommandTimingEquation
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(SerialDurationEquation.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(SerialDurationEquation.class);
 
   public double computeTimings(DeltaTracker<IMutableObject> command)
   {

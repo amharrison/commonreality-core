@@ -13,8 +13,8 @@
  */
 package org.commonreality.reality.impl.handler;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.participant.impl.handlers.GeneralObjectHandler;
 import org.commonreality.reality.IReality;
 import org.commonreality.reality.impl.StateAndConnectionManager;
@@ -27,7 +27,7 @@ public abstract class AbstractObjectInformationHandler
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(AbstractObjectInformationHandler.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AbstractObjectInformationHandler.class);
   
   private StateAndConnectionManager _manager;
   private GeneralObjectHandler _objectHandler;

@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.impl.DefaultSessionListener;
 import org.commonreality.net.protocol.IProtocolConfiguration;
@@ -26,8 +26,8 @@ public class SimpleNetProviderTest
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(SimpleNetProviderTest.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(SimpleNetProviderTest.class);
 
 
 

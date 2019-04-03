@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.protocol.IProtocolConfiguration;
 import org.commonreality.net.service.IClientService;
@@ -32,8 +32,8 @@ public class ClientService extends AbstractNettyNetworkService implements
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(ClientService.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(ClientService.class);
 
   private SocketAddress              _connectedTo;
 

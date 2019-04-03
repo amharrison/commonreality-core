@@ -6,8 +6,6 @@ package org.commonreality.sensors.swing.creators;
 import java.awt.Component;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.modalities.visual.DefaultVisualPropertyHandler;
 import org.commonreality.modalities.visual.IVisualPropertyHandler;
 import org.commonreality.object.IAfferentObject;
@@ -18,6 +16,7 @@ import org.commonreality.sensors.ISensor;
 import org.commonreality.sensors.base.IObjectCreator;
 import org.commonreality.sensors.base.IObjectKey;
 import org.commonreality.sensors.swing.key.AWTObjectKey;
+import org.slf4j.LoggerFactory;
 
 /**
  * abstract object creator for AWT/Swing.
@@ -29,8 +28,8 @@ public abstract class AWTObjectCreator implements IObjectCreator<AWTObjectKey>
   /**
    * Logger definition
    */
-  static private final transient Log      LOGGER    = LogFactory
-                                                        .getLog(AWTObjectCreator.class);
+  static private final transient org.slf4j.Logger LOGGER    = LoggerFactory
+                                                        .getLogger(AWTObjectCreator.class);
 
   protected static IVisualPropertyHandler _pHandler = new DefaultVisualPropertyHandler();
 

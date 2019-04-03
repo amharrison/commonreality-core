@@ -13,8 +13,8 @@
  */
 package org.commonreality.reality.impl.handler;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.message.impl.BaseAcknowledgementMessage;
@@ -32,7 +32,7 @@ public class TimeHandler implements IMessageHandler<RequestTime>
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(TimeHandler.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TimeHandler.class);
 
   private IReality         _reality;
 

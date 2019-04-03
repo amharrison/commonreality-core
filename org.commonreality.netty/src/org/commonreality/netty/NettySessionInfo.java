@@ -15,8 +15,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.filter.IMessageFilter;
 import org.commonreality.net.handler.IExceptionHandler;
@@ -56,8 +56,8 @@ public class NettySessionInfo extends
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER      = LogFactory
-                                                     .getLog(NettySessionInfo.class);
+  static private final transient org.slf4j.Logger LOGGER      = LoggerFactory
+                                                     .getLogger(NettySessionInfo.class);
 
   private ChannelFuture              _closing;
 

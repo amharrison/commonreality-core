@@ -3,8 +3,8 @@ package org.commonreality.sensors.speech;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.modalities.vocal.VocalConstants;
 import org.commonreality.modalities.vocal.VocalUtilities;
@@ -39,8 +39,8 @@ public class VocalizationCommandHandler extends AbstractCommandHandlerDelegate
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(VocalizationCommandHandler.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(VocalizationCommandHandler.class);
 
   private ISpeaker                   _speaker;
   private ICommandTimingEquation _equation;

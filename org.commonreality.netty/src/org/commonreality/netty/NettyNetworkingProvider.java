@@ -6,8 +6,6 @@ package org.commonreality.netty;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.net.protocol.IProtocolConfiguration;
 import org.commonreality.net.provider.INetworkingProvider;
 import org.commonreality.net.service.IClientService;
@@ -19,14 +17,15 @@ import org.commonreality.netty.service.ClientService;
 import org.commonreality.netty.service.ServerService;
 import org.commonreality.netty.transport.LocalTransportProvider;
 import org.commonreality.netty.transport.NIOTransportProvider;
+import org.slf4j.LoggerFactory;
 
 public class NettyNetworkingProvider implements INetworkingProvider
 {
   /**
    * Logger definition
    */
-  static private final transient Log                LOGGER               = LogFactory
-                                                                             .getLog(NettyNetworkingProvider.class);
+  static private final transient org.slf4j.Logger   LOGGER               = LoggerFactory
+                                                                             .getLogger(NettyNetworkingProvider.class);
 
   final private Map<String, ITransportProvider>     _availableTransports = new TreeMap<String, ITransportProvider>();
 

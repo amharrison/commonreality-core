@@ -5,8 +5,8 @@ package org.commonreality.sensors.keyboard;
  */
 import javax.swing.KeyStroke;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.motor.MotorConstants;
 import org.commonreality.modalities.motor.MotorUtilities;
 import org.commonreality.modalities.motor.MovementCommand;
@@ -26,8 +26,8 @@ public class DefaultActuator extends BasicActuatorCompletion implements
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(DefaultActuator.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(DefaultActuator.class);
 
   private IDeviceMap                 _deviceMap;
 

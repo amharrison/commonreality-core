@@ -1,5 +1,10 @@
 package org.commonreality.netty.transport;
 
+import java.util.concurrent.ThreadFactory;
+import java.util.function.BiFunction;
+
+import org.slf4j.LoggerFactory;
+
 /*
  * default logging
  */
@@ -7,19 +12,13 @@ import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
 
-import java.util.concurrent.ThreadFactory;
-import java.util.function.BiFunction;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class NettyConfig
 {
   /**
    * Logger definition
    */
-  static private final transient Log                               LOGGER = LogFactory
-                                                                              .getLog(NettyConfig.class);
+  static private final transient org.slf4j.Logger                  LOGGER = LoggerFactory
+                                                                              .getLogger(NettyConfig.class);
 
   private final BiFunction<Integer, ThreadFactory, EventLoopGroup> _serverSupplier;
 

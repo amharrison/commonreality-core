@@ -16,8 +16,8 @@ package org.commonreality.netty.protocol;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.protocol.IProtocolConfiguration;
 import org.commonreality.netty.impl.LoggingHandler;
 /**
@@ -29,7 +29,7 @@ public class NOOPProtocol implements IProtocolConfiguration
   /**
    logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(NOOPProtocol.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(NOOPProtocol.class);
 
   @Override
   public void configure(Object session)

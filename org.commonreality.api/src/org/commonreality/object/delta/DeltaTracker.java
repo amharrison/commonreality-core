@@ -19,11 +19,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IMutableObject;
 import org.commonreality.object.ISimulationObject;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * @author developer
@@ -33,7 +33,8 @@ public class DeltaTracker<O extends IMutableObject> implements IMutableObject
   /**
    * logger definition
    */
-  static private final Log    LOGGER = LogFactory.getLog(DeltaTracker.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(DeltaTracker.class);
 
   private ISimulationObject   _actualObject;
 

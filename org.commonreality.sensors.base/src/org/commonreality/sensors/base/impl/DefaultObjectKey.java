@@ -1,21 +1,22 @@
 package org.commonreality.sensors.base.impl;
 
-/*
- * default logging
- */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.object.identifier.ISensoryIdentifier;
 import org.commonreality.sensors.base.IObjectCreator;
 import org.commonreality.sensors.base.IObjectKey;
+
+/*
+ * default logging
+ */
+ 
+import org.slf4j.LoggerFactory;
 
 public class DefaultObjectKey implements IObjectKey
 {
   /**
    * Logger definition
    */
-  static private final transient Log                 LOGGER             = LogFactory
-                                                                            .getLog(DefaultObjectKey.class);
+  static private final transient org.slf4j.Logger    LOGGER             = LoggerFactory
+                                                                            .getLogger(DefaultObjectKey.class);
 
   private ISensoryIdentifier                         _identifier;
 

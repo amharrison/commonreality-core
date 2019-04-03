@@ -23,8 +23,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.executor.GeneralThreadFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.handler.IMessageHandler;
@@ -73,8 +73,8 @@ public abstract class AbstractParticipant extends ThinParticipant implements
   /**
    * logger definition
    */
-  static final Log                        LOGGER = LogFactory
-                                                     .getLog(AbstractParticipant.class);
+  static final transient org.slf4j.Logger                        LOGGER = LoggerFactory
+                                                     .getLogger(AbstractParticipant.class);
 
   static private ScheduledExecutorService _periodicExecutor;
 

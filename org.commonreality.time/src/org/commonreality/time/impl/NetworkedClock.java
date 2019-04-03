@@ -7,9 +7,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.time.IAuthoritativeClock;
+import org.slf4j.LoggerFactory;
 
 /**
  * General networked clock support. The code to send the network message for a
@@ -25,8 +24,8 @@ public class NetworkedClock extends BasicClock
   /**
    * Logger definition
    */
-  static private final transient Log               LOGGER = LogFactory
-                                                              .getLog(NetworkedClock.class);
+  static private final transient org.slf4j.Logger  LOGGER = LoggerFactory
+      .getLogger(NetworkedClock.class);
 
   final private BiConsumer<Double, NetworkedClock> _networkSendCommand;
 

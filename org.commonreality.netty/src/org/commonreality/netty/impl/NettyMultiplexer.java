@@ -7,8 +7,8 @@ import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.handler.MessageMultiplexer;
 import org.commonreality.netty.NettySessionInfo;
 
@@ -17,8 +17,8 @@ public class NettyMultiplexer extends ChannelHandlerAdapter
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(NettyMultiplexer.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(NettyMultiplexer.class);
 
   private final MessageMultiplexer   _multiplexer;
 

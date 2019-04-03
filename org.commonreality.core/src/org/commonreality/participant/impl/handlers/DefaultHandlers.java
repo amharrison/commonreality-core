@@ -6,8 +6,8 @@ package org.commonreality.participant.impl.handlers;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.message.command.control.ControlCommand;
 import org.commonreality.net.message.command.object.ObjectCommand;
@@ -30,8 +30,8 @@ public class DefaultHandlers
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(DefaultHandlers.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(DefaultHandlers.class);
 
   public DefaultHandlers()
   {

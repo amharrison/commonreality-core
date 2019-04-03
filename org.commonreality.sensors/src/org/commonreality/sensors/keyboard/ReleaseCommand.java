@@ -3,8 +3,8 @@ package org.commonreality.sensors.keyboard;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.modalities.motor.MotorConstants;
 import org.commonreality.modalities.motor.MotorUtilities;
@@ -20,8 +20,8 @@ public class ReleaseCommand extends MovementCommand
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER           = LogFactory
-                                                          .getLog(ReleaseCommand.class);
+  static private final transient org.slf4j.Logger LOGGER           = LoggerFactory
+                                                          .getLogger(ReleaseCommand.class);
 
   
   

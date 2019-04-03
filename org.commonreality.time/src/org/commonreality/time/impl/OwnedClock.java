@@ -13,9 +13,8 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.time.IAuthoritativeClock;
+import org.slf4j.LoggerFactory;
 
 /**
  * a clock that can have one or more owners, as determined by an owner object
@@ -29,8 +28,8 @@ public class OwnedClock extends BasicClock
   /**
    * Logger definition
    */
-  static private final transient Log           LOGGER = LogFactory
-                                                          .getLog(OwnedClock.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(OwnedClock.class);
 
   final private BiConsumer<Double, OwnedClock> _changeNotifier;
 

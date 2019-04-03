@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.object.ISimulationObject;
 import org.commonreality.object.delta.IObjectDelta;
 
@@ -31,8 +31,8 @@ public class ObjectEvent<O extends ISimulationObject, L extends IObjectListener<
   /**
    * logger definition
    */
-  static private final Log                    LOGGER   = LogFactory
-                                                           .getLog(ObjectEvent.class);
+  static private final transient org.slf4j.Logger                    LOGGER   = LoggerFactory
+                                                           .getLogger(ObjectEvent.class);
 
   private Type                                _type;
 

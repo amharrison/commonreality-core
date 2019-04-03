@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.IMessage;
 import org.commonreality.net.message.request.object.IObjectDataRequest;
@@ -39,8 +39,8 @@ public class XMLProcessor
   /**
    * logger definition
    */
-  static private final Log                       LOGGER = LogFactory
-                                                            .getLog(XMLProcessor.class);
+  static private final transient org.slf4j.Logger                       LOGGER = LoggerFactory
+                                                            .getLogger(XMLProcessor.class);
 
   private XMLSensor                              _sensor;
 

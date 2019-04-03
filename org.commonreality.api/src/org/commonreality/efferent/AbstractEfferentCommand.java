@@ -1,13 +1,13 @@
 package org.commonreality.efferent;
 
-/*
- * default logging
- */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.identifier.ISensoryIdentifier;
 import org.commonreality.object.manager.impl.BasicObject;
+/*
+ * default logging
+ */
+ 
+import org.slf4j.LoggerFactory;
 
 public class AbstractEfferentCommand extends BasicObject implements
     IEfferentCommand
@@ -20,8 +20,8 @@ public class AbstractEfferentCommand extends BasicObject implements
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER           = LogFactory
-                                                          .getLog(AbstractEfferentCommand.class);
+  static private final transient org.slf4j.Logger LOGGER           = LoggerFactory
+      .getLogger(AbstractEfferentCommand.class);
 
   public AbstractEfferentCommand(IIdentifier identifier)
   {

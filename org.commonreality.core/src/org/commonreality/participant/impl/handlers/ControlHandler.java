@@ -15,8 +15,8 @@ package org.commonreality.participant.impl.handlers;
 
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.message.command.control.ControlAcknowledgement;
 import org.commonreality.net.message.command.control.ControlCommand;
@@ -34,7 +34,7 @@ public class ControlHandler implements IMessageHandler<ControlCommand>
   /**
    * logger definition
    */
-  static private final Log    LOGGER = LogFactory.getLog(ControlHandler.class);
+  static private final transient org.slf4j.Logger    LOGGER = LoggerFactory.getLogger(ControlHandler.class);
 
   private AbstractParticipant _participant;
 

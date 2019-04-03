@@ -3,8 +3,8 @@ package org.commonreality.notification.impl;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 
 public class SimpleStringNotification extends AbstractNotification
@@ -17,8 +17,8 @@ public class SimpleStringNotification extends AbstractNotification
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(SimpleStringNotification.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(SimpleStringNotification.class);
 
   private final String               _message;
 

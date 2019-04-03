@@ -5,10 +5,10 @@ package org.commonreality.time.impl;
  */
 import java.util.Optional;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.time.IAuthoritativeClock;
 import org.commonreality.time.IClock;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -20,8 +20,8 @@ public abstract class AbstractAuthoritativeClock extends WrappedClock implements
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(AbstractAuthoritativeClock.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(AbstractAuthoritativeClock.class);
 
   public AbstractAuthoritativeClock(IClock master)
   {

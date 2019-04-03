@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.request.object.NewIdentifierRequest;
 import org.commonreality.participant.IParticipant;
@@ -33,8 +33,8 @@ public abstract class RequestableObjectManagerDelegate
   /**
    * logger definition
    */
-  static private final Log               LOGGER       = LogFactory
-                                                          .getLog(RequestableObjectManagerDelegate.class);
+  static private final transient org.slf4j.Logger               LOGGER       = LoggerFactory
+                                                          .getLogger(RequestableObjectManagerDelegate.class);
 
   private Map<Object, List<IIdentifier>> _cachedIdentifiers;
 

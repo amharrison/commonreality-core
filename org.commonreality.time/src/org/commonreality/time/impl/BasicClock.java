@@ -15,19 +15,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.time.IAuthoritativeClock;
 import org.commonreality.time.IClock;
 import org.commonreality.util.LockUtilities;
+ 
+import org.slf4j.LoggerFactory;
 
 public class BasicClock implements IClock
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(BasicClock.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(BasicClock.class);
 
   static private final double        PRECISION;
 
@@ -221,7 +221,7 @@ public class BasicClock implements IClock
     }
     catch (Exception e)
     {
-      LOGGER.error(e);
+      LOGGER.error(e.getMessage(), e);
       return Double.NaN;
     }
   }
@@ -401,7 +401,7 @@ public class BasicClock implements IClock
     }
     catch (Exception e)
     {
-      LOGGER.error(e);
+      LOGGER.error(e.getMessage(), e);
       localTime = fCurrentLocalTime;
     }
 
@@ -433,7 +433,7 @@ public class BasicClock implements IClock
     }
     catch (Exception e)
     {
-      LOGGER.error(e);
+      LOGGER.error(e.getMessage(), e);
       localTime = getLocalTime(); // just in case.
     }
 

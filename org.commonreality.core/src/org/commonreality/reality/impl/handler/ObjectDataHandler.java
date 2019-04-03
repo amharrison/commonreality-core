@@ -15,8 +15,8 @@ package org.commonreality.reality.impl.handler;
 
 import java.util.Collection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.message.command.object.ObjectData;
@@ -37,7 +37,7 @@ public class ObjectDataHandler extends AbstractObjectInformationHandler
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(ObjectDataHandler.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ObjectDataHandler.class);
 
   /**
    * @param participant

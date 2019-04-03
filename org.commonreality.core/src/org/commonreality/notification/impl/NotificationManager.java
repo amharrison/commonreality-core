@@ -5,8 +5,8 @@ package org.commonreality.notification.impl;
  */
 import java.util.concurrent.Executor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.event.EventDispatcher;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.identifier.IIdentifier.Type;
@@ -23,8 +23,8 @@ public class NotificationManager implements INotificationManager
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(NotificationManager.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(NotificationManager.class);
 
   private final EventDispatcher<INotificationListener, NotificationEvent> _eventDispatcher = new EventDispatcher<INotificationListener, NotificationEvent>();
 

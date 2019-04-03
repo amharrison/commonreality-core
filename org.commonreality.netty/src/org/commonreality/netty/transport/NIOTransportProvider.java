@@ -22,8 +22,8 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.transport.ITransportProvider;
 
 /**
@@ -37,8 +37,8 @@ public class NIOTransportProvider implements ITransportProvider
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory
-                                      .getLog(NIOTransportProvider.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory
+                                      .getLogger(NIOTransportProvider.class);
 
   /**
    * possible options: int,String port String hostname, int port InetAddress ip,

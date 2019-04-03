@@ -6,8 +6,8 @@ package org.commonreality.net.handler;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.session.ISessionInfo;
 
 /**
@@ -17,8 +17,8 @@ import org.commonreality.net.session.ISessionInfo;
  */
 public class MessageMultiplexer implements IMessageHandler<Object>
 {
-  static private final Log                        LOGGER    = LogFactory
-                                                                .getLog(MessageMultiplexer.class);
+  static private final transient org.slf4j.Logger                        LOGGER    = LoggerFactory
+                                                                .getLogger(MessageMultiplexer.class);
 
   final private Map<Class<?>, IMessageHandler<?>> _handlers = new HashMap<Class<?>, IMessageHandler<?>>();
 

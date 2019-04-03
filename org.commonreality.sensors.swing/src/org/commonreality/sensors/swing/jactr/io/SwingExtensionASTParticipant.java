@@ -6,8 +6,8 @@ package org.commonreality.sensors.swing.jactr.io;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.sensors.swing.jactr.SwingExtension;
 import org.commonreality.sensors.swing.jactr.encoders.ButtonComponentVisualEncoder;
 import org.commonreality.sensors.swing.jactr.encoders.LabelComponentVisualEncoder;

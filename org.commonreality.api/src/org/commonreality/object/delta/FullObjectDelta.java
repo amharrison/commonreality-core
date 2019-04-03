@@ -15,9 +15,9 @@ package org.commonreality.object.delta;
 
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.object.ISimulationObject;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * @author developer
@@ -31,7 +31,8 @@ public class FullObjectDelta extends ObjectDelta
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(FullObjectDelta.class);
+  static private final org.slf4j.Logger LOGGER           = LoggerFactory
+      .getLogger(FullObjectDelta.class);
 
   /**
    * @param identifier

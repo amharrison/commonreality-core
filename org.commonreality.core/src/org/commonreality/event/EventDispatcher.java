@@ -18,8 +18,8 @@ import java.util.Collection;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * @author developer
@@ -29,7 +29,7 @@ public class EventDispatcher<L extends ICommonRealityListener, E extends ICommon
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(EventDispatcher.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(EventDispatcher.class);
 
   private ArrayList<Pair>  _listeners;
 

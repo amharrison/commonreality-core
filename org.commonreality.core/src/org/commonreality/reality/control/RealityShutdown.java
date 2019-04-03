@@ -3,8 +3,8 @@ package org.commonreality.reality.control;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.participant.IParticipant.State;
 import org.commonreality.reality.IReality;
 
@@ -13,8 +13,8 @@ public class RealityShutdown implements Runnable
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(RealityShutdown.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(RealityShutdown.class);
 
   private IReality                   _reality;
 

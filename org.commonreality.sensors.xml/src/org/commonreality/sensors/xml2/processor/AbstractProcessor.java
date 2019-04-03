@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.identifier.impl.BasicIdentifier;
 import org.commonreality.net.message.IMessage;
@@ -49,8 +49,8 @@ public abstract class AbstractProcessor<O extends ISimulationObject, L extends I
   /**
    * logger definition
    */
-  static private final Log                           LOGGER = LogFactory
-                                                                .getLog(AbstractProcessor.class);
+  static private final transient org.slf4j.Logger                           LOGGER = LoggerFactory
+                                                                .getLogger(AbstractProcessor.class);
 
   private Map<IIdentifier, Map<String, IIdentifier>> _aliases;
 

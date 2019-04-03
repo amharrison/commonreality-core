@@ -18,10 +18,10 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IMutableObject;
+ 
+import org.slf4j.LoggerFactory;
 
 /**
  * @author developer
@@ -36,7 +36,8 @@ public class ObjectDelta implements IObjectDelta
   /**
    * logger definition
    */
-  static private final Log      LOGGER = LogFactory.getLog(ObjectDelta.class);
+  static private final transient org.slf4j.Logger   LOGGER           = LoggerFactory
+      .getLogger(ObjectDelta.class);
 
   private IIdentifier           _identifier;
 
@@ -65,10 +66,8 @@ public class ObjectDelta implements IObjectDelta
               + delta.getIdentifier());
 
     for (String prop : delta.getChangedProperties())
-    {
-//      _oldValues.put(prop, _newValues.get(prop));
+      //      _oldValues.put(prop, _newValues.get(prop));
       _newValues.put(prop, delta.getNewValue(prop));
-    }
   }
 
   /**
@@ -128,6 +127,7 @@ public class ObjectDelta implements IObjectDelta
     return _oldValues.get(propertyName);
   }
 
+  @Override
   public String toString()
   {
     return "[Delta:"+getIdentifier()+":"+getChangedProperties()+"]";

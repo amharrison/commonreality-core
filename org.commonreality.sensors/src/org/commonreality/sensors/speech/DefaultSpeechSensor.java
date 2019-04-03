@@ -13,8 +13,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.efferent.IEfferentCommandTemplate;
 import org.commonreality.executor.InlineExecutor;
@@ -38,6 +36,7 @@ import org.commonreality.sensors.handlers.EfferentCommandHandler;
 import org.commonreality.sensors.handlers.ICommandHandlerDelegate;
 import org.commonreality.sensors.handlers.ICommandTimingEquation;
 import org.commonreality.time.impl.BasicClock;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default speech generation sensor. For all connected agents, it creates an
@@ -62,8 +61,8 @@ public class DefaultSpeechSensor extends AbstractSensor implements ISpeaker
   /**
    * Logger definition
    */
-  static private final transient Log           LOGGER                         = LogFactory
-                                                                                  .getLog(DefaultSpeechSensor.class);
+  static private final transient org.slf4j.Logger LOGGER                         = LoggerFactory
+                                                                                  .getLogger(DefaultSpeechSensor.class);
 
   static public final String                   VOCALIZATION_DURATION_EQUATION = "DurationEquation";
 
@@ -148,7 +147,7 @@ public class DefaultSpeechSensor extends AbstractSensor implements ISpeaker
         }
         catch (ExecutionException ee)
         {
-          LOGGER.error(ee);
+          LOGGER.error(ee.getMessage(), ee);
         }
 
         /*

@@ -7,8 +7,8 @@ import io.netty.channel.EventLoopGroup;
 
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.handler.MessageMultiplexer;
 import org.commonreality.net.message.impl.BaseAcknowledgementMessage;
@@ -17,8 +17,8 @@ import org.commonreality.net.session.ISessionInfo;
 
 public abstract class AbstractNettyNetworkService implements INetworkService
 {
-  static private final Log     LOGGER = LogFactory
-                                          .getLog(AbstractNettyNetworkService.class);
+  static private final transient org.slf4j.Logger     LOGGER = LoggerFactory
+                                          .getLogger(AbstractNettyNetworkService.class);
 
   protected EventLoopGroup     _workerGroup;
 

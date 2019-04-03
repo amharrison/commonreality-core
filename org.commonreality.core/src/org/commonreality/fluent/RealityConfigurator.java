@@ -8,8 +8,8 @@ import java.util.Map;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.agents.IAgent;
 import org.commonreality.net.message.credentials.ICredentials;
 import org.commonreality.reality.CommonReality;
@@ -25,8 +25,8 @@ public class RealityConfigurator extends ParticipantConfigurator<Runnable>
   /**
   * Logger definition
   */
-  static private final transient Log LOGGER = LogFactory
-      .getLog(RealityConfigurator.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(RealityConfigurator.class);
 
   private Collection<ISensor>        _sensors = new ArrayList<>();
 

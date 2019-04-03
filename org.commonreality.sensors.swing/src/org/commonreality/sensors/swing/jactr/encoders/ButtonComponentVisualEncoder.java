@@ -3,8 +3,8 @@ package org.commonreality.sensors.swing.jactr.encoders;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.visual.IVisualPropertyHandler;
 import org.commonreality.object.IAfferentObject;
 import org.jactr.core.chunk.IChunk;
@@ -18,8 +18,8 @@ public class ButtonComponentVisualEncoder extends
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(ButtonComponentVisualEncoder.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(ButtonComponentVisualEncoder.class);
 
   public ButtonComponentVisualEncoder()
   {

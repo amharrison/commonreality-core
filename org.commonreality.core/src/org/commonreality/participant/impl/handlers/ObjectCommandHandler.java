@@ -13,8 +13,8 @@
  */
 package org.commonreality.participant.impl.handlers;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.net.handler.IMessageHandler;
 import org.commonreality.net.message.command.object.ObjectCommand;
 import org.commonreality.net.session.ISessionInfo;
@@ -30,7 +30,7 @@ public class ObjectCommandHandler implements
   /**
    * logger definition
    */
-  static private final Log LOGGER = LogFactory.getLog(ObjectCommandHandler.class);
+  static private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ObjectCommandHandler.class);
   private GeneralObjectHandler _objectHandler;
 
   public ObjectCommandHandler(GeneralObjectHandler objectHandler)

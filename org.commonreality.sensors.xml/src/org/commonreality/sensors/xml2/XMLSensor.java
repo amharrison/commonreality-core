@@ -19,11 +19,10 @@ import java.util.concurrent.ExecutorService;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.IMessage;
 import org.commonreality.sensors.AbstractSensor;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -34,8 +33,8 @@ public class XMLSensor extends AbstractSensor
   /**
    * Logger definition
    */
-  static private final transient Log                          LOGGER            = LogFactory
-                                                                                    .getLog(XMLSensor.class);
+  static private final transient org.slf4j.Logger             LOGGER            = LoggerFactory
+                                                                                    .getLogger(XMLSensor.class);
 
   static public final String                                  DATA_URL          = "XMLSensor.DataURI";
 

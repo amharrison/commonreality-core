@@ -3,8 +3,8 @@ package org.commonreality.fluent.service;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.fluent.ParticipantConfigurator;
 import org.commonreality.net.protocol.IProtocolConfiguration;
 import org.commonreality.net.provider.INetworkingProvider;
@@ -15,8 +15,8 @@ public class ServiceConfigurator<R extends ServiceConfigurator<?>>
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-      .getLog(ServiceConfigurator.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(ServiceConfigurator.class);
 
   private ParticipantConfigurator<?> _parent;
 

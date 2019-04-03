@@ -3,8 +3,8 @@ package org.commonreality.notification.impl;
 /*
  * default logging
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.notification.INotification;
 
@@ -18,8 +18,8 @@ public class AbstractNotification implements INotification
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(AbstractNotification.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+                                                .getLogger(AbstractNotification.class);
 
   private final IIdentifier          _identifier;
 

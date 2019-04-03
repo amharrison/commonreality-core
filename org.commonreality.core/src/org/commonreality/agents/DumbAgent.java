@@ -1,18 +1,15 @@
 package org.commonreality.agents;
 
-/*
- * default logging
- */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 
 public class DumbAgent extends AbstractAgent
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER              = LogFactory
-                                                             .getLog(DumbAgent.class);
+  static private final transient org.slf4j.Logger LOGGER              = LoggerFactory
+                                                             .getLogger(DumbAgent.class);
 
   private boolean                    _participatesInTime = true;
 

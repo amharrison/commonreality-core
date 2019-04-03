@@ -24,8 +24,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+ 
+import org.slf4j.LoggerFactory;
 import org.commonreality.agents.IAgent;
 import org.commonreality.net.message.credentials.ICredentials;
 import org.commonreality.net.message.credentials.PlainTextCredentials;
@@ -69,7 +69,7 @@ public class RealityParser
   /**
    * logger definition
    */
-  static public final Log LOGGER = LogFactory.getLog(RealityParser.class);
+  static public final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(RealityParser.class);
 
   public void parse(InputSource source) throws IOException, SAXException,
       ParserConfigurationException

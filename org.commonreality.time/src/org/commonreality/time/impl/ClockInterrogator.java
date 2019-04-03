@@ -1,10 +1,5 @@
 package org.commonreality.time.impl;
 
-/*
- * default logging
- */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.commonreality.agents.IAgent;
 import org.commonreality.participant.IParticipant;
 import org.commonreality.reality.CommonReality;
@@ -12,14 +7,19 @@ import org.commonreality.reality.IReality;
 import org.commonreality.sensors.ISensor;
 import org.commonreality.time.IClock;
 import org.commonreality.time.impl.OwnedClock.OwnedAuthoritativeClock;
+/*
+ * default logging
+ */
+ 
+import org.slf4j.LoggerFactory;
 
 public class ClockInterrogator
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(ClockInterrogator.class);
+  static private final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(ClockInterrogator.class);
 
   static public String getAllClockDetails()
   {
