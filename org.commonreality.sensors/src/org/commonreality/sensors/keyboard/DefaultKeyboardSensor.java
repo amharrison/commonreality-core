@@ -22,7 +22,6 @@ import org.commonreality.sensors.motor.interpolator.IActuatorCompletion;
 import org.commonreality.sensors.motor.interpolator.IInterpolator;
 import org.commonreality.sensors.motor.interpolator.InterpolatorActuator;
 import org.commonreality.time.IAuthoritativeClock;
- 
 import org.slf4j.LoggerFactory;
 
 /**
@@ -85,7 +84,8 @@ public class DefaultKeyboardSensor extends AbstractSensor
       try
       {
         equation = (ICommandTimingEquation) getClass().getClassLoader()
-            .loadClass(options.get(DURATION_EQUATION)).newInstance();
+            .loadClass(options.get(DURATION_EQUATION)).getConstructor()
+            .newInstance();
       }
       catch (Exception e)
       {
@@ -102,7 +102,7 @@ public class DefaultKeyboardSensor extends AbstractSensor
       try
       {
         _deviceMap = (IDeviceMap) getClass().getClassLoader().loadClass(
-            options.get(DEVICE_MAP)).newInstance();
+            options.get(DEVICE_MAP)).getConstructor().newInstance();
       }
       catch (Exception e)
       {
@@ -137,7 +137,8 @@ public class DefaultKeyboardSensor extends AbstractSensor
       {
         actuator = (IKeyboardActuator) getClass().getClassLoader()
             .loadClass(
-            options.get(ACTUATOR_PARAM)).newInstance();
+                options.get(ACTUATOR_PARAM))
+            .getConstructor().newInstance();
         actuator.setDevice(_deviceMap);
         actuator.setHandler(handler);
       }
@@ -166,7 +167,7 @@ public class DefaultKeyboardSensor extends AbstractSensor
     checkState(State.CONNECTED);
 
     _cycle = new Runnable() {
-      private double _lastCycle = Double.NaN;
+
 
       public void run()
       {
@@ -290,5 +291,15 @@ public class DefaultKeyboardSensor extends AbstractSensor
     };
 
     _executor.execute(adder);
+  }
+
+  public IActuator getActuator()
+  {
+    return _actuator;
+  }
+
+  public IDeviceMap getDeviceMap()
+  {
+    return _deviceMap;
   }
 }

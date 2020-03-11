@@ -37,7 +37,6 @@ import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.object.identifier.ISensoryIdentifier;
 import org.commonreality.sensors.AbstractSensor;
 import org.commonreality.time.impl.RealtimeClock;
- 
 import org.slf4j.LoggerFactory;
 
 /**
@@ -503,7 +502,8 @@ public abstract class BaseSensor extends AbstractSensor
 
         preClockWait(waitUntil);
 
-        postClockWait(getClock().waitForTime(waitUntil).get());
+        postClockWait(getClock().getAuthority().get()
+            .requestAndWaitForTime(waitUntil, null).get());
 
         /*
          * and repeat
