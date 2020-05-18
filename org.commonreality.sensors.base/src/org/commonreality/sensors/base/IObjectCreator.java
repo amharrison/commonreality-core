@@ -39,9 +39,10 @@ public interface IObjectCreator<K extends IObjectKey>
    * create the key for this object
    * 
    * @param object
-   * @return
+   * @return the key for the sensory object to be created or null if not
+   *         applicable
    */
-  public K createKey(Object object);
+  public K createKey(Object object, IAgentObject agent);
   
   /**
    * test to see if the object key can be destroyed, removing the percept entirely.

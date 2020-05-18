@@ -14,6 +14,7 @@ import java.util.WeakHashMap;
 
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IAfferentObject;
+import org.commonreality.object.IAgentObject;
 import org.commonreality.object.IMutableObject;
 import org.commonreality.object.ISensoryObject;
 import org.commonreality.object.ISimulationObject;
@@ -165,12 +166,13 @@ public class PerceptManager
       if (creator.handles(object))
         for (IIdentifier agent : _sensor.getInterfacedAgents())
         {
-          IObjectKey key = creator.createKey(object);
+        IAgentObject agentObject = manager.get(agent);
+        IObjectKey key = creator.createKey(object, agentObject);
 
           if (key != null)
           {
             ISensoryObject simObject = creator.createObject(key, object,
-                _sensor, manager.get(agent));
+            _sensor, agentObject);
 
             if (simObject != null)
             {

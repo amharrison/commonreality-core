@@ -5,8 +5,7 @@ package org.commonreality.sensors.base.impl;
  */
 import java.util.Map;
 
- 
-import org.slf4j.LoggerFactory;
+import org.commonreality.modalities.visual.IVisualPropertyHandler;
 import org.commonreality.object.IAfferentObject;
 import org.commonreality.object.IAgentObject;
 import org.commonreality.object.IMutableObject;
@@ -15,6 +14,7 @@ import org.commonreality.sensors.ISensor;
 import org.commonreality.sensors.base.IObjectCreator;
 import org.commonreality.sensors.base.IObjectKey;
 import org.commonreality.sensors.base.PerceptManager;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractObjectCreator implements IObjectCreator<DefaultObjectKey>
 {
@@ -29,7 +29,7 @@ public abstract class AbstractObjectCreator implements IObjectCreator<DefaultObj
     //noop
   }
 
-  public DefaultObjectKey createKey(Object object)
+  public DefaultObjectKey createKey(Object object, IAgentObject agentObject)
   {
     return new DefaultObjectKey(object, this);
   }

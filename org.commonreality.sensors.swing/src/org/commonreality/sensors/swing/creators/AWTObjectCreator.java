@@ -33,7 +33,7 @@ public abstract class AWTObjectCreator implements IObjectCreator<AWTObjectKey>
 
   protected static IVisualPropertyHandler _pHandler = new DefaultVisualPropertyHandler();
 
-  public AWTObjectKey createKey(Object object)
+  public AWTObjectKey createKey(Object object, IAgentObject agentObject)
   {
     return new AWTObjectKey((Component) object, this);
   }
