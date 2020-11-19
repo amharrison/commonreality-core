@@ -298,6 +298,11 @@ public class DefaultKeyboardSensor extends AbstractSensor
     return _actuator;
   }
 
+  public void setActuator(IActuator actuator)
+  {
+    _actuator = actuator;
+  }
+
   public IDeviceMap getDeviceMap()
   {
     return _deviceMap;
