@@ -9,9 +9,9 @@ import org.commonreality.sensors.swing.internal.SwingCenter;
 public class DefaultSwingSensor extends BaseSensor
 {
 
-  private Coordinates _coordinates;
+  protected Coordinates _coordinates;
 
-  private SwingCenter _swingCenter;
+  protected SwingCenter _swingCenter;
 
   public DefaultSwingSensor()
   {
