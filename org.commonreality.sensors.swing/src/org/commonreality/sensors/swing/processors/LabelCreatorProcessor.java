@@ -4,7 +4,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 
-import org.commonreality.sensors.swing.Coordinates;
+import org.commonreality.sensors.swing.internal.Coordinates;
 
 public class LabelCreatorProcessor extends AbstractCreatorProcessor {
 

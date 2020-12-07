@@ -9,8 +9,8 @@ import org.commonreality.object.IMutableObject;
 import org.commonreality.sensors.base.IObjectProcessor;
 import org.commonreality.sensors.base.impl.AbstractObjectCreator;
 import org.commonreality.sensors.base.impl.DefaultObjectKey;
-import org.commonreality.sensors.swing.Coordinates;
-import org.commonreality.sensors.swing.MouseState;
+import org.commonreality.sensors.swing.internal.Coordinates;
+import org.commonreality.sensors.swing.internal.MouseState;
 
 public class MouseCreatorProcessor extends AbstractObjectCreator implements IObjectProcessor<DefaultObjectKey> {
 

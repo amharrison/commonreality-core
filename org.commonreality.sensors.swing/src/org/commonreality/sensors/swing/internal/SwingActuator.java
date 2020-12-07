@@ -1,4 +1,4 @@
-package org.commonreality.sensors.swing;
+package org.commonreality.sensors.swing.internal;
 
 import java.awt.AWTException;
 import java.awt.Point;

@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import org.commonreality.sensors.swing.ComponentVisitor;
+import org.commonreality.sensors.swing.internal.ComponentVisitor;
 
 public class GlobalWindowListener extends WindowAdapter implements AWTEventListener {
 

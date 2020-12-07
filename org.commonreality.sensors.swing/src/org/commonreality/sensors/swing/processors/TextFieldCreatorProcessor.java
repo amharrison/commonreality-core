@@ -4,7 +4,7 @@ import java.awt.Component;
 
 import javax.swing.text.JTextComponent;
 
-import org.commonreality.sensors.swing.Coordinates;
+import org.commonreality.sensors.swing.internal.Coordinates;
 
 public class TextFieldCreatorProcessor extends AbstractCreatorProcessor {
 

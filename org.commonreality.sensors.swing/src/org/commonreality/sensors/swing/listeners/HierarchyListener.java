@@ -8,7 +8,7 @@ import java.awt.event.AWTEventListener;
 import java.util.function.Predicate;
 
 import org.commonreality.sensors.base.BaseSensor;
-import org.commonreality.sensors.swing.ComponentVisitor;
+import org.commonreality.sensors.swing.internal.ComponentVisitor;
 
 public class HierarchyListener implements AWTEventListener {
 
