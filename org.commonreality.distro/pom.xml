@@ -21,6 +21,7 @@
 		<module>../org.commonreality.sensors</module>
 		<module>../org.commonreality.sensors.base</module>
 		<module>../org.commonreality.sensors.xml</module>
+		<module>../org.commonreality.sensors.swing</module>
 
 	</modules>
 

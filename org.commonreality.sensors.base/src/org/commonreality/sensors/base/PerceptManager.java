@@ -132,6 +132,11 @@ public class PerceptManager
     }
   }
 
+  synchronized public void markAllAsDirty()
+  {
+    _dirtyObjects.addAll(_objectToKey.keySet());
+  }
+
   /**
    * flag this object as ready for removal
    * 
