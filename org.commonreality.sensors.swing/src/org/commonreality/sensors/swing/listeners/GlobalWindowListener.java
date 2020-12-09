@@ -57,7 +57,7 @@ public class GlobalWindowListener extends WindowAdapter implements AWTEventListe
 
 	@Override
 	public void eventDispatched(AWTEvent event) {
-		System.err.println(event);
+
 		
 		WindowEvent e = (WindowEvent) event;
 		switch (e.getID()) {

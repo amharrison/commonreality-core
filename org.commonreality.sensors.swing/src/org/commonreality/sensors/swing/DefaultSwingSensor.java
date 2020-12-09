@@ -20,6 +20,16 @@ public class DefaultSwingSensor extends BaseSensor
     setImmediateModeEnabled(false);
   }
 
+  public Coordinates getCoordinateTransform()
+  {
+    return _coordinates;
+  }
+
+  public SwingCenter getSwingCenter()
+  {
+    return _swingCenter;
+  }
+
   @Override
   public void configure(Map<String, String> options) throws Exception
   {

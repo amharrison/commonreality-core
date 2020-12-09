@@ -44,7 +44,7 @@ public class GlobalComponentListener implements AWTEventListener {
 
 	@Override
 	public void eventDispatched(AWTEvent event) {
-		System.err.println(event);
+
 
 		ComponentEvent e = (ComponentEvent) event;
 		switch (e.getID()) {
