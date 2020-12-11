@@ -44,7 +44,7 @@ public class Coordinates {
 			LOGGER.debug(String.format("Retino %s %s", ulRetino, lrRetino));
 		}
 		Rectangle2D.Double rect = new Rectangle2D.Double(ulRetino.getX(), ulRetino.getY(),
-				lrRetino.getX() - ulRetino.getX(), lrRetino.getY() - ulRetino.getY());
+        lrRetino.getX() - ulRetino.getX(), ulRetino.getY() - lrRetino.getY());
 		return rect;
 	}
 
