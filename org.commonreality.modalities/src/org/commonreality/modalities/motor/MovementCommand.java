@@ -7,32 +7,33 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
- 
-import org.slf4j.LoggerFactory;
 import org.commonreality.efferent.AbstractEfferentCommand;
 import org.commonreality.efferent.ICompoundCommand;
 import org.commonreality.efferent.IEfferentCommand;
 import org.commonreality.identifier.IIdentifier;
+import org.slf4j.LoggerFactory;
 
-public class MovementCommand extends AbstractEfferentCommand implements
-    ICompoundCommand
+public class MovementCommand extends AbstractEfferentCommand
+    implements ICompoundCommand
 {
-  static public final String         MOVEMENT_ORIGIN  = "MovementCommand.Origin";
+  static public final String                      MOVEMENT_ORIGIN  = "MovementCommand.Origin";
 
-  static public final String         MOVEMENT_TARGET  = "MovementCommand.Target";
+  static public final String                      MOVEMENT_TARGET  = "MovementCommand.Target";
 
-  static public final String         MOVEMENT_RATE    = "MovementCommand.Rate";
+  static public final String                      MOVEMENT_RATE    = "MovementCommand.Rate";
+
+  static public final String                      IS_PARALLEL      = "MovementCommand.isParallel";
 
   /**
    * 
    */
-  private static final long          serialVersionUID = -3419302731749071125L;
+  private static final long                       serialVersionUID = -3419302731749071125L;
 
   /**
    * Logger definition
    */
   static private final transient org.slf4j.Logger LOGGER           = LoggerFactory
-                                                          .getLogger(MovementCommand.class);
+      .getLogger(MovementCommand.class);
 
   public MovementCommand(IIdentifier identifier)
   {
@@ -116,6 +117,23 @@ public class MovementCommand extends AbstractEfferentCommand implements
     {
       return false;
     }
+  }
+
+  public boolean isParallel()
+  {
+    try
+    {
+      return (Boolean) getProperty(IS_PARALLEL);
+    }
+    catch (Exception e)
+    {
+      return false;
+    }
+  }
+
+  public void setParallel(boolean isParallel)
+  {
+    setProperty(IS_PARALLEL, isParallel);
   }
 
 }

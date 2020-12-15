@@ -17,4 +17,8 @@ public interface ICompoundCommand extends IEfferentCommand
   public Collection<IEfferentCommand> getComponents();
   
   public void add(IEfferentCommand command);
+
+  public boolean isParallel();
+
+  public void setParallel(boolean isParallel);
 }
