@@ -74,15 +74,16 @@ public class InterpolatorEvent
       /*
        * has it been started yet?
        */
-      if (currentTime >= _startTime && !_hasStarted)
+      if (currentTime >= _startTime && !hasStarted() && !hasAborted())
         start(currentTime);
       
-      if (currentTime >= _endTime && !_hasCompleted)
+      if (shouldAbort()) 
+       abort(currentTime);
+      else
+       updateInternal(currentTime);
+     
+      if (currentTime >= _endTime && !hasCompleted() && !hasAborted())
         complete(currentTime);
-      
-      if (shouldAbort()) abort(currentTime);
-
-      updateInternal(currentTime);
       
       _lastUpdateTime = currentTime;
     }
