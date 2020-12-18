@@ -38,6 +38,7 @@ public class SerialDurationEquation implements ICommandTimingEquation
 
       if (movement.isCompound())
       {
+        movement.setProperty(IEfferentCommand.REQUESTED_START_TIME, startTime);
         /*
          * if parallel, they all have the same start time, but different
          * durations
@@ -51,6 +52,7 @@ public class SerialDurationEquation implements ICommandTimingEquation
                 .setProperty(IEfferentCommand.REQUESTED_START_TIME, startTime);
             ((IMutableObject) com)
                 .setProperty(IEfferentCommand.ESTIMATED_DURATION, comDuration);
+            duration = Math.max(duration, comDuration);
           }
         else
         {
@@ -69,6 +71,7 @@ public class SerialDurationEquation implements ICommandTimingEquation
             lastStart += comDuration;
           }
         }
+        movement.setProperty(IEfferentCommand.ESTIMATED_DURATION, duration);
       }
       else
       {

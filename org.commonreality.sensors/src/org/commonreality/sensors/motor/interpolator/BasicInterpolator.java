@@ -245,7 +245,7 @@ public class BasicInterpolator implements IInterpolator
 
     if (!event.hasStarted()) return null;
 
-    if (event.hasCompleted()) currentTime = event.getEndTime();
+    if (currentTime > event.getEndTime()) currentTime = event.getEndTime();
 
     double deltaTime = Math.max(0, currentTime
         - Math.min(event.getLastUpdateTime(), event.getEndTime()));
@@ -260,7 +260,7 @@ public class BasicInterpolator implements IInterpolator
 
     if (LOGGER.isDebugEnabled())
       LOGGER.debug("Before update " + position(efferent, position) + " delta "
-          + deltaTime);
+          + deltaTime + " @ " + currentTime);
 
     for (int i = 0; i < rate.length; i++)
       position[i] += rate[i] * deltaTime;

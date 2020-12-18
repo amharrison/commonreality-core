@@ -92,9 +92,12 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator imp
 
 		afferentPercept.setProperty(IVisualPropertyHandler.IS_VISUAL, Boolean.TRUE);
 
+    String name = component.getName();
+    if (name == null) name = component.toString();
+
 		// static
 		afferentPercept.setProperty(IVisualPropertyHandler.TYPE, types);
-		afferentPercept.setProperty(IVisualPropertyHandler.TOKEN, component.getName());
+    afferentPercept.setProperty(IVisualPropertyHandler.TOKEN, name);
 	}
 	
 	@Override
