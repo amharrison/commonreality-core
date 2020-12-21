@@ -14,9 +14,9 @@ public class TextFieldCreatorProcessor extends AbstractCreatorProcessor {
 
 	@Override
 	protected String[] calculateTypes(Component component) {
-		String[] types = {"text-area"};
+    String[] types = { "text-area", "gui" };
 		if(getText(component)!=null)
-          types = new String[] {"text-area","text"};
+      types = new String[] { "text-area", "gui", "text" };
 		
 		return types;
 	}

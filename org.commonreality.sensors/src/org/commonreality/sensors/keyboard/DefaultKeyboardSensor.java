@@ -57,6 +57,8 @@ public class DefaultKeyboardSensor extends AbstractSensor
 
   private Runnable                   _cycle;
 
+  private EfferentCommandHandler                  _handler;
+
   private volatile boolean           _shouldStop       = false;
 
   private volatile boolean           _shouldSuspend    = false;
@@ -120,10 +122,10 @@ public class DefaultKeyboardSensor extends AbstractSensor
 
       delegate.setTimingEquation(_durationEquation);
 
-      EfferentCommandHandler handler = new EfferentCommandHandler(this);
-      handler.add(delegate);
+      _handler = new EfferentCommandHandler(this);
+      _handler.add(delegate);
 
-      getEfferentCommandManager().addListener(handler, InlineExecutor.get());
+      getEfferentCommandManager().addListener(_handler, InlineExecutor.get());
 
       /*
        * create the actual actuator to use to execute the motor commands
@@ -140,20 +142,20 @@ public class DefaultKeyboardSensor extends AbstractSensor
                 options.get(ACTUATOR_PARAM))
             .getConstructor().newInstance();
         actuator.setDevice(_deviceMap);
-        actuator.setHandler(handler);
+        actuator.setHandler(_handler);
       }
       catch (Exception e)
       {
         if (LOGGER.isDebugEnabled())
           LOGGER.debug("Could not create actuator ", e);
-        actuator = new DefaultActuator(handler, _deviceMap);
+        actuator = new DefaultActuator(_handler, _deviceMap);
       }
 
 
       _actuator = actuator;
       _completion = actuator;
 
-      _interpolator = new BasicInterpolator(handler, _actuator, _completion);
+      _interpolator = new BasicInterpolator(_handler, _actuator, _completion);
 
       delegate.setActuator(new InterpolatorActuator(_interpolator));
     }
@@ -298,9 +300,14 @@ public class DefaultKeyboardSensor extends AbstractSensor
     return _actuator;
   }
 
-  public void setActuator(IActuator actuator)
+  public void setActuator(IKeyboardActuator actuator)
   {
     _actuator = actuator;
+    _completion = actuator;
+    actuator.setDevice(_deviceMap);
+    actuator.setHandler(_handler);
+    _interpolator.setActuator(_actuator);
+    _interpolator.setActuatorCompletion(_completion);
   }
 
   public IDeviceMap getDeviceMap()

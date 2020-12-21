@@ -5,7 +5,7 @@ package org.commonreality.sensors.motor.interpolator;
  */
 import org.commonreality.modalities.motor.MovementCommand;
 import org.commonreality.object.IAgentObject;
-import org.commonreality.sensors.handlers.EfferentCommandHandler;
+import org.commonreality.sensors.motor.IActuator;
 
 public interface IInterpolator
 {
@@ -23,5 +23,9 @@ public interface IInterpolator
    * @return
    */
   public double update(double currentTime);
+
+  public void setActuator(IActuator actuator);
+
+  public void setActuatorCompletion(IActuatorCompletion completion);
 
 }

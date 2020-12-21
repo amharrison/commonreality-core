@@ -121,7 +121,10 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator imp
 		
 		String text = getText(component);
 		if(text!=null)
+    {
 			afferentPercept.setProperty(IVisualPropertyHandler.TEXT, text);
+      afferentPercept.setProperty(IVisualPropertyHandler.TOKEN, text);
+    }
 	}
 
 

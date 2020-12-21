@@ -35,19 +35,19 @@ public class BasicInterpolator implements IInterpolator
    * Logger definition
    */
   static private final transient org.slf4j.Logger LOGGER = LoggerFactory
-                                                     .getLogger(BasicInterpolator.class);
+      .getLogger(BasicInterpolator.class);
 
-  private EfferentCommandHandler          _handler;
+  private EfferentCommandHandler                  _handler;
 
-  private Collection<InterpolatorEvent>   _recycledEventCollection;
+  private Collection<InterpolatorEvent>           _recycledEventCollection;
 
-  private Map<IIdentifier, IObjectDelta>  _recycledDeltaMap;
+  private Map<IIdentifier, IObjectDelta>          _recycledDeltaMap;
 
-  private IActuatorCompletion             _completion;
+  private IActuatorCompletion                     _completion;
 
-  private IActuator                       _actualActuator;
+  private IActuator                               _actualActuator;
 
-  private Map<IIdentifier, AgentCommands> _agentCommands;
+  private Map<IIdentifier, AgentCommands>         _agentCommands;
 
   public BasicInterpolator(EfferentCommandHandler handler,
       IActuator actualActuator, IActuatorCompletion completion)
@@ -60,9 +60,20 @@ public class BasicInterpolator implements IInterpolator
     _agentCommands = new HashMap<IIdentifier, AgentCommands>();
   }
 
+  public void setActuator(IActuator actuator)
+  {
+    _actualActuator = actuator;
+  }
+
+  public void setActuatorCompletion(IActuatorCompletion completion)
+  {
+    _completion = completion;
+  }
+
   public void abort(IAgentObject agent, MovementCommand command)
   {
-    AgentCommands agentCommands = getAgentCommands(agent.getIdentifier(), false);
+    AgentCommands agentCommands = getAgentCommands(agent.getIdentifier(),
+        false);
     if (agentCommands == null) return;
 
     /*
@@ -78,7 +89,7 @@ public class BasicInterpolator implements IInterpolator
        */
       if (command.isCompound())
         for (IEfferentCommand component : command.getComponents())
-          abort(agent, (MovementCommand) component);
+        abort(agent, (MovementCommand) component);
     }
     else if (LOGGER.isWarnEnabled())
       LOGGER.warn("No pending command found " + command.getIdentifier());
@@ -131,32 +142,30 @@ public class BasicInterpolator implements IInterpolator
 
     double startTime = command.getRequestedStartTime() + startTimeShift;
     double endTime = startTime + command.getEstimatedDuration();
-    InterpolatorEvent event = new InterpolatorEvent(command, startTime, endTime) {
+    InterpolatorEvent event = new InterpolatorEvent(command, startTime,
+        endTime) {
 
       @Override
       protected void startInternal(double currentTime)
       {
-        if (LOGGER.isDebugEnabled())
-          LOGGER.debug("starting " + command.getIdentifier() + " @ "
-              + currentTime);
+        if (LOGGER.isDebugEnabled()) LOGGER
+            .debug("starting " + command.getIdentifier() + " @ " + currentTime);
         _actualActuator.start(agent, command, _handler);
       }
 
       @Override
       protected void abortInternal(double currentTime)
       {
-        if (LOGGER.isDebugEnabled())
-          LOGGER.debug("aborting " + command.getIdentifier() + " @ "
-              + currentTime);
+        if (LOGGER.isDebugEnabled()) LOGGER
+            .debug("aborting " + command.getIdentifier() + " @ " + currentTime);
         _actualActuator.abort(agent, command, _handler);
       }
 
       @Override
       protected void updateInternal(double currentTime)
       {
-        if (LOGGER.isDebugEnabled())
-          LOGGER.debug("updating " + command.getIdentifier() + " @ "
-              + currentTime);
+        if (LOGGER.isDebugEnabled()) LOGGER
+            .debug("updating " + command.getIdentifier() + " @ " + currentTime);
         DeltaTracker<IMutableObject> tracker = updateEvent(this, agentCommands,
             currentTime);
         if (tracker != null) _completion.updated(agent, command, tracker);
@@ -170,7 +179,7 @@ public class BasicInterpolator implements IInterpolator
      */
     if (command.isCompound())
       for (IEfferentCommand component : command.getComponents())
-        startInternal(agent, (MovementCommand) component, startTime);
+      startInternal(agent, (MovementCommand) component, startTime);
   }
 
   public double update(double currentTime)
@@ -213,9 +222,8 @@ public class BasicInterpolator implements IInterpolator
       agentCommands.getDeltas(_recycledDeltaMap);
       if (_recycledDeltaMap.size() != 0)
       {
-        if (LOGGER.isDebugEnabled())
-          LOGGER.debug("Sending updates for " + _recycledDeltaMap.size()
-              + " efferent objects");
+        if (LOGGER.isDebugEnabled()) LOGGER.debug("Sending updates for "
+            + _recycledDeltaMap.size() + " efferent objects");
 
         sensor.send(new ObjectDataRequest(sensor.getIdentifier(), agentId,
             _recycledDeltaMap.values()));
@@ -239,16 +247,15 @@ public class BasicInterpolator implements IInterpolator
   protected DeltaTracker<IMutableObject> updateEvent(InterpolatorEvent event,
       AgentCommands agentCommands, double currentTime)
   {
-    if (LOGGER.isDebugEnabled())
-      LOGGER.debug("Updating " + event.getCommand().getIdentifier() + " @ "
-          + currentTime);
+    if (LOGGER.isDebugEnabled()) LOGGER.debug(
+        "Updating " + event.getCommand().getIdentifier() + " @ " + currentTime);
 
     if (!event.hasStarted()) return null;
 
     if (currentTime > event.getEndTime()) currentTime = event.getEndTime();
 
-    double deltaTime = Math.max(0, currentTime
-        - Math.min(event.getLastUpdateTime(), event.getEndTime()));
+    double deltaTime = Math.max(0,
+        currentTime - Math.min(event.getLastUpdateTime(), event.getEndTime()));
 
     double[] rate = event.getCommand().getRate();
 
@@ -262,17 +269,24 @@ public class BasicInterpolator implements IInterpolator
       LOGGER.debug("Before update " + position(efferent, position) + " delta "
           + deltaTime + " @ " + currentTime);
 
-    for (int i = 0; i < rate.length; i++)
-      position[i] += rate[i] * deltaTime;
+    if (currentTime == event.getEndTime())
+    {
+      double[] target = event.getCommand().getTarget();
+
+      for (int i = 0; i < rate.length; i++)
+        position[i] = target[i];
+    }
+    else
+      for (int i = 0; i < rate.length; i++)
+        position[i] += rate[i] * deltaTime;
 
     if (LOGGER.isDebugEnabled())
       LOGGER.debug("After update " + position(efferent, position));
 
     tracker.setProperty(MotorConstants.POSITION, position);
 
-    if (LOGGER.isDebugEnabled())
-      LOGGER.debug("tracker for " + tracker.getIdentifier() + " has changed "
-          + tracker.hasChanged());
+    if (LOGGER.isDebugEnabled()) LOGGER.debug("tracker for "
+        + tracker.getIdentifier() + " has changed " + tracker.hasChanged());
 
     return tracker;
   }
@@ -314,8 +328,8 @@ public class BasicInterpolator implements IInterpolator
       DeltaTracker<IMutableObject> rtn = _deltaTrackers.get(efferentId);
       if (rtn == null)
       {
-        rtn = new DeltaTracker<IMutableObject>(_handler.getSensor()
-            .getEfferentObjectManager().get(efferentId));
+        rtn = new DeltaTracker<IMutableObject>(
+            _handler.getSensor().getEfferentObjectManager().get(efferentId));
         _deltaTrackers.put(efferentId, rtn);
       }
       return rtn;

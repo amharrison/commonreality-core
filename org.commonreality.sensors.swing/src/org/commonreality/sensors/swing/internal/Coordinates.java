@@ -12,89 +12,106 @@ import javax.swing.SwingUtilities;
 
 import org.slf4j.LoggerFactory;
 
-public class Coordinates {
+public class Coordinates
+{
 
-	private static final transient org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Coordinates.class);
+  private static final transient org.slf4j.Logger LOGGER = LoggerFactory
+      .getLogger(Coordinates.class);
 
-	private final double _dotsPerCM;
-	private final double _distanceToScreenCM;
+  private final double                            _dotsPerCM;
 
-	public Coordinates(double distanceToScreenCM, double dotsPerCM) {
-		_dotsPerCM = dotsPerCM;
-		_distanceToScreenCM = distanceToScreenCM;
-	}
+  private final double                            _distanceToScreenCM;
 
-	public Rectangle2D toRetinotopic(Rectangle rectangle, Component component) {
-		Point upperLeft = rectangle.getLocation();
-		Point lowerRight = rectangle.getLocation();
-		lowerRight.x += rectangle.width;
-		lowerRight.y += rectangle.height;
+  public Coordinates(double distanceToScreenCM, double dotsPerCM)
+  {
+    _dotsPerCM = dotsPerCM;
+    _distanceToScreenCM = distanceToScreenCM;
+  }
 
-		Point2D ulCentered = toCenterOfScreen(upperLeft, component);
-		Point2D lrCentered = toCenterOfScreen(lowerRight, component);
-		Point2D ulCM = toCentimeters(ulCentered);
-		Point2D lrCM = toCentimeters(lrCentered);
-		Point2D ulRetino = toRetinotopic(ulCM);
-		Point2D lrRetino = toRetinotopic(lrCM);
+  public Rectangle2D toRetinotopic(Rectangle rectangle, Component component)
+  {
+    Point upperLeft = rectangle.getLocation();
+    Point lowerRight = rectangle.getLocation();
+    lowerRight.x += rectangle.width;
+    lowerRight.y += rectangle.height;
 
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug(String.format("Component %s %s", upperLeft, lowerRight));
-			LOGGER.debug(String.format("Screen %s %s", ulCentered, lrCentered));
-			LOGGER.debug(String.format("CM %s %s", ulCM, lrCM));
-			LOGGER.debug(String.format("Retino %s %s", ulRetino, lrRetino));
-		}
-		Rectangle2D.Double rect = new Rectangle2D.Double(ulRetino.getX(), ulRetino.getY(),
-        lrRetino.getX() - ulRetino.getX(), ulRetino.getY() - lrRetino.getY());
-		return rect;
-	}
+    Point2D ulCentered = toCenterOfScreen(upperLeft, component);
+    Point2D lrCentered = toCenterOfScreen(lowerRight, component);
+    Point2D ulCM = toCentimeters(ulCentered);
+    Point2D lrCM = toCentimeters(lrCentered);
+    Point2D ulRetino = toRetinotopic(ulCM);
+    Point2D lrRetino = toRetinotopic(lrCM);
 
-	/**
-	 * 
-	 * @param pointInPixels
-	 * @param component     the component the point is relative to, null for screen
-	 * @return
-	 */
-	public Point2D toCenterOfScreen(Point pointInPixels, Component component) {
+    if (LOGGER.isDebugEnabled())
+    {
+      LOGGER.debug(String.format("Component %s %s", upperLeft, lowerRight));
+      LOGGER.debug(String.format("Screen %s %s", ulCentered, lrCentered));
+      LOGGER.debug(String.format("CM %s %s", ulCM, lrCM));
+      LOGGER.debug(String.format("Retino %s %s", ulRetino, lrRetino));
+    }
+    Rectangle2D.Double rect = new Rectangle2D.Double(ulRetino.getX(),
+        ulRetino.getY(), lrRetino.getX() - ulRetino.getX(),
+        ulRetino.getY() - lrRetino.getY());
+    return rect;
+  }
 
-		Point p = new Point(pointInPixels);
-		if (component != null && component.getParent()!=null) SwingUtilities.convertPointToScreen(p, component.getParent());
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		return new Point2D.Double(p.x - screenSize.width / 2, screenSize.height / 2 - p.y);
-	}
+  /**
+   * @param pointInPixels
+   * @param component
+   *          the component the point is relative to, null for screen
+   * @return
+   */
+  public Point2D toCenterOfScreen(Point pointInPixels, Component component)
+  {
 
-	public Point fromCenterOfScreen(Point2D centerPointPixels) {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Point p = new Point(pointInPixels);
+    if (component != null && component.getParent() != null)
+      SwingUtilities.convertPointToScreen(p, component.getParent());
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    return new Point2D.Double(p.x - screenSize.width / 2,
+        screenSize.height / 2 - p.y);
+  }
 
-		Point p = new Point((int) (centerPointPixels.getX() + screenSize.width / 2),
-				(int) (screenSize.height / 2 + centerPointPixels.getY()));
-		return p;
-	}
+  public Point fromCenterOfScreen(Point2D centerPointPixels)
+  {
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-	public Point2D toCentimeters(Point2D centerPointPixels) {
-		return new Point2D.Double(centerPointPixels.getX() / _dotsPerCM, centerPointPixels.getY() / _dotsPerCM);
-	}
+    Point p = new Point((int) (centerPointPixels.getX() + screenSize.width / 2),
+        (int) (screenSize.height / 2 + centerPointPixels.getY()));
+    return p;
+  }
 
-	public Point2D fromCentimeters(Point2D centerPointCM) {
-		return new Point2D.Double(centerPointCM.getX() * _dotsPerCM, centerPointCM.getY() * _dotsPerCM);
-	}
+  public Point2D toCentimeters(Point2D centerPointPixels)
+  {
+    return new Point2D.Double(centerPointPixels.getX() / _dotsPerCM,
+        centerPointPixels.getY() / _dotsPerCM);
+  }
 
-	public Point2D toRetinotopic(Point2D centerPointCM) {
+  public Point2D fromCentimeters(Point2D centerPointCM)
+  {
+    return new Point2D.Double(centerPointCM.getX() * _dotsPerCM,
+        centerPointCM.getY() * _dotsPerCM);
+  }
 
-		double thetaX = Math.atan(centerPointCM.getX() / _distanceToScreenCM);
-		double thetaY = Math.atan(centerPointCM.getY() / _distanceToScreenCM);
-		thetaX = Math.toDegrees(thetaX);
-		thetaY = Math.toDegrees(thetaY);
+  public Point2D toRetinotopic(Point2D centerPointCM)
+  {
 
-		return new Point2D.Double(thetaX, thetaY);
-	}
+    double thetaX = Math.atan(centerPointCM.getX() / _distanceToScreenCM);
+    double thetaY = Math.atan(centerPointCM.getY() / _distanceToScreenCM);
+    thetaX = Math.toDegrees(thetaX);
+    thetaY = Math.toDegrees(thetaY);
 
-	public Point2D fromRetinotopic(Point2D centerPointRetino) {
+    return new Point2D.Double(thetaX, thetaY);
+  }
 
-		double thetaX = Math.toRadians(centerPointRetino.getX());
-		double thetaY = Math.toRadians(centerPointRetino.getY());
-		double x = Math.tan(thetaX) * _distanceToScreenCM;
-		double y = Math.tan(thetaY) * _distanceToScreenCM;
+  public Point2D fromRetinotopic(Point2D centerPointRetino)
+  {
 
-		return new Point2D.Double(x, y);
-	}
+    double thetaX = Math.toRadians(centerPointRetino.getX());
+    double thetaY = Math.toRadians(centerPointRetino.getY());
+    double x = Math.tan(thetaX) * _distanceToScreenCM;
+    double y = Math.tan(-thetaY) * _distanceToScreenCM;
+
+    return new Point2D.Double(x, y);
+  }
 }
