@@ -46,7 +46,7 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator imp
 		boolean visible = true;
 		while(component!=null)
 		{
-			visible &= component.isVisible();
+      visible &= component.isVisible() && component.isDisplayable();
 			component = component.getParent();
 		}
 		
