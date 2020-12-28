@@ -13,13 +13,18 @@ import org.commonreality.sensors.handlers.EfferentCommandHandler;
 import org.commonreality.sensors.keyboard.DefaultActuator;
 import org.commonreality.sensors.keyboard.PressCommand;
 import org.commonreality.sensors.keyboard.ReleaseCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SwingActuator extends DefaultActuator
 {
 
-  private Robot       _robot;
+  static private transient Logger LOGGER = LoggerFactory
+      .getLogger(SwingActuator.class);
 
-  private Coordinates _coordinates;
+  private Robot                   _robot;
+
+  private Coordinates             _coordinates;
 
   public SwingActuator(Coordinates coordinates)
   {
@@ -94,10 +99,18 @@ public class SwingActuator extends DefaultActuator
     /*
      * position is retinotopic, need to convert back to screen first
      */
-    Point2D inCM = _coordinates
-        .fromRetinotopic(new Point2D.Double(position[0], position[1]));
+    Point2D retino = new Point2D.Double(position[0], position[1]);
+    Point2D inCM = _coordinates.fromRetinotopic(retino);
     Point2D inPx = _coordinates.fromCentimeters(inCM);
     Point onScreen = _coordinates.fromCenterOfScreen(inPx);
+
+    if (LOGGER.isDebugEnabled())
+    {
+      LOGGER.debug(String.format("Retino %s", retino));
+      LOGGER.debug(String.format("CM %s", inCM));
+      LOGGER.debug(String.format("Pixels %s", inPx));
+      LOGGER.debug(String.format("Screen %s", onScreen));
+    }
 
     _robot.mouseMove(onScreen.x, onScreen.y);
   }

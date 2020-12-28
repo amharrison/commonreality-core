@@ -50,7 +50,7 @@ public class Coordinates
       LOGGER.debug(String.format("Retino %s %s", ulRetino, lrRetino));
     }
     Rectangle2D.Double rect = new Rectangle2D.Double(ulRetino.getX(),
-        ulRetino.getY(), lrRetino.getX() - ulRetino.getX(),
+        lrRetino.getY(), lrRetino.getX() - ulRetino.getX(),
         ulRetino.getY() - lrRetino.getY());
     return rect;
   }
@@ -65,19 +65,19 @@ public class Coordinates
   {
 
     Point p = new Point(pointInPixels);
-    if (component != null && component.getParent() != null)
-      SwingUtilities.convertPointToScreen(p, component.getParent());
+    if (component != null) SwingUtilities.convertPointToScreen(p, component);
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    return new Point2D.Double(p.x - screenSize.width / 2,
-        screenSize.height / 2 - p.y);
+    return new Point2D.Double(p.x - screenSize.width / 2.0,
+        screenSize.height / 2.0 - p.y);
   }
 
   public Point fromCenterOfScreen(Point2D centerPointPixels)
   {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    Point p = new Point((int) (centerPointPixels.getX() + screenSize.width / 2),
-        (int) (screenSize.height / 2 + centerPointPixels.getY()));
+    Point p = new Point(
+        (int) (centerPointPixels.getX() + screenSize.width / 2.0),
+        (int) (screenSize.height / 2.0 + centerPointPixels.getY()));
     return p;
   }
 

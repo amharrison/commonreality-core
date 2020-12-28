@@ -6,23 +6,25 @@ import javax.swing.text.JTextComponent;
 
 import org.commonreality.sensors.swing.internal.Coordinates;
 
-public class TextFieldCreatorProcessor extends AbstractCreatorProcessor {
+public class TextFieldCreatorProcessor extends AbstractCreatorProcessor
+{
 
-	public TextFieldCreatorProcessor(Coordinates coordinates) {
-		super(coordinates, JTextComponent.class);
-	}
+  public TextFieldCreatorProcessor(Coordinates coordinates)
+  {
+    super(coordinates, JTextComponent.class);
+  }
 
-	@Override
-	protected String[] calculateTypes(Component component) {
+  @Override
+  protected String[] calculateTypes(Component component)
+  {
     String[] types = { "text-area", "gui" };
-		if(getText(component)!=null)
-      types = new String[] { "text-area", "gui", "text" };
-		
-		return types;
-	}
 
-	@Override
-	protected String getText(Component component) {
-		return ((JTextComponent)component).getText();
-	}
+    return types;
+  }
+
+  @Override
+  protected String getText(Component component)
+  {
+    return ((JTextComponent) component).getText();
+  }
 }
