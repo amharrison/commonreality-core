@@ -2,27 +2,27 @@ package org.commonreality.sensors.swing.processors;
 
 import java.awt.Component;
 
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 
 import org.commonreality.sensors.swing.internal.Coordinates;
 
-public class ButtonCreatorProcessor extends AbstractCreatorProcessor {
+public class ToggleButtonCreatorProcessor extends AbstractCreatorProcessor {
 
-	public ButtonCreatorProcessor(Coordinates coordinates) {
-		super(coordinates, JButton.class);
+	public ToggleButtonCreatorProcessor(Coordinates coordinates) {
+		super(coordinates, JToggleButton.class);
 	}
 
 	@Override
 	protected String[] calculateTypes(Component component) {
-		String[] types = { "button" };
+		String[] types = { "radio-button" };
 		String text = getText(component);
 		if (text != null && !"".equals(text))
-			types = new String[] { "button", "text" };
+			types = new String[] { "radio-button", "text" };
 		return types;
 	}
 
 	@Override
 	protected String getText(Component component) {
-		return ((JButton) component).getText();
+		return ((JToggleButton) component).getText();
 	}
 }

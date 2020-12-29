@@ -2,27 +2,27 @@ package org.commonreality.sensors.swing.processors;
 
 import java.awt.Component;
 
-import javax.swing.JButton;
+import javax.swing.JMenuItem;
 
 import org.commonreality.sensors.swing.internal.Coordinates;
 
-public class ButtonCreatorProcessor extends AbstractCreatorProcessor {
+public class MenuCreatorProcessor extends AbstractCreatorProcessor {
 
-	public ButtonCreatorProcessor(Coordinates coordinates) {
-		super(coordinates, JButton.class);
+	public MenuCreatorProcessor(Coordinates coordinates) {
+		super(coordinates, JMenuItem.class);
 	}
 
 	@Override
 	protected String[] calculateTypes(Component component) {
-		String[] types = { "button" };
+		String[] types = { "menu" };
 		String text = getText(component);
 		if (text != null && !"".equals(text))
-			types = new String[] { "button", "text" };
+			types = new String[] { "menu", "text" };
 		return types;
 	}
 
 	@Override
 	protected String getText(Component component) {
-		return ((JButton) component).getText();
+		return ((JMenuItem) component).getText();
 	}
 }

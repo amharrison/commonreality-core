@@ -154,7 +154,7 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
         new double[] { rect.getWidth(), rect.getHeight() });
 
     String text = getText(component);
-    if (text != null)
+    if (text != null && !"".equals(text))
     {
       afferentPercept.setProperty(IVisualPropertyHandler.TEXT, text);
       afferentPercept.setProperty(IVisualPropertyHandler.TOKEN, text);
