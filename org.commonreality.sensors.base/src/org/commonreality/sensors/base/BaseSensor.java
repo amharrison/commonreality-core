@@ -515,7 +515,7 @@ public abstract class BaseSensor extends AbstractSensor
 
         if (isRealtimeClockEnabled())
         {
-          waitUntil = _realtimeClock.waitForTime(rtStartTime + getTimeStep())
+          waitUntil = _realtimeClock.waitForTime(_nextTime + getTimeStep())
               .get();
           if (LOGGER.isDebugEnabled())
             LOGGER.debug(String.format(

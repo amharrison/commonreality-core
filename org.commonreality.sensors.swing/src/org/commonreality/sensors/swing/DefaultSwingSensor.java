@@ -23,7 +23,7 @@ public class DefaultSwingSensor extends BaseSensor
   public DefaultSwingSensor()
   {
     super();
-    setRealtimeClockEnabled(true);
+    setRealtimeClockEnabled(false);
     setImmediateModeEnabled(false);
 
     getNotificationManager().addListener(new INotificationListener() {
