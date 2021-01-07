@@ -7,31 +7,37 @@ import java.util.function.Predicate;
 
 import javax.swing.RootPaneContainer;
 
-public class ComponentVisitor {
+public class ComponentVisitor
+{
 
-	private final Predicate<Container> _shouldDescend;
-	private final Predicate<Component> _shouldAccept;
-	private final Consumer<Component> _acceptor;
+  private final Predicate<Container> _shouldDescend;
 
-	public ComponentVisitor(Predicate<Container> shouldDescend, Predicate<Component> shouldAccept,
-			Consumer<Component> acceptor) {
+  private final Predicate<Component> _shouldAccept;
 
-		_shouldDescend = shouldDescend;
-		_shouldAccept = shouldAccept;
-		_acceptor = acceptor;
-	}
+  private final Consumer<Component>  _acceptor;
 
-	public void visit(Component component) {
+  public ComponentVisitor(Predicate<Container> shouldDescend,
+      Predicate<Component> shouldAccept, Consumer<Component> acceptor)
+  {
 
-		if (_shouldAccept.test(component))
-			_acceptor.accept(component);
-		if(component instanceof RootPaneContainer)
-		{
-			visit(((RootPaneContainer)component).getContentPane());
-			visit(((RootPaneContainer)component).getLayeredPane());
-		}
-		if (component instanceof Container)
-			if (_shouldDescend.test((Container) component)) for (Component child : ((Container) component).getComponents())
-      	visit(child);
-	}
+    _shouldDescend = shouldDescend;
+    _shouldAccept = shouldAccept;
+    _acceptor = acceptor;
+  }
+
+  public void visit(Component component)
+  {
+    if (component == null) return;
+
+    if (_shouldAccept.test(component)) _acceptor.accept(component);
+    if (component instanceof RootPaneContainer)
+    {
+      visit(((RootPaneContainer) component).getContentPane());
+      visit(((RootPaneContainer) component).getLayeredPane());
+    }
+    if (component instanceof Container)
+      if (_shouldDescend.test((Container) component))
+        for (Component child : ((Container) component).getComponents())
+        visit(child);
+  }
 }

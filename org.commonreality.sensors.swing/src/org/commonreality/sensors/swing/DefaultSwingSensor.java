@@ -1,6 +1,9 @@
 package org.commonreality.sensors.swing;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+
+import javax.swing.SwingUtilities;
 
 import org.commonreality.executor.InlineExecutor;
 import org.commonreality.notification.event.INotificationListener;
@@ -104,6 +107,31 @@ public class DefaultSwingSensor extends BaseSensor
   @Override
   protected double processMotor()
   {
+    /**
+     * this will block until the awt event thread is free
+     */
+    try
+    {
+      SwingUtilities.invokeAndWait(new Runnable() {
+
+        @Override
+        public void run()
+        {
+
+        }
+
+      });
+    }
+    catch (InvocationTargetException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    catch (InterruptedException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     /*
      * DefaultKeyboardSensor is used for motor
      */
