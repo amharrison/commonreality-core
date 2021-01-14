@@ -32,6 +32,8 @@ public class SwingActuator extends DefaultActuator
     try
     {
       _robot = new Robot();
+      _robot.setAutoDelay(40);
+      _robot.setAutoWaitForIdle(true);
     }
     catch (AWTException e)
     {
