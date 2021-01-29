@@ -1,5 +1,10 @@
 package org.commonreality.sensors.swing;
 
+import java.awt.Polygon;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
@@ -34,13 +39,89 @@ public class DefaultSwingSensor extends BaseSensor
       @Override
       public void notificationPosted(NotificationEvent event)
       {
-        if (event.getNotification().getIdentifier().getName()
-            .equals("fixation"))
+        String eventType = event.getNotification().getIdentifier().getName();
+        if (eventType.equals("fixation"))
           fixationNotification(
               (SimpleMapNotification<String, Object>) event.getNotification());
+        else if (eventType.equals("debugShape")) renderDebuggingShape(
+            (SimpleMapNotification<String, Object>) event.getNotification());
       }
 
     }, InlineExecutor.get());
+  }
+
+  private void renderDebuggingShape(
+      SimpleMapNotification<String, Object> notification)
+  {
+    Map<String, Object> data = notification.getData();
+    if (_glassPaneManager != null) data.forEach((k, v) -> {
+      String id = k.substring(k.indexOf(".") + 1);
+      String type = k.substring(0, k.indexOf("."));
+      Shape shape = null;
+      double[] points = (double[]) v;
+      if (points.length == 0)
+        _glassPaneManager.setDebugShape(id, null);
+      else
+      {
+
+        if (type.equals("polygon"))
+        {
+          Polygon poly = new Polygon();
+          for (int i = 0; i < points.length; i += 2)
+          {
+            java.awt.Point screen = toScreen(points[i], points[i + 1]);
+            poly.addPoint(screen.x, screen.y);
+          }
+          shape = poly;
+        }
+        else if (type.equals("line"))
+        {
+          Line2D line = new Line2D.Double();
+          java.awt.Point a = toScreen(points[0], points[1]);
+          java.awt.Point b = toScreen(points[2], points[3]);
+          line.setLine(a, b);
+          shape = line;
+        }
+        else if (type.equals("rectangle"))
+        {
+          java.awt.Point a = toScreen(points[0], points[1]);
+          java.awt.Point b = toScreen(points[0] + points[2],
+              points[1] + points[3]);
+          shape = new Rectangle2D.Double(Math.min(a.x, b.x), Math.min(a.y, b.y),
+              b.x - a.x, a.y - b.y);
+        }
+        else if (type.equals("circle"))
+        {
+          // center and radisu
+          java.awt.Point a = toScreen(points[0] - points[2],
+              points[1] - points[2]);
+          java.awt.Point b = toScreen(points[0] + points[2],
+              points[1] + points[2]);
+          shape = new Ellipse2D.Double(Math.min(a.x, b.x), Math.min(a.y, b.y),
+              Math.abs(b.x - a.x), Math.abs(a.y - b.y));
+        }
+        else if (type.equals("text"))
+        {
+          String newId = id.substring(0, id.indexOf("."));
+          String text = id.substring(id.indexOf(".") + 1);
+          System.err.println("Adding text debug " + text);
+          _glassPaneManager.setDebugShape(newId, text, points);
+        }
+
+        if (shape != null) _glassPaneManager.setDebugShape(id, shape);
+      }
+    });
+  }
+
+  private java.awt.Point toScreen(double x, double y)
+  {
+    java.awt.geom.Point2D centerPointRetino = new java.awt.geom.Point2D.Double(
+        x, y);
+    java.awt.geom.Point2D centerCM = _coordinates
+        .fromRetinotopic(centerPointRetino);
+    java.awt.geom.Point2D centerPixel = _coordinates.fromCentimeters(centerCM);
+    java.awt.Point screen = _coordinates.fromCenterOfScreen(centerPixel);
+    return screen;
   }
 
   private void fixationNotification(
@@ -50,16 +131,8 @@ public class DefaultSwingSensor extends BaseSensor
     {
       double[] fixationPoint = (double[]) notification.getData()
           .getOrDefault("fixation.point", new double[] { 0, 0 });
-      // IIdentifier fixationObject = (IIdentifier)
-      // notification.getData().get("fixation.identifier");
 
-      java.awt.geom.Point2D centerPointRetino = new java.awt.geom.Point2D.Double(
-          fixationPoint[0], fixationPoint[1]);
-      java.awt.geom.Point2D centerCM = _coordinates
-          .fromRetinotopic(centerPointRetino);
-      java.awt.geom.Point2D centerPixel = _coordinates
-          .fromCentimeters(centerCM);
-      java.awt.Point screen = _coordinates.fromCenterOfScreen(centerPixel);
+      java.awt.Point screen = toScreen(fixationPoint[0], fixationPoint[1]);
 
       _glassPaneManager.update(screen);
     }
