@@ -36,6 +36,7 @@ import org.commonreality.object.delta.FullObjectDelta;
 import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.object.identifier.ISensoryIdentifier;
 import org.commonreality.sensors.AbstractSensor;
+import org.commonreality.time.IClock;
 import org.commonreality.time.impl.RealtimeClock;
 import org.slf4j.LoggerFactory;
 
@@ -61,8 +62,8 @@ public abstract class BaseSensor extends AbstractSensor
   /**
    * logger definition
    */
-  static private final transient org.slf4j.Logger                                LOGGER            = LoggerFactory
-                                                                                .getLogger(BaseSensor.class);
+  static private final transient org.slf4j.Logger         LOGGER            = LoggerFactory
+      .getLogger(BaseSensor.class);
 
   private ExecutorService                                 _service;
 
@@ -92,8 +93,8 @@ public abstract class BaseSensor extends AbstractSensor
   public BaseSensor()
   {
     super();
-    _toBeAdded = Collections
-        .synchronizedMap(new HashMap<IIdentifier, Collection<ISimulationObject>>());
+    _toBeAdded = Collections.synchronizedMap(
+        new HashMap<IIdentifier, Collection<ISimulationObject>>());
     _toBeRemoved = Collections
         .synchronizedMap(new HashMap<IIdentifier, Collection<IIdentifier>>());
     _toBeChanged = Collections
@@ -121,9 +122,8 @@ public abstract class BaseSensor extends AbstractSensor
 
   protected void processImmediately()
   {
-    if (!isImmediateModeEnabled())
-      throw new IllegalStateException(
-          "Cannot processImmediately if not using immediate mode");
+    if (!isImmediateModeEnabled()) throw new IllegalStateException(
+        "Cannot processImmediately if not using immediate mode");
 
     processSensorData();
     packageData();
@@ -291,8 +291,8 @@ public abstract class BaseSensor extends AbstractSensor
   {
     synchronized (_toBeRemoved)
     {
-      _toBeRemoved.get(object.getIdentifier().getAgent()).add(
-          object.getIdentifier());
+      _toBeRemoved.get(object.getIdentifier().getAgent())
+          .add(object.getIdentifier());
     }
   }
 
@@ -310,7 +310,8 @@ public abstract class BaseSensor extends AbstractSensor
     }
   }
 
-  public void removeIdentifiers(Collection<ISensoryIdentifier> objectIdentifiers)
+  public void removeIdentifiers(
+      Collection<ISensoryIdentifier> objectIdentifiers)
   {
     synchronized (_toBeRemoved)
     {
@@ -404,9 +405,8 @@ public abstract class BaseSensor extends AbstractSensor
     synchronized (_toBeRemoved)
     {
       Collection<IIdentifier> remove = _toBeRemoved.get(agentId);
-      if (remove.size() != 0)
-        _delayedCommands.add(new ObjectCommandRequest(sId, agentId,
-            IObjectCommand.Type.REMOVED, remove));
+      if (remove.size() != 0) _delayedCommands.add(new ObjectCommandRequest(sId,
+          agentId, IObjectCommand.Type.REMOVED, remove));
 
       remove.clear();
     }
@@ -431,9 +431,8 @@ public abstract class BaseSensor extends AbstractSensor
        * shutdown sometime between the entrance to this method and the execution
        * request.
        */
-      if (LOGGER.isInfoEnabled())
-        LOGGER
-            .info("Execution rejected, assuming that sensor is shutting down");
+      if (LOGGER.isInfoEnabled()) LOGGER
+          .info("Execution rejected, assuming that sensor is shutting down");
     }
   }
 
@@ -465,8 +464,8 @@ public abstract class BaseSensor extends AbstractSensor
       }
       catch (InterruptedException e)
       {
-        LOGGER.error(
-            "Committer.runImmediateMode threw InterruptedException : ", e);
+        LOGGER.error("Committer.runImmediateMode threw InterruptedException : ",
+            e);
       }
       catch (ExecutionException ee)
       {
@@ -502,7 +501,8 @@ public abstract class BaseSensor extends AbstractSensor
 
         preClockWait(waitUntil);
 
-        postClockWait(getClock().getAuthority().get()
+        IClock clock = getClock();
+        if (clock != null) postClockWait(clock.getAuthority().get()
             .requestAndWaitForTime(waitUntil, null).get());
 
         /*
@@ -517,10 +517,9 @@ public abstract class BaseSensor extends AbstractSensor
         {
           waitUntil = _realtimeClock.waitForTime(_nextTime + getTimeStep())
               .get();
-          if (LOGGER.isDebugEnabled())
-            LOGGER.debug(String.format(
-                "Processing ended @ %.2f, took %.2f, waited until %.2f",
-                rtEndTime, rtProcessingTime, waitUntil));
+          if (LOGGER.isDebugEnabled()) LOGGER.debug(String.format(
+              "Processing ended @ %.2f, took %.2f, waited until %.2f",
+              rtEndTime, rtProcessingTime, waitUntil));
         }
 
         _nextTime = waitUntil;
@@ -546,7 +545,7 @@ public abstract class BaseSensor extends AbstractSensor
    */
   protected boolean shouldContinue()
   {
-    return true;
+    return getState() == State.STARTED;
   }
 
   protected void startOfCycle()
@@ -670,9 +669,8 @@ public abstract class BaseSensor extends AbstractSensor
     {
       if (_delayedCommands.size() > 0)
       {
-        if (LOGGER.isDebugEnabled())
-          LOGGER.debug(String.format("Sending %d delayed commands",
-              _delayedCommands.size()));
+        if (LOGGER.isDebugEnabled()) LOGGER.debug(String
+            .format("Sending %d delayed commands", _delayedCommands.size()));
 
         for (IMessage command : _delayedCommands)
         {

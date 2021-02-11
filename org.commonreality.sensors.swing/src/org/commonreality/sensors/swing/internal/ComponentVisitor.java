@@ -32,8 +32,23 @@ public class ComponentVisitor
     if (_shouldAccept.test(component)) _acceptor.accept(component);
     if (component instanceof RootPaneContainer)
     {
-      visit(((RootPaneContainer) component).getContentPane());
-      visit(((RootPaneContainer) component).getLayeredPane());
+      try
+      {
+        visit(((RootPaneContainer) component).getContentPane());
+      }
+      catch (Exception e)
+      {
+
+      }
+      try
+      {
+        visit(((RootPaneContainer) component).getLayeredPane());
+      }
+      catch (Exception e)
+      {
+
+      }
+
     }
     if (component instanceof Container)
       if (_shouldDescend.test((Container) component))

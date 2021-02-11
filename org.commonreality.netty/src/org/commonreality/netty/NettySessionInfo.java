@@ -1,22 +1,10 @@
 package org.commonreality.netty;
 
-/*
- * default logging
- */
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.Attribute;
-import io.netty.util.AttributeKey;
-
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
- 
-import org.slf4j.LoggerFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.filter.IMessageFilter;
 import org.commonreality.net.handler.IExceptionHandler;
@@ -30,6 +18,17 @@ import org.commonreality.netty.impl.NettyListener;
 import org.commonreality.netty.impl.NettyMessageFilter;
 import org.commonreality.netty.impl.NettyMessageTransformer;
 import org.commonreality.util.LockUtilities;
+import org.slf4j.LoggerFactory;
+
+/*
+ * default logging
+ */
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 
 public class NettySessionInfo extends
     AbstractSessionInfo<ChannelHandlerContext>
@@ -138,8 +137,8 @@ public class NettySessionInfo extends
 
     if (!isClosing() && isConnected())
       _lastWrite = getRawSession().writeAndFlush(message);
-    else if (LOGGER.isWarnEnabled())
-      LOGGER.warn(String.format("Tried to write [%s] to closing session",
+    else if (LOGGER.isDebugEnabled())
+      LOGGER.debug(String.format("Tried to write [%s] to closing session",
           message));
   }
 
@@ -154,8 +153,8 @@ public class NettySessionInfo extends
     // if (LOGGER.isWarnEnabled())
     // LOGGER.warn(String.format("Took too long to write %s to %s", message,
     // this));
-    else if (LOGGER.isWarnEnabled())
-      LOGGER.warn(String.format("Tried to write [%s] to closing session",
+    else if (LOGGER.isDebugEnabled())
+      LOGGER.debug(String.format("Tried to write [%s] to closing session",
           message));
   }
 
@@ -290,8 +289,8 @@ public class NettySessionInfo extends
   {
     if (!isClosing() && isConnected())
       getRawSession().flush();
-    else if (LOGGER.isWarnEnabled())
-      LOGGER.warn(String.format("Tried to flush a closing session"));
+    else if (LOGGER.isDebugEnabled())
+      LOGGER.debug(String.format("Tried to flush a closing session"));
   }
 
   @Override

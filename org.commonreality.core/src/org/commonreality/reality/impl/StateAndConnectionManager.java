@@ -1505,9 +1505,9 @@ public class StateAndConnectionManager
 
           if (clockHasOwner
               && !_reality.stateMatches(IParticipant.State.STOPPED)
-              && LOGGER.isWarnEnabled())
+              && LOGGER.isDebugEnabled())
             LOGGER
-                .warn(identifier
+                .debug(identifier
                     + " was a clock owner. It's disconnect might adversely affect other participants if they are expected to continue running");
         }
       };
