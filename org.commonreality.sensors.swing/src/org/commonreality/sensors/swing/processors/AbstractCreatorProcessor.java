@@ -109,7 +109,8 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
   @Override
   public boolean handles(Object arg0)
   {
-    return _componentClass.isInstance(arg0);
+    return _componentClass.isInstance(arg0)
+        && calculateVisibility((Component) arg0);
   }
 
   @Override
@@ -131,6 +132,16 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
     afferentPercept.setProperty(IVisualPropertyHandler.TOKEN, name);
   }
 
+  private boolean wasTrueNowFalse(IMutableObject afferentPercept,
+      boolean currentVisibility)
+  {
+    if (!afferentPercept.hasProperty(IVisualPropertyHandler.VISIBLE))
+      return false;
+    boolean lastValue = (Boolean) afferentPercept
+        .getProperty(IVisualPropertyHandler.VISIBLE);
+    return lastValue && !currentVisibility;
+  }
+
   @Override
   public void process(DefaultObjectKey objectKey,
       IMutableObject afferentPercept)
@@ -139,13 +150,24 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
 
     if (LOGGER.isDebugEnabled()) LOGGER.debug("Processing " + component);
 
+    /*
+     * we calculate the visibility which can flag the component for removal if
+     * it is hidden. we ignore the result and just assume visibility in the
+     * properties, though. This is intentional. Otherwise we'd mark it as
+     * invisible then remove, when we really just want to remove it as it is.
+     */
+    boolean visibility = calculateVisibility(component);
+
+    if (wasTrueNowFalse(afferentPercept, visibility)) return; // change nothing
+                                                              // on remove, just
+                                                              // remove
+
+    afferentPercept.setProperty(IVisualPropertyHandler.VISIBLE, true);
+
     Color color = component.getForeground();
     afferentPercept.setProperty(IVisualPropertyHandler.COLOR,
         new double[] { color.getRed() / 255f, color.getGreen() / 255f,
             color.getBlue() / 255f, color.getAlpha() / 255f });
-
-    afferentPercept.setProperty(IVisualPropertyHandler.VISIBLE,
-        calculateVisibility(component));
 
     Rectangle2D rect = calculateBounds(component);
     afferentPercept.setProperty(IVisualPropertyHandler.RETINAL_LOCATION,

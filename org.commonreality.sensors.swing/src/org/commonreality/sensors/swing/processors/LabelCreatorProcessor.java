@@ -17,11 +17,7 @@ public class LabelCreatorProcessor extends AbstractCreatorProcessor
   @Override
   protected String[] calculateTypes(Component component)
   {
-    String[] types = { "label" };
-    String text = getText(component);
-	if (text != null && !"".equals(text))
-		types = new String[] { "label", "text" };
-    return types;
+    return new String[] { "label", "text" };
   }
 
   @Override

@@ -36,6 +36,7 @@ import org.commonreality.object.delta.FullObjectDelta;
 import org.commonreality.object.delta.IObjectDelta;
 import org.commonreality.object.identifier.ISensoryIdentifier;
 import org.commonreality.sensors.AbstractSensor;
+import org.commonreality.sensors.base.impl.NullCollection;
 import org.commonreality.time.IClock;
 import org.commonreality.time.impl.RealtimeClock;
 import org.slf4j.LoggerFactory;
@@ -291,7 +292,9 @@ public abstract class BaseSensor extends AbstractSensor
   {
     synchronized (_toBeRemoved)
     {
-      _toBeRemoved.get(object.getIdentifier().getAgent())
+      _toBeRemoved
+          .getOrDefault(object.getIdentifier().getAgent(),
+              new NullCollection<IIdentifier>())
           .add(object.getIdentifier());
     }
   }
@@ -303,7 +306,8 @@ public abstract class BaseSensor extends AbstractSensor
     IIdentifier agent = objects.iterator().next().getIdentifier().getAgent();
     synchronized (_toBeRemoved)
     {
-      Collection<IIdentifier> container = _toBeRemoved.get(agent);
+      Collection<IIdentifier> container = _toBeRemoved.getOrDefault(agent,
+          new NullCollection<IIdentifier>());
 
       for (ISensoryObject obj : objects)
         container.add(obj.getIdentifier());
@@ -313,10 +317,11 @@ public abstract class BaseSensor extends AbstractSensor
   public void removeIdentifiers(
       Collection<ISensoryIdentifier> objectIdentifiers)
   {
+    Collection<IIdentifier> nullCollection = new NullCollection<IIdentifier>();
     synchronized (_toBeRemoved)
     {
       for (ISensoryIdentifier sId : objectIdentifiers)
-        _toBeRemoved.get(sId.getAgent()).add(sId);
+        _toBeRemoved.getOrDefault(sId.getAgent(), nullCollection).add(sId);
     }
   }
 

@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.object.IAfferentObject;
@@ -63,10 +62,7 @@ public class PerceptManager
 
   private Collection<IObjectProcessor>     _processors;
 
-  /*
-   * weak collection of objects that cannot be encoded..
-   */
-  private WeakHashMap<Object, Object>      _nullObjects;
+
 
   private final BaseSensor                 _sensor;
 
@@ -80,7 +76,7 @@ public class PerceptManager
     _objectToKey = new HashMap<Object, Set<IObjectKey>>();
     _dirtyObjects = new HashSet<Object>();
     _objectsInLimbo = new HashMap<IIdentifier, ISensoryObject>();
-    _nullObjects = new WeakHashMap<Object, Object>();
+
     _creators = new ArrayList<IObjectCreator>();
     _processors = new ArrayList<IObjectProcessor>();
     _toBeDeleted = new HashSet<Object>();
@@ -102,7 +98,6 @@ public class PerceptManager
     _processors.clear();
 
     _objectsInLimbo.clear();
-    _nullObjects.clear();
   }
 
   public void install(IObjectCreator creater)
@@ -124,12 +119,10 @@ public class PerceptManager
    */
   synchronized public void markAsDirty(Object object)
   {
-    if (!_nullObjects.containsKey(object))
-    {
       if (LOGGER.isDebugEnabled())
         LOGGER.debug(String.format("%s is dirty", object));
       _dirtyObjects.add(object);
-    }
+
   }
 
   synchronized public void markAllAsDirty()
@@ -144,13 +137,11 @@ public class PerceptManager
    */
   synchronized public void flagForRemoval(Object object)
   {
-    if (!_nullObjects.containsKey(object))
-    {
-      if (LOGGER.isDebugEnabled())
+    if (LOGGER.isDebugEnabled())
         LOGGER.debug(String.format("%s flagged for removal", object));
       _toBeDeleted.add(object);
       // remove from object keys immediately?
-    }
+
   }
 
   private Set<IObjectKey> getKeys(Object objec)
@@ -379,7 +370,7 @@ public class PerceptManager
       Set<IObjectKey> keys = getKeys(object);
 
       // possibly creating objects..
-      if (keys == null)
+      if (keys == null || keys.size() == 0)
       {
         keys = createKeys(object);
 
@@ -399,14 +390,7 @@ public class PerceptManager
       // and process the keys
       if (keys.size() > 0)
         process(keys);
-      else
-      {
-        if (LOGGER.isDebugEnabled())
-          LOGGER.debug(String.format(
-              "No keys created for %s, will ignore henceforth", object));
 
-        _nullObjects.put(object, null);
-      }
     }
 
   }

@@ -14,11 +14,7 @@ public class ButtonCreatorProcessor extends AbstractCreatorProcessor {
 
 	@Override
 	protected String[] calculateTypes(Component component) {
-		String[] types = { "button" };
-		String text = getText(component);
-		if (text != null && !"".equals(text))
-			types = new String[] { "button", "text" };
-		return types;
+      return new String[] { "button", "text" };
 	}
 
 	@Override
