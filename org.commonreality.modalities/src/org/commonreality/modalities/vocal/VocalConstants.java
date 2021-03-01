@@ -1,9 +1,5 @@
 package org.commonreality.modalities.vocal;
 
-/*
- * default logging
- */
-import org.commonreality.object.IAfferentObject;
 import org.commonreality.object.IEfferentObject;
 import org.commonreality.object.IRealObject;
 
@@ -28,4 +24,6 @@ public interface VocalConstants
    * that contains the speaker's identifer
    */
   static public final String SPEAKER = "vocal.speaker";
+
+  public static final String IS_SUBVOCALIZATION = "vocal.isSubvocal";
 }

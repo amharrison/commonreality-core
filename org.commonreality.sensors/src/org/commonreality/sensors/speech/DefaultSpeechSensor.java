@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,44 +56,44 @@ public class DefaultSpeechSensor extends AbstractSensor implements ISpeaker
   /**
    * 
    */
-  private static final long                    serialVersionUID               = -4235554591675582713L;
+  private static final long                       serialVersionUID               = -4235554591675582713L;
 
   /**
    * Logger definition
    */
   static private final transient org.slf4j.Logger LOGGER                         = LoggerFactory
-                                                                                  .getLogger(DefaultSpeechSensor.class);
+      .getLogger(DefaultSpeechSensor.class);
 
-  static public final String                   VOCALIZATION_DURATION_EQUATION = "DurationEquation";
+  static public final String                      VOCALIZATION_DURATION_EQUATION = "DurationEquation";
 
-  static public final String                   SPEAKER                        = "Speaker";
+  static public final String                      SPEAKER                        = "Speaker";
 
-  private Map<String, String>                  _options;
+  private Map<String, String>                     _options;
 
-  private ICommandTimingEquation               _durationEquation;
+  private ICommandTimingEquation                  _durationEquation;
 
   @SuppressWarnings("unchecked")
-  private Collection<IEfferentCommandTemplate> _vocalizationTemplate;
+  private Collection<IEfferentCommandTemplate>    _vocalizationTemplate;
 
-  private Runnable                             _cycle;
+  private Runnable                                _cycle;
 
-  private ExecutorService                      _executor;
+  private ExecutorService                         _executor;
 
-  private EfferentCommandHandler               _handler;
+  private EfferentCommandHandler                  _handler;
 
-  private AuralUtilities                       _auralUtilities;
+  private AuralUtilities                          _auralUtilities;
 
-  private TreeMap<Double, IEfferentCommand>    _completeCommandsAt;
+  private TreeMap<Double, IEfferentCommand>       _completeCommandsAt;
 
-  private ISpeaker                             _actualSpeaker;
+  private ISpeaker                                _actualSpeaker;
 
   @SuppressWarnings("unchecked")
   public DefaultSpeechSensor()
   {
     IEfferentCommandTemplate template = new VocalizationCommandTemplate(
         "Vocalize", "Creates a vocalization command");
-    _vocalizationTemplate = Collections.unmodifiableCollection(Collections
-        .singleton(template));
+    _vocalizationTemplate = Collections
+        .unmodifiableCollection(Collections.singleton(template));
 
     _completeCommandsAt = new TreeMap<Double, IEfferentCommand>();
 
@@ -129,34 +129,26 @@ public class DefaultSpeechSensor extends AbstractSensor implements ISpeaker
         IEfferentCommand command = _completeCommandsAt.remove(now);
         if (command != null) _handler.completed(command, null);
 
-        try
-        {
-          /*
-           * let's wait for the clock to update
-           */
-          getClock().getAuthority().get().requestAndWaitForChange(null).get();
-        }
-        catch (InterruptedException e)
-        {
-          LOGGER.warn("Interrupted, expecting termination ", e);
-          /*
-           * this isn't an error.. if we're interrupted we shouldn't continue
-           * running
-           */
-          Thread.interrupted(); // reset
-        }
-        catch (ExecutionException ee)
-        {
-          LOGGER.error(ee.getMessage(), ee);
-        }
+        CompletableFuture<Double> future = getClock().getAuthority().get()
+            .requestAndWaitForChange(null);
 
-        /*
-         * we're still running, requeue
-         */
-        if (stateMatches(State.STARTED)) _executor.execute(this);
+        future.thenAccept(time -> {
+          if (stateMatches(State.STARTED)) _executor.execute(this);
+
+        });
       }
     };
 
+  }
+
+  public ISpeaker getSpeaker()
+  {
+    return _actualSpeaker;
+  }
+
+  public void setSpeaker(ISpeaker speaker)
+  {
+    _actualSpeaker = speaker;
   }
 
   /**
@@ -192,24 +184,27 @@ public class DefaultSpeechSensor extends AbstractSensor implements ISpeaker
       if (durationClass != null && durationClass.trim().length() != 0)
         LOGGER.error("Could not load " + durationClass + " using default. ", e);
 
-      Map<String, String> equationOptions = new TreeMap<String, String>(options);
-      _durationEquation = new DefaultVocalizationTimingEquation(equationOptions);
+      Map<String, String> equationOptions = new TreeMap<String, String>(
+          options);
+      _durationEquation = new DefaultVocalizationTimingEquation(
+          equationOptions);
     }
 
-    if (options.containsKey(SPEAKER))
+    if (options.containsKey(SPEAKER)
+        && options.get(SPEAKER).trim().length() != 0)
       try
-      {
-        ISpeaker speaker = (ISpeaker) getClass().getClassLoader()
-            .loadClass(options.get(SPEAKER)).newInstance();
-        speaker.configure(this, new TreeMap<String, String>(options));
+    {
+      ISpeaker speaker = (ISpeaker) getClass().getClassLoader()
+          .loadClass(options.get(SPEAKER)).newInstance();
+      speaker.configure(this, new TreeMap<String, String>(options));
 
-        _actualSpeaker = speaker;
-      }
+      _actualSpeaker = speaker;
+    }
       catch (Exception e)
-      {
-        LOGGER.warn(
-            "Could not create actual speaker from " + options.get(SPEAKER), e);
-      }
+    {
+      LOGGER.warn(
+          "Could not create actual speaker from " + options.get(SPEAKER), e);
+    }
 
     _options.putAll(options);
   }
@@ -301,28 +296,37 @@ public class DefaultSpeechSensor extends AbstractSensor implements ISpeaker
     Runnable runner = new Runnable() {
       public void run()
       {
-        IRealObject vocalization = _auralUtilities.newVocalization(text, onset,
-            duration, speaker.getIdentifier());
-        _auralUtilities.queueSound(vocalization);
+        if (!vocalCommand.isSubvocalization())
+        {
+          IRealObject vocalization = _auralUtilities.newVocalization(text,
+              onset, duration, speaker.getIdentifier());
+          _auralUtilities.queueSound(vocalization);
 
-        _auralUtilities.update(onset);
-        if (_actualSpeaker != null)
+          _auralUtilities.update(onset);
+        }
+        if (_actualSpeaker != null) if (!vocalCommand.isSubvocalization())
           _actualSpeaker.speak(speaker, vocalCommand);
+        else
+          _actualSpeaker.subvocalize(speaker, vocalCommand);
       }
     };
 
     double end = BasicClock.constrainPrecision(onset + duration);
     if (_completeCommandsAt.containsKey(end))
     {
-      if (LOGGER.isWarnEnabled())
-        LOGGER.warn("Colliding end time @ " + end + " for "
-            + vocalCommand.getIdentifier());
+      if (LOGGER.isWarnEnabled()) LOGGER.warn("Colliding end time @ " + end
+          + " for " + vocalCommand.getIdentifier());
       _handler.completed(_completeCommandsAt.remove(end), null);
     }
 
     _completeCommandsAt.put(end, vocalCommand);
 
     _executor.execute(runner);
+  }
+
+  public void subvocalize(IAgentObject agent, VocalizationCommand command)
+  {
+    speak(agent, command);
   }
 
   /**

@@ -4,7 +4,7 @@ package org.commonreality.sensors.keyboard;
  * default logging
  */
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -188,42 +188,26 @@ public class DefaultKeyboardSensor extends AbstractSensor
           LOGGER.error("unknown exception during interpolation ", e);
         }
 
-        try
+        if (LOGGER.isDebugEnabled()) LOGGER.debug(
+            "Next update time : " + nextTime + " current:" + currentTime);
+        /*
+         * if we should keep running, queue up again
+         */
+        CompletableFuture<Double> result = null;
+        if (!(_shouldStop || _shouldSuspend))
         {
-          if (LOGGER.isDebugEnabled())
-            LOGGER.debug("Next update time : " + nextTime + " current:"
-                + currentTime);
-          /*
-           * if we should keep running, queue up again
-           */
-          if (!(_shouldStop || _shouldSuspend))
-          {
-            IAuthoritativeClock auth = getClock().getAuthority().get();
-            if (LOGGER.isDebugEnabled()) LOGGER.debug("Waiting");
-            if (Double.isNaN(nextTime) || nextTime <= currentTime)
-              auth.requestAndWaitForChange(null).get();
-            else
-              auth.requestAndWaitForTime(nextTime, null).get();
-            if (LOGGER.isDebugEnabled()) LOGGER.debug("Resuming");
-          }
+          IAuthoritativeClock auth = getClock().getAuthority().get();
+          if (LOGGER.isDebugEnabled()) LOGGER.debug("Waiting");
+          if (Double.isNaN(nextTime) || nextTime <= currentTime)
+            result = auth.requestAndWaitForChange(null);
+          else
+            result = auth.requestAndWaitForTime(nextTime, null);
+          if (LOGGER.isDebugEnabled()) LOGGER.debug("Resuming");
         }
-        catch (InterruptedException ie)
-        {
-          LOGGER.warn("Interrupted, expecting termination ", ie);
-          // perfectly legit, clear the flag
-          Thread.interrupted();
-        }
-        catch (ExecutionException ee)
-        {
-          LOGGER.error(ee.getMessage(), ee);
-        }
-        finally
-        {
-          /*
-           * if we should keep running, queue up again
-           */
+
+        result.thenAccept((d) -> {
           if (!(_shouldStop || _shouldSuspend)) _executor.execute(this);
-        }
+        });
       }
     };
 

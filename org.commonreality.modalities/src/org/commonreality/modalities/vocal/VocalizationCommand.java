@@ -29,6 +29,16 @@ public class VocalizationCommand extends AbstractEfferentCommand
     setProperty(VocalConstants.VOCALIZATON, text);
   }
   
+  public void setIsSubvocalization(boolean isSubvocal)
+  {
+    setProperty(VocalConstants.IS_SUBVOCALIZATION, isSubvocal);
+  }
+
+  public boolean isSubvocalization()
+  {
+    return (Boolean) getProperty(VocalConstants.IS_SUBVOCALIZATION);
+  }
+
   public String getText()
   {
     return (String) getProperty(VocalConstants.VOCALIZATON);

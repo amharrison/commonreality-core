@@ -4,7 +4,7 @@ package org.commonreality.sensors.aural;
  * default logging
  */
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,7 +16,6 @@ import org.commonreality.object.IRealObject;
 import org.commonreality.sensors.AbstractSensor;
 import org.commonreality.sensors.aural.GeneralAuralProcessor.IAuralMutator;
 import org.commonreality.time.IAuthoritativeClock;
- 
 import org.slf4j.LoggerFactory;
 
 /**
@@ -66,50 +65,37 @@ public class DefaultAuralSensor extends AbstractSensor
     _cycle = new Runnable() {
       public void run()
       {
-        /*
+
+          /*
          * at the top of each clock cycle we check for speech events that have
          * yet to be started or have expired
          */
+        boolean interrupted = false;
 
-        try
-        {
-          double currentTime = getClock().getTime();
-          double nextTime = _auralUtilities.update(currentTime);
-          _auralProcessor.update(currentTime);
-          /*
-           * let's wait for the clock to update
-           */
-          IAuthoritativeClock auth = getClock().getAuthority().get();
-
-          if (LOGGER.isDebugEnabled()) LOGGER.debug("Waiting");
-
-          if (Double.isNaN(nextTime) || nextTime <= currentTime)
-            auth.requestAndWaitForChange(null).get();
-          else
-            auth.requestAndWaitForTime(nextTime, null).get();
-
-          if (LOGGER.isDebugEnabled()) LOGGER.debug("Resuming");
-
-        }
-        catch (InterruptedException e)
-        {
-          LOGGER.warn("Interrupted, expecting termination ", e);
-          /*
-           * this isn't an error.. if we're interrupted we shouldn't continue
-           * running
-           */
-          Thread.interrupted(); // reset
-        }
-        catch (ExecutionException ee)
-        {
-          LOGGER.error(ee.getMessage(), ee);
-        }
-
+        double currentTime = getClock().getTime();
+        double nextTime = _auralUtilities.update(currentTime);
+        _auralProcessor.update(currentTime);
         /*
-         * we're still running, requeue
+         * let's wait for the clock to update
          */
-        if (stateMatches(State.STARTED)) _executor.execute(this);
-      }
+        IAuthoritativeClock auth = getClock().getAuthority().get();
+
+        if (LOGGER.isDebugEnabled()) LOGGER.debug("Waiting");
+
+        CompletableFuture<Double> result = null;
+        if (Double.isNaN(nextTime) || nextTime <= currentTime)
+          result = auth.requestAndWaitForChange(null);
+        else
+          result = auth.requestAndWaitForTime(nextTime, null);
+
+        if (LOGGER.isDebugEnabled()) LOGGER.debug("Resuming");
+
+        result.thenAccept(d -> {
+          if (stateMatches(State.STARTED) && !interrupted)
+            _executor.execute(this);
+        });
+
+        }
     };
   }
 
@@ -117,7 +103,8 @@ public class DefaultAuralSensor extends AbstractSensor
   public void configure(Map<String, String> options) throws Exception
   {
     for (Map.Entry<String, String> entry : options.entrySet())
-      if (entry.getKey().startsWith(MUTATOR_PREFIX))
+      if (entry.getKey().startsWith(MUTATOR_PREFIX)
+          && entry.getValue().trim().length() > 0)
         try
         {
           /*

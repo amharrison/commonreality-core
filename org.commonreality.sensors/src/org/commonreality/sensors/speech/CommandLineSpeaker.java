@@ -6,10 +6,9 @@ package org.commonreality.sensors.speech;
 import java.io.IOException;
 import java.util.Map;
 
- 
-import org.slf4j.LoggerFactory;
 import org.commonreality.modalities.vocal.VocalizationCommand;
 import org.commonreality.object.IAgentObject;
+import org.slf4j.LoggerFactory;
 
 public class CommandLineSpeaker implements ISpeaker
 {
@@ -84,6 +83,12 @@ public class CommandLineSpeaker implements ISpeaker
   public void speak(IAgentObject speaker, VocalizationCommand vocalization)
   {
     execute(vocalization.getText());
+  }
+
+  public void subvocalize(IAgentObject speaker,
+      VocalizationCommand vocalization)
+  {
+    // noop
   }
 
   /**

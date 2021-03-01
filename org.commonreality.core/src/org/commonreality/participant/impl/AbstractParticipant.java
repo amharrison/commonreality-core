@@ -23,8 +23,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
- 
-import org.slf4j.LoggerFactory;
 import org.commonreality.executor.GeneralThreadFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.handler.IMessageHandler;
@@ -51,6 +49,7 @@ import org.commonreality.participant.impl.ack.SessionAcknowledgements;
 import org.commonreality.participant.impl.handlers.DefaultHandlers;
 import org.commonreality.participant.impl.handlers.GeneralObjectHandler;
 import org.commonreality.reality.impl.StateAndConnectionManager;
+import org.slf4j.LoggerFactory;
 
 /**
  * Skeleton participant that handles the majority of tasks. A participants life
@@ -456,7 +455,9 @@ public abstract class AbstractParticipant extends ThinParticipant implements
           State.UNKNOWN);
 
     Exception differed = null;
-    for (Map.Entry<INetworkService, SocketAddress> entry : _services.entrySet())
+    ArrayList<Map.Entry<INetworkService, SocketAddress>> services = new ArrayList<>(
+        _services.entrySet());
+    for (Map.Entry<INetworkService, SocketAddress> entry : services)
       try
       {
         stopService(entry.getKey(), entry.getValue());

@@ -116,6 +116,7 @@ public class MuscleUtilities
     tracker.setProperty(MotorConstants.PARENT_IDENTIFIER, null);
     tracker.setProperty(IEfferentObject.COMMAND_TEMPLATES, Collections.EMPTY_LIST);
     tracker.setProperty(IDeviceMap.DEVICE_MAP_PROPERTY, deviceMap);
+    tracker.setProperty(MotorConstants.POSITION, new double[] { 0, 0 });
     
     return tracker;
   }

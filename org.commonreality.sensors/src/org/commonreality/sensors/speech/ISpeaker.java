@@ -31,6 +31,9 @@ public interface ISpeaker
    */
   public void speak(IAgentObject speaker, VocalizationCommand vocalization);
 
+  public void subvocalize(IAgentObject speaker,
+      VocalizationCommand vocalization);
+
   /**
    * allow the speaker to be configured.
    * 
