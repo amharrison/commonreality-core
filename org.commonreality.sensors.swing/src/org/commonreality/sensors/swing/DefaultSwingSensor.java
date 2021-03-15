@@ -7,6 +7,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.swing.SwingUtilities;
 
@@ -159,10 +160,26 @@ public class DefaultSwingSensor extends BaseSensor
         .parseDouble(options.getOrDefault("DistanceToScreenCM", "33"));
     boolean useFixation = Boolean
         .parseBoolean(options.getOrDefault("UseFixationTracker", "false"));
+    String className = options.getOrDefault("ConfigurationConsumer", "");
+
     _coordinates = new Coordinates(distanceToScreenCM, dotsPerCM);
     if (useFixation) _glassPaneManager = new GlassPaneManager();
 
     configureSwing();
+
+    if (className.trim().length() != 0) try
+    {
+      @SuppressWarnings("unchecked")
+      Class<Consumer<DefaultSwingSensor>> clazz = (Class<Consumer<DefaultSwingSensor>>) getClass()
+          .getClassLoader().loadClass(className);
+      Consumer<DefaultSwingSensor> consumer = clazz.getConstructor()
+          .newInstance();
+      consumer.accept(this);
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
   }
 
   @Override

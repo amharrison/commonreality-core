@@ -2,6 +2,8 @@ package org.commonreality.sensors.swing.internal;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -28,7 +30,7 @@ import org.slf4j.LoggerFactory;
 public class SwingCenter
 {
 
-  static private transient Logger                                   LOGGER         = LoggerFactory
+  static private transient Logger                                   LOGGER            = LoggerFactory
       .getLogger(SwingCenter.class);
 
   private GlobalWindowListener                                      _windowListener;
@@ -37,32 +39,45 @@ public class SwingCenter
 
   private GlobalComponentListener                                   _componentListener;
 
-  private Map<Class<? extends Component>, AbstractCreatorProcessor> _processors    = new HashMap<>();
+  private Map<Class<? extends Component>, AbstractCreatorProcessor> _processors       = new HashMap<>();
 
-  private Predicate<Container>                                      _shouldDescend = (
+  private Predicate<Container>                                      _shouldDescend    = (
       c) -> {
-                                                                                     return true;
-                                                                                   };
+                                                                                        return true;
+                                                                                      };
 
-  private Predicate<Component>                                      _shouldAccept  = (
+  private Predicate<Component>                                      _shouldAccept     = (
       c) -> {
-                                                                                     boolean rtn = _processors
-                                                                                         .keySet()
-                                                                                         .stream()
-                                                                                         .anyMatch(
-                                                                                             clazz -> {
-                                                                                                                                                                                return clazz
-                                                                                                                                                                                    .isInstance(
-                                                                                                                                                                                        c);
-                                                                                                                                                                              });
-                                                                                     return rtn;
-                                                                                   };
+                                                                                        boolean rtn = _processors
+                                                                                            .keySet()
+                                                                                            .stream()
+                                                                                            .anyMatch(
+                                                                                                clazz -> {
+                                                                                                                                                                                      return clazz
+                                                                                                                                                                                          .isInstance(
+                                                                                                                                                                                              c);
+                                                                                                                                                                                    });
+                                                                                        return rtn;
+                                                                                      };
 
   private BaseSensor                                                _sensor;
 
   private Coordinates                                               _coordinates;
 
-  private MouseState                                                _mouseState    = new MouseState();
+  private MouseState                                                _mouseState       = new MouseState();
+
+  PropertyChangeListener                                            _propertyListener = new PropertyChangeListener() {
+
+                                                                                        @Override
+                                                                                        public void propertyChange(
+                                                                                            PropertyChangeEvent evt)
+                                                                                        {
+                                                                                          _sensor
+                                                                                              .getPerceptManager()
+                                                                                              .markAsDirty(
+                                                                                                  evt.getSource());
+                                                                                        }
+                                                                                      };
 
   public SwingCenter(BaseSensor sensor, Coordinates coordinates)
   {
@@ -79,10 +94,12 @@ public class SwingCenter
   {
     Consumer<Component> add = (c) -> {
       _sensor.getPerceptManager().markAsDirty(c);
+      c.addPropertyChangeListener(_propertyListener);
       if (LOGGER.isDebugEnabled()) LOGGER.debug("Adding " + c);
     };
     Consumer<Component> remove = (c) -> {
       _sensor.getPerceptManager().flagForRemoval(c);
+      c.removePropertyChangeListener(_propertyListener);
       if (LOGGER.isDebugEnabled()) LOGGER.debug("Removing " + c);
     };
 
