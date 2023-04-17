@@ -52,23 +52,21 @@ public class PerceptManager
    * Logger definition
    */
   static private final transient org.slf4j.Logger LOGGER = LoggerFactory
-                                                      .getLogger(PerceptManager.class);
+      .getLogger(PerceptManager.class);
 
-  private Map<Object, Set<IObjectKey>>     _objectToKey;
+  private Map<Object, Set<IObjectKey>>            _objectToKey;
 
-  private Set<Object>                      _dirtyObjects;
+  private Set<Object>                             _dirtyObjects;
 
-  private Collection<IObjectCreator>       _creators;
+  private Collection<IObjectCreator>              _creators;
 
-  private Collection<IObjectProcessor>     _processors;
+  private Collection<IObjectProcessor>            _processors;
 
+  private final BaseSensor                        _sensor;
 
+  private Map<IIdentifier, ISensoryObject>        _objectsInLimbo;
 
-  private final BaseSensor                 _sensor;
-
-  private Map<IIdentifier, ISensoryObject> _objectsInLimbo;
-
-  private final Set<Object>                _toBeDeleted;
+  private final Set<Object>                       _toBeDeleted;
 
   public PerceptManager(BaseSensor sensor)
   {
@@ -119,15 +117,20 @@ public class PerceptManager
    */
   synchronized public void markAsDirty(Object object)
   {
-      if (LOGGER.isDebugEnabled())
-        LOGGER.debug(String.format("%s is dirty", object));
-      _dirtyObjects.add(object);
+    if (LOGGER.isDebugEnabled())
+      LOGGER.debug(String.format("%s is dirty", object));
+    _dirtyObjects.add(object);
 
   }
 
   synchronized public void markAllAsDirty()
   {
     _dirtyObjects.addAll(_objectToKey.keySet());
+  }
+
+  synchronized public boolean hasBeenMarkedAsDirty(Object object)
+  {
+    return _dirtyObjects.contains(object);
   }
 
   /**
@@ -138,10 +141,13 @@ public class PerceptManager
   synchronized public void flagForRemoval(Object object)
   {
     if (LOGGER.isDebugEnabled())
-        LOGGER.debug(String.format("%s flagged for removal", object));
-      _toBeDeleted.add(object);
-      // remove from object keys immediately?
+      LOGGER.debug(String.format("%s flagged for removal", object));
+    _toBeDeleted.add(object);
+  }
 
+  synchronized public boolean hasBeenFlaggedForRemoval(Object object)
+  {
+    return _toBeDeleted.contains(object);
   }
 
   private Set<IObjectKey> getKeys(Object objec)
@@ -161,14 +167,18 @@ public class PerceptManager
     for (IObjectCreator creator : _creators)
       if (creator.handles(object))
         for (IIdentifier agent : _sensor.getInterfacedAgents())
+        try
         {
-        IAgentObject agentObject = manager.get(agent);
-        IObjectKey key = creator.createKey(object, agentObject);
+          IAgentObject agentObject = manager.get(agent);
+
+          if (agentObject == null) continue;
+
+          IObjectKey key = creator.createKey(object, agentObject);
 
           if (key != null)
           {
             ISensoryObject simObject = creator.createObject(key, object,
-            _sensor, agentObject);
+                _sensor, agentObject);
 
             if (simObject != null)
             {
@@ -181,15 +191,18 @@ public class PerceptManager
                */
               _objectsInLimbo.put(id, simObject);
 
-              if (LOGGER.isDebugEnabled())
-                LOGGER.debug(String.format(
-                    "Created new percept object for key %s (%s)", key, id));
+              if (LOGGER.isDebugEnabled()) LOGGER.debug(String.format(
+                  "Created new percept object for key %s (%s)", key, id));
             }
             /*
              * add the object to the simulation..
              */
             rtn.add(key);
           }
+        }
+        catch (Exception e)
+        {
+          LOGGER.error("Error while processing dirty objects ", e);
         }
 
     _objectToKey.put(object, rtn);
@@ -219,10 +232,9 @@ public class PerceptManager
 
       if (simObject == null)
       {
-        if (LOGGER.isDebugEnabled())
-          LOGGER.debug(String.format(
-              "CR has yet to acknowledge the new object %s (%s)", objectKey,
-              identifier));
+        if (LOGGER.isDebugEnabled()) LOGGER.debug(
+            String.format("CR has yet to acknowledge the new object %s (%s)",
+                objectKey, identifier));
 
         // object hasn't been created fully, it's in limbo..
         simObject = _objectsInLimbo.remove(identifier);
@@ -232,10 +244,9 @@ public class PerceptManager
         // instead of ignoring it, we requeue
         if (simObject == null)
         {
-          if (LOGGER.isDebugEnabled())
-            LOGGER.debug(String.format(
-                "No object for %s, requeueing until CR is heard from",
-                objectKey));
+          if (LOGGER.isDebugEnabled()) LOGGER.debug(String.format(
+              "No object for %s, requeueing until CR is heard from",
+              objectKey));
 
           markAsDirty(objectKey.getObject());
           continue;
@@ -262,9 +273,8 @@ public class PerceptManager
 
           processor.process(objectKey, tracker);
 
-          if (LOGGER.isDebugEnabled())
-            LOGGER
-                .debug(String.format("%s processed %s", processor, objectKey));
+          if (LOGGER.isDebugEnabled()) LOGGER
+              .debug(String.format("%s processed %s", processor, objectKey));
         }
 
       if (tracker != null) if (!isNewAdd && tracker.hasChanged())
@@ -286,25 +296,22 @@ public class PerceptManager
 
     if (newAdds.size() > 0)
     {
-      if (LOGGER.isDebugEnabled())
-        LOGGER.debug(String.format("Requesting addition of %d percepts",
-            newAdds.size()));
+      if (LOGGER.isDebugEnabled()) LOGGER.debug(
+          String.format("Requesting addition of %d percepts", newAdds.size()));
 
       _sensor.add(newAdds);
     }
 
     if (updates.size() > 0)
     {
-      if (LOGGER.isDebugEnabled())
-        LOGGER.debug(String.format("Requesting update of %d percepts", updates
-            .size()));
+      if (LOGGER.isDebugEnabled()) LOGGER.debug(
+          String.format("Requesting update of %d percepts", updates.size()));
 
       _sensor.update(updates);
     }
 
-
   }
-  
+
   private void remove(Collection<Object> container)
   {
     if (container.size() != 0)
@@ -318,12 +325,10 @@ public class PerceptManager
           if (key.getCreator().canDelete(key))
           {
             toBeRemoved.add(key.getIdentifier());
-            
+
             for (IObjectProcessor processor : _processors)
-              if (processor.handles(key))
-                processor.deleted(key);
-                
-            
+              if (processor.handles(key)) processor.deleted(key);
+
             key.getCreator().deleteKey(key);
           }
 
@@ -358,9 +363,8 @@ public class PerceptManager
       _dirtyObjects.clear();
     }
 
-    if (LOGGER.isDebugEnabled())
-      LOGGER.debug(String.format("Processing %d dirty objects", container
-          .size()));
+    if (LOGGER.isDebugEnabled()) LOGGER
+        .debug(String.format("Processing %d dirty objects", container.size()));
 
     for (Object object : container)
     {
@@ -374,22 +378,27 @@ public class PerceptManager
       {
         keys = createKeys(object);
 
-        if (LOGGER.isDebugEnabled())
-          LOGGER.debug(String.format("Created %d keys for %s", keys.size(),
-              object));
+        if (LOGGER.isDebugEnabled()) LOGGER.debug(
+            String.format("Created %d keys for %s", keys.size(), object));
 
       }
       else
         /*
          * let's check to be sure object hasn't changed. If so, replace
          */
-        for(IObjectKey key : keys)
+        for (IObjectKey key : keys)
           if (key.isObjectImmutable() && key.getObject() != object)
             key.replaceObject(object);
 
       // and process the keys
-      if (keys.size() > 0)
+      if (keys.size() > 0) try
+      {
         process(keys);
+      }
+      catch (Exception e)
+      {
+        LOGGER.error("Failed to process ", e);
+      }
 
     }
 

@@ -1,7 +1,6 @@
 package org.commonreality.sensors.swing.processors;
 
-import java.awt.Component;
-
+import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
 import org.commonreality.sensors.swing.internal.Coordinates;
@@ -15,7 +14,7 @@ public class TextFieldCreatorProcessor extends AbstractCreatorProcessor
   }
 
   @Override
-  protected String[] calculateTypes(Component component)
+  protected String[] calculateTypes(JComponent component)
   {
     String[] types = { "text-area", "gui" };
 
@@ -23,7 +22,7 @@ public class TextFieldCreatorProcessor extends AbstractCreatorProcessor
   }
 
   @Override
-  protected String getText(Component component)
+  protected String getText(JComponent component)
   {
     return ((JTextComponent) component).getText();
   }

@@ -203,11 +203,12 @@ public class DefaultKeyboardSensor extends AbstractSensor
           else
             result = auth.requestAndWaitForTime(nextTime, null);
           if (LOGGER.isDebugEnabled()) LOGGER.debug("Resuming");
+
+          result.thenAccept((d) -> {
+            if (!(_shouldStop || _shouldSuspend)) _executor.execute(this);
+          });
         }
 
-        result.thenAccept((d) -> {
-          if (!(_shouldStop || _shouldSuspend)) _executor.execute(this);
-        });
       }
     };
 

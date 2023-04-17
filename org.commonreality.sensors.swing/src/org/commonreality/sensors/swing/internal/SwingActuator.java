@@ -32,7 +32,9 @@ public class SwingActuator extends DefaultActuator
     try
     {
       _robot = new Robot();
-      _robot.setAutoWaitForIdle(true);
+      // autoWaitForIdle can cause deadlocks when running full bore. Not sure
+      // why
+      // _robot.setAutoWaitForIdle(true);
     }
     catch (AWTException e)
     {

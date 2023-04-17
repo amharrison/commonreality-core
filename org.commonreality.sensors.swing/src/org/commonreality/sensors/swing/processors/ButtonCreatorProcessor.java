@@ -1,8 +1,7 @@
 package org.commonreality.sensors.swing.processors;
 
-import java.awt.Component;
-
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import org.commonreality.sensors.swing.internal.Coordinates;
 
@@ -13,12 +12,14 @@ public class ButtonCreatorProcessor extends AbstractCreatorProcessor {
 	}
 
 	@Override
-	protected String[] calculateTypes(Component component) {
+    protected String[] calculateTypes(JComponent component)
+    {
       return new String[] { "button", "text" };
 	}
 
 	@Override
-	protected String getText(Component component) {
+    protected String getText(JComponent component)
+    {
 		return ((JButton) component).getText();
 	}
 }

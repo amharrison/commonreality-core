@@ -21,8 +21,10 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 
+import org.commonreality.executor.GeneralThreadFactory;
 import org.commonreality.identifier.IIdentifier;
 import org.commonreality.net.message.IMessage;
 import org.commonreality.net.message.command.object.IObjectCommand;
@@ -102,7 +104,8 @@ public abstract class BaseSensor extends AbstractSensor
         .synchronizedMap(new HashMap<IIdentifier, Collection<IObjectDelta>>());
     _delayedCommands = Collections.synchronizedList(new ArrayList<IMessage>());
     _committer = new Committer();
-    _service = Executors.newSingleThreadExecutor();
+    _service = Executors
+        .newSingleThreadExecutor(new GeneralThreadFactory("baseSensor"));
     _perceptManager = createPerceptManager();
   }
 
@@ -185,7 +188,8 @@ public abstract class BaseSensor extends AbstractSensor
   public void initialize() throws Exception
   {
     super.initialize();
-    _service = Executors.newSingleThreadExecutor();
+    _service = Executors
+        .newSingleThreadExecutor(new GeneralThreadFactory("BaseSensor"));
     _service.execute(new Runnable() {
 
       public void run()
@@ -284,6 +288,8 @@ public abstract class BaseSensor extends AbstractSensor
     {
       Collection<ISimulationObject> container = _toBeAdded.get(agent);
 
+      if (container == null) return;
+
       container.addAll(objects);
     }
   }
@@ -292,10 +298,8 @@ public abstract class BaseSensor extends AbstractSensor
   {
     synchronized (_toBeRemoved)
     {
-      _toBeRemoved
-          .getOrDefault(object.getIdentifier().getAgent(),
-              new NullCollection<IIdentifier>())
-          .add(object.getIdentifier());
+      _toBeRemoved.getOrDefault(object.getIdentifier().getAgent(),
+          new NullCollection<IIdentifier>()).add(object.getIdentifier());
     }
   }
 
@@ -343,7 +347,7 @@ public abstract class BaseSensor extends AbstractSensor
     synchronized (_toBeChanged)
     {
       Collection<IObjectDelta> container = _toBeChanged.get(agent);
-
+      if (container == null) return;
       container.addAll(deltas);
     }
   }
@@ -361,6 +365,8 @@ public abstract class BaseSensor extends AbstractSensor
     synchronized (_toBeAdded)
     {
       Collection<ISimulationObject> add = _toBeAdded.get(agentId);
+
+      if (add == null) return;
 
       if (add.size() > 0)
       {
@@ -386,6 +392,8 @@ public abstract class BaseSensor extends AbstractSensor
     synchronized (_toBeChanged)
     {
       Collection<IObjectDelta> change = _toBeChanged.get(agentId);
+      if (change == null) return;
+
       if (change.size() != 0)
       {
         /*
@@ -410,6 +418,9 @@ public abstract class BaseSensor extends AbstractSensor
     synchronized (_toBeRemoved)
     {
       Collection<IIdentifier> remove = _toBeRemoved.get(agentId);
+
+      if (remove == null) return;
+
       if (remove.size() != 0) _delayedCommands.add(new ObjectCommandRequest(sId,
           agentId, IObjectCommand.Type.REMOVED, remove));
 
@@ -507,8 +518,14 @@ public abstract class BaseSensor extends AbstractSensor
         preClockWait(waitUntil);
 
         IClock clock = getClock();
-        if (clock != null) postClockWait(clock.getAuthority().get()
-            .requestAndWaitForTime(waitUntil, null).get());
+        if (clock != null && shouldContinue())
+        {
+          Future<Double> request = clock.getAuthority().get()
+              .requestAndWaitForTime(waitUntil, null);
+          if (!request.isDone()) clockWillBlock(waitUntil);
+
+          postClockWait(request.get());
+        }
 
         /*
          * and repeat
@@ -579,6 +596,11 @@ public abstract class BaseSensor extends AbstractSensor
    * @param currentTime
    */
   protected void postClockWait(double currentTime)
+  {
+
+  }
+
+  protected void clockWillBlock(double requestedTime)
   {
 
   }

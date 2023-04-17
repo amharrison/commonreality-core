@@ -29,6 +29,8 @@ public class DefaultSwingSensor extends BaseSensor
 
   protected GlassPaneManager _glassPaneManager;
 
+  protected boolean          _synchronize = false;
+
   public DefaultSwingSensor()
   {
     super();
@@ -162,6 +164,14 @@ public class DefaultSwingSensor extends BaseSensor
         .parseBoolean(options.getOrDefault("UseFixationTracker", "false"));
     String className = options.getOrDefault("ConfigurationConsumer", "");
 
+    _synchronize = Boolean
+        .parseBoolean(options.getOrDefault("Synchronize", "false"));
+
+    boolean realTime = Boolean
+        .parseBoolean(options.getOrDefault("RealtimeClock", "false"));
+
+    setRealtimeClockEnabled(realTime);
+
     _coordinates = new Coordinates(distanceToScreenCM, dotsPerCM);
     if (useFixation) _glassPaneManager = new GlassPaneManager();
 
@@ -190,7 +200,7 @@ public class DefaultSwingSensor extends BaseSensor
 
   protected void configureSwing()
   {
-    _swingCenter = new SwingCenter(this, _coordinates);
+    _swingCenter = new SwingCenter(this, _coordinates, _synchronize);
 
   }
 
@@ -248,5 +258,19 @@ public class DefaultSwingSensor extends BaseSensor
   {
     super.startOfCycle();
     _swingCenter.newCycle();
+  }
+
+  @Override
+  protected void clockWillBlock(double requestedTime)
+  {
+    super.clockWillBlock(requestedTime);
+    _swingCenter.clockWillBlock();
+  }
+
+  @Override
+  protected void endOfCycle()
+  {
+    super.endOfCycle();
+    _swingCenter.endCycle();
   }
 }

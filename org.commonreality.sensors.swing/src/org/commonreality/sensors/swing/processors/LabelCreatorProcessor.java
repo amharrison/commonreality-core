@@ -1,7 +1,6 @@
 package org.commonreality.sensors.swing.processors;
 
-import java.awt.Component;
-
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import org.commonreality.sensors.swing.internal.Coordinates;
@@ -15,13 +14,13 @@ public class LabelCreatorProcessor extends AbstractCreatorProcessor
   }
 
   @Override
-  protected String[] calculateTypes(Component component)
+  protected String[] calculateTypes(JComponent component)
   {
     return new String[] { "label", "text" };
   }
 
   @Override
-  protected String getText(Component component)
+  protected String getText(JComponent component)
   {
     return ((JLabel) component).getText();
   }

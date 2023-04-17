@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.JComponent;
+
 import org.commonreality.modalities.visual.IVisualPropertyHandler;
 import org.commonreality.object.IMutableObject;
 import org.commonreality.sensors.base.IObjectProcessor;
@@ -19,17 +21,17 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
     implements IObjectProcessor<DefaultObjectKey>
 {
 
-  static private transient Logger    LOGGER = LoggerFactory
+  static private transient Logger     LOGGER = LoggerFactory
       .getLogger(AbstractCreatorProcessor.class);
 
-  protected Coordinates              _coordinates;
+  protected Coordinates               _coordinates;
 
-  private Class<? extends Component> _componentClass;
+  private Class<? extends JComponent> _componentClass;
 
-  private PerceptManager             _perceptManager;
+  private PerceptManager              _perceptManager;
 
   public AbstractCreatorProcessor(Coordinates coordinates,
-      Class<? extends Component> componentClass)
+      Class<? extends JComponent> componentClass)
   {
     _coordinates = coordinates;
     _componentClass = componentClass;
@@ -47,14 +49,14 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
     return _perceptManager;
   }
 
-  public Class<? extends Component> getComponentClass()
+  public Class<? extends JComponent> getComponentClass()
   {
     return _componentClass;
   }
 
-  abstract protected String getText(Component component);
+  abstract protected String getText(JComponent component);
 
-  abstract protected String[] calculateTypes(Component component);
+  abstract protected String[] calculateTypes(JComponent component);
 
   /**
    * checks all the ancestors' visibibilty
@@ -62,13 +64,21 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
    * @param component
    * @return
    */
-  protected boolean calculateVisibility(Component component)
+  protected boolean calculateVisibility(JComponent component)
   {
-    boolean visible = true;
-    while (component != null)
+    Component visit = component;
+    Rectangle2D rect = calculateBounds(component);
+
+    boolean visible = !(rect.getWidth() == 0 && rect.getHeight() == 0);
+
+    while (visit != null && visible)
     {
-      visible &= component.isVisible() && component.isDisplayable();
-      component = component.getParent();
+      Rectangle bounds = visit.getBounds();
+
+      visible &= !(bounds.width == 0 && bounds.height == 0); // make empty
+                                                             // bounds invisible
+      visible &= visit.isVisible() && visit.isDisplayable();
+      visit = visit.getParent();
     }
     /*
      * reliable disposal events are hard to come by in swing, instead when it is
@@ -87,9 +97,10 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
    * @param component
    * @return
    */
-  protected Rectangle2D calculateBounds(Component component)
+  protected Rectangle2D calculateBounds(JComponent component)
   {
-    Rectangle rect = component.getBounds();
+    Rectangle rect = new Rectangle();
+    component.computeVisibleRect(rect);
     return _coordinates.toRetinotopic(rect, component.getParent());
   }
 
@@ -109,8 +120,8 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
   @Override
   public boolean handles(Object arg0)
   {
-    return _componentClass.isInstance(arg0)
-        && calculateVisibility((Component) arg0);
+    return _componentClass
+        .isInstance(arg0) /* && calculateVisibility((Component) arg0) */;
   }
 
   @Override
@@ -119,7 +130,7 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
   {
     super.initialize(objectKey, afferentPercept);
 
-    Component component = (Component) objectKey.getObject();
+    JComponent component = (JComponent) objectKey.getObject();
     String[] types = calculateTypes(component);
 
     afferentPercept.setProperty(IVisualPropertyHandler.IS_VISUAL, Boolean.TRUE);
@@ -132,21 +143,12 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
     afferentPercept.setProperty(IVisualPropertyHandler.TOKEN, name);
   }
 
-  private boolean wasTrueNowFalse(IMutableObject afferentPercept,
-      boolean currentVisibility)
-  {
-    if (!afferentPercept.hasProperty(IVisualPropertyHandler.VISIBLE))
-      return false;
-    boolean lastValue = (Boolean) afferentPercept
-        .getProperty(IVisualPropertyHandler.VISIBLE);
-    return lastValue && !currentVisibility;
-  }
 
   @Override
   public void process(DefaultObjectKey objectKey,
       IMutableObject afferentPercept)
   {
-    Component component = (Component) objectKey.getObject();
+    JComponent component = (JComponent) objectKey.getObject();
 
     if (LOGGER.isDebugEnabled()) LOGGER.debug("Processing " + component);
 
@@ -158,11 +160,11 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
      */
     boolean visibility = calculateVisibility(component);
 
-    if (wasTrueNowFalse(afferentPercept, visibility)) return; // change nothing
-                                                              // on remove, just
-                                                              // remove
+//		if (wasTrueNowFalse(afferentPercept, visibility)) {
+//			return; // change nothing
+//		}
 
-    afferentPercept.setProperty(IVisualPropertyHandler.VISIBLE, true);
+    afferentPercept.setProperty(IVisualPropertyHandler.VISIBLE, visibility);
 
     Color color = component.getForeground();
     afferentPercept.setProperty(IVisualPropertyHandler.COLOR,
@@ -170,6 +172,7 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
             color.getBlue() / 255f, color.getAlpha() / 255f });
 
     Rectangle2D rect = calculateBounds(component);
+
     afferentPercept.setProperty(IVisualPropertyHandler.RETINAL_LOCATION,
         new double[] { rect.getCenterX(), rect.getCenterY() });
     afferentPercept.setProperty(IVisualPropertyHandler.RETINAL_SIZE,

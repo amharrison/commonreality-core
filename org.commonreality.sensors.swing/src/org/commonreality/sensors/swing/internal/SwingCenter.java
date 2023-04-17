@@ -1,7 +1,9 @@
 package org.commonreality.sensors.swing.internal;
 
+import java.awt.AWTException;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Robot;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -72,17 +74,40 @@ public class SwingCenter
                                                                                         public void propertyChange(
                                                                                             PropertyChangeEvent evt)
                                                                                         {
-                                                                                          _sensor
+                                                                                          if (!_sensor
                                                                                               .getPerceptManager()
-                                                                                              .markAsDirty(
-                                                                                                  evt.getSource());
+                                                                                              .hasBeenFlaggedForRemoval(
+                                                                                                  evt.getSource()))
+                                                                                            _sensor
+                                                                                                .getPerceptManager()
+                                                                                                .markAsDirty(
+                                                                                                    evt.getSource());
                                                                                         }
                                                                                       };
 
-  public SwingCenter(BaseSensor sensor, Coordinates coordinates)
+  private Robot                                                     _robot;
+
+  public SwingCenter(BaseSensor sensor, Coordinates coordinates, boolean sync)
   {
     _sensor = sensor;
     _coordinates = coordinates;
+    if (sync) try
+    {
+      _robot = new Robot();
+    }
+    catch (AWTException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public void endCycle()
+  {
+  }
+
+  public void clockWillBlock()
+  {
+    if (_robot != null) _robot.waitForIdle();
   }
 
   public void newCycle()
