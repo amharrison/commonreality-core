@@ -150,8 +150,7 @@ public abstract class AbstractParticipant extends ThinParticipant implements
   synchronized protected GeneralThreadFactory getIOThreadFactory()
   {
     if (_ioThreadFactory == null)
-      _ioThreadFactory = new GeneralThreadFactory(getName() + "-IOProcessor",
-          getCentralThreadFactory().getThreadGroup());
+      _ioThreadFactory = new GeneralThreadFactory(getName() + "-IOProcessor");
     return _ioThreadFactory;
   }
 
