@@ -1,8 +1,11 @@
 package org.commonreality.sensors.swing.internal;
 
 import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -35,6 +38,7 @@ public class SwingActuator extends DefaultActuator
       // autoWaitForIdle can cause deadlocks when running full bore. Not sure
       // why
       // _robot.setAutoWaitForIdle(true);
+      testRobot();
     }
     catch (AWTException e)
     {
@@ -42,6 +46,21 @@ public class SwingActuator extends DefaultActuator
       throw new RuntimeException(e);
     }
   }
+  
+  
+  protected void testRobot() {
+    Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+    _robot.mouseMove(screen.width/2, screen.height/2);
+    _robot.waitForIdle();
+    Point p = MouseInfo.getPointerInfo().getLocation();
+    if(p.x != screen.width/2 || p.y != screen.height/2)
+    {
+      RuntimeException e =  new RuntimeException("Could not control mouse pointer. Check your OS's security/accessibility settings.");
+      LOGGER.error(e.getMessage());
+      throw e;
+    }
+  }
+  
 
   public void setCoordinates(Coordinates coords)
   {
