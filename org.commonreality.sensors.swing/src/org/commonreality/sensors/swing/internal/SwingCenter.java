@@ -29,154 +29,126 @@ import org.commonreality.sensors.swing.processors.ToggleButtonCreatorProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SwingCenter
-{
+public class SwingCenter {
 
-  static private transient Logger                                   LOGGER            = LoggerFactory
-      .getLogger(SwingCenter.class);
+	static private transient Logger LOGGER = LoggerFactory.getLogger(SwingCenter.class);
 
-  private GlobalWindowListener                                      _windowListener;
+	private GlobalWindowListener _windowListener;
 
-  private HierarchyListener                                         _hierarchyListener;
+	private HierarchyListener _hierarchyListener;
 
-  private GlobalComponentListener                                   _componentListener;
+	private GlobalComponentListener _componentListener;
 
-  private Map<Class<? extends Component>, AbstractCreatorProcessor> _processors       = new HashMap<>();
+	private Map<Class<? extends Component>, AbstractCreatorProcessor> _processors = new HashMap<>();
 
-  private Predicate<Container>                                      _shouldDescend    = (
-      c) -> {
-                                                                                        return true;
-                                                                                      };
+	private Predicate<Container> _shouldDescend = (c) -> {
+		return true;
+	};
 
-  private Predicate<Component>                                      _shouldAccept     = (
-      c) -> {
-                                                                                        boolean rtn = _processors
-                                                                                            .keySet()
-                                                                                            .stream()
-                                                                                            .anyMatch(
-                                                                                                clazz -> {
-                                                                                                                                                                                      return clazz
-                                                                                                                                                                                          .isInstance(
-                                                                                                                                                                                              c);
-                                                                                                                                                                                    });
-                                                                                        return rtn;
-                                                                                      };
+	private Predicate<Component> _shouldAccept = (c) -> {
+		boolean rtn = _processors.keySet().stream().anyMatch(clazz -> {
+			return clazz.isInstance(c);
+		});
+		return rtn;
+	};
 
-  private BaseSensor                                                _sensor;
+	private BaseSensor _sensor;
 
-  private Coordinates                                               _coordinates;
+	private Coordinates _coordinates;
 
-  private MouseState                                                _mouseState       = new MouseState();
+	private MouseState _mouseState = new MouseState();
 
-  PropertyChangeListener                                            _propertyListener = new PropertyChangeListener() {
+	PropertyChangeListener _propertyListener = new PropertyChangeListener() {
 
-                                                                                        @Override
-                                                                                        public void propertyChange(
-                                                                                            PropertyChangeEvent evt)
-                                                                                        {
-                                                                                          if (!_sensor
-                                                                                              .getPerceptManager()
-                                                                                              .hasBeenFlaggedForRemoval(
-                                                                                                  evt.getSource()))
-                                                                                            _sensor
-                                                                                                .getPerceptManager()
-                                                                                                .markAsDirty(
-                                                                                                    evt.getSource());
-                                                                                        }
-                                                                                      };
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			if (!_sensor.getPerceptManager().hasBeenFlaggedForRemoval(evt.getSource()))
+				_sensor.getPerceptManager().markAsDirty(evt.getSource());
+		}
+	};
 
-  private Robot                                                     _robot;
+	private Robot _robot;
+	private boolean _useMockInterface = false;
 
-  public SwingCenter(BaseSensor sensor, Coordinates coordinates, boolean sync)
-  {
-    _sensor = sensor;
-    _coordinates = coordinates;
-    if (sync) try
-    {
-      _robot = new Robot();
-    }
-    catch (AWTException e)
-    {
-      e.printStackTrace();
-    }
-  }
+	public SwingCenter(BaseSensor sensor, Coordinates coordinates, boolean sync, boolean useMock) {
+		_sensor = sensor;
+		_coordinates = coordinates;
+		_useMockInterface = useMock;
+		if (sync)
+			try {
+				_robot = new Robot();
+			} catch (AWTException e) {
+				e.printStackTrace();
+			}
+	}
 
-  public void endCycle()
-  {
-  }
+	public void endCycle() {
+	}
 
-  public void clockWillBlock()
-  {
-    if (_robot != null) _robot.waitForIdle();
-  }
+	public void clockWillBlock() {
+		if (_robot != null)
+			_robot.waitForIdle();
+	}
 
-  public void newCycle()
-  {
-    _sensor.getPerceptManager().markAsDirty(_mouseState);
-  }
+	public void newCycle() {
+		_sensor.getPerceptManager().markAsDirty(_mouseState);
+	}
 
-  public void install()
-  {
-    Consumer<Component> add = (c) -> {
-      _sensor.getPerceptManager().markAsDirty(c);
-      c.addPropertyChangeListener(_propertyListener);
-      if (LOGGER.isDebugEnabled()) LOGGER.debug("Adding " + c);
-    };
-    Consumer<Component> remove = (c) -> {
-      _sensor.getPerceptManager().flagForRemoval(c);
-      c.removePropertyChangeListener(_propertyListener);
-      if (LOGGER.isDebugEnabled()) LOGGER.debug("Removing " + c);
-    };
+	public void install() {
+		Consumer<Component> add = (c) -> {
+			_sensor.getPerceptManager().markAsDirty(c);
+			c.addPropertyChangeListener(_propertyListener);
+			if (LOGGER.isDebugEnabled())
+				LOGGER.debug("Adding " + c);
+		};
+		Consumer<Component> remove = (c) -> {
+			_sensor.getPerceptManager().flagForRemoval(c);
+			c.removePropertyChangeListener(_propertyListener);
+			if (LOGGER.isDebugEnabled())
+				LOGGER.debug("Removing " + c);
+		};
 
-    _windowListener = new GlobalWindowListener(_shouldDescend, _shouldAccept,
-        add, remove);
-    _windowListener.install();
-    _componentListener = new GlobalComponentListener(_shouldDescend,
-        _shouldAccept, add, remove);
-    _componentListener.install();
-    _hierarchyListener = new HierarchyListener(_sensor, _shouldDescend,
-        _shouldAccept);
-    _hierarchyListener.install();
+		_windowListener = new GlobalWindowListener(_shouldDescend, _shouldAccept, add, remove);
+		_windowListener.install();
+		_componentListener = new GlobalComponentListener(_shouldDescend, _shouldAccept, add, remove);
+		_componentListener.install();
+		_hierarchyListener = new HierarchyListener(_sensor, _shouldDescend, _shouldAccept);
+		_hierarchyListener.install();
 
-    configureKeyboardSensor();
+		configureKeyboardSensor();
 
-    MouseCreatorProcessor mcp = new MouseCreatorProcessor(_coordinates);
-    _sensor.getPerceptManager().install((IObjectCreator) mcp);
-    _sensor.getPerceptManager().install((IObjectProcessor) mcp);
+		MouseCreatorProcessor mcp = new MouseCreatorProcessor(_coordinates);
+		_sensor.getPerceptManager().install((IObjectCreator) mcp);
+		_sensor.getPerceptManager().install((IObjectProcessor) mcp);
 
-    add(new ButtonCreatorProcessor(_coordinates));
-    add(new ToggleButtonCreatorProcessor(_coordinates));
-    add(new TextFieldCreatorProcessor(_coordinates));
-    add(new MenuCreatorProcessor(_coordinates));
-    add(new LabelCreatorProcessor(_coordinates));
-  }
+		add(new ButtonCreatorProcessor(_coordinates));
+		add(new ToggleButtonCreatorProcessor(_coordinates));
+		add(new TextFieldCreatorProcessor(_coordinates));
+		add(new MenuCreatorProcessor(_coordinates));
+		add(new LabelCreatorProcessor(_coordinates));
+	}
 
-  public void uninstall()
-  {
-    _windowListener.uninstall();
-    _hierarchyListener.uninstall();
-    _componentListener.uninstall();
-  }
+	public void uninstall() {
+		_windowListener.uninstall();
+		_hierarchyListener.uninstall();
+		_componentListener.uninstall();
+	}
 
-  public void add(AbstractCreatorProcessor processor)
-  {
-    _processors.put(processor.getComponentClass(), processor);
-    _sensor.getPerceptManager().install((IObjectCreator) processor);
-    _sensor.getPerceptManager().install((IObjectProcessor) processor);
-  }
+	public void add(AbstractCreatorProcessor processor) {
+		_processors.put(processor.getComponentClass(), processor);
+		_sensor.getPerceptManager().install((IObjectCreator) processor);
+		_sensor.getPerceptManager().install((IObjectProcessor) processor);
+	}
 
-  public void remove(AbstractCreatorProcessor processor)
-  {
-    _processors.remove(processor.getComponentClass());
-    // TODO add uninstall
-  }
+	public void remove(AbstractCreatorProcessor processor) {
+		_processors.remove(processor.getComponentClass());
+		// TODO add uninstall
+	}
 
-  protected void configureKeyboardSensor()
-  {
-    DefaultKeyboardSensor sensor = (DefaultKeyboardSensor) CommonReality
-        .getSensors().stream().filter(DefaultKeyboardSensor.class::isInstance)
-        .findAny().get();
-    sensor.setActuator(new SwingActuator(_coordinates));
+	protected void configureKeyboardSensor() {
+		DefaultKeyboardSensor sensor = (DefaultKeyboardSensor) CommonReality.getSensors().stream()
+				.filter(DefaultKeyboardSensor.class::isInstance).findAny().get();
+		sensor.setActuator(new SwingActuator(_coordinates, _useMockInterface));
 
-  }
+	}
 }

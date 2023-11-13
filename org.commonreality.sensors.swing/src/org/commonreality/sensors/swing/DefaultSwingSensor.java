@@ -30,6 +30,7 @@ public class DefaultSwingSensor extends BaseSensor
   protected GlassPaneManager _glassPaneManager;
 
   protected boolean          _synchronize = false;
+  protected boolean _useMock = false;
 
   public DefaultSwingSensor()
   {
@@ -163,6 +164,8 @@ public class DefaultSwingSensor extends BaseSensor
     boolean useFixation = Boolean
         .parseBoolean(options.getOrDefault("UseFixationTracker", "false"));
     String className = options.getOrDefault("ConfigurationConsumer", "");
+    
+    _useMock = Boolean.parseBoolean(options.getOrDefault("UseMockInterface", "false"));
 
     _synchronize = Boolean
         .parseBoolean(options.getOrDefault("Synchronize", "false"));
@@ -200,7 +203,7 @@ public class DefaultSwingSensor extends BaseSensor
 
   protected void configureSwing()
   {
-    _swingCenter = new SwingCenter(this, _coordinates, _synchronize);
+    _swingCenter = new SwingCenter(this, _coordinates, _synchronize, _useMock);
 
   }
 

@@ -6,7 +6,6 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
@@ -19,122 +18,110 @@ import org.commonreality.sensors.keyboard.ReleaseCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SwingActuator extends DefaultActuator
-{
+public class SwingActuator extends DefaultActuator {
 
-  static private transient Logger LOGGER = LoggerFactory
-      .getLogger(SwingActuator.class);
+	static private transient Logger LOGGER = LoggerFactory.getLogger(SwingActuator.class);
 
-  private Robot                   _robot;
+	private boolean _useMock = true;
+	private Robot _robot;
+	private MockInterface _interface;
 
-  private Coordinates             _coordinates;
+	private Coordinates _coordinates;
 
-  public SwingActuator(Coordinates coordinates)
-  {
-    _coordinates = coordinates;
-    try
-    {
-      _robot = new Robot();
-      // autoWaitForIdle can cause deadlocks when running full bore. Not sure
-      // why
-      // _robot.setAutoWaitForIdle(true);
-      testRobot();
-    }
-    catch (AWTException e)
-    {
+	public SwingActuator(Coordinates coordinates, boolean useMock) {
+		_coordinates = coordinates;
+		_useMock = useMock;
+		if (_useMock)
+			_interface = new MockInterface();
+		else
+			try {
+				_robot = new Robot();
+				// autoWaitForIdle can cause deadlocks when running full bore. Not sure
+				// why
+				// _robot.setAutoWaitForIdle(true);
+				testRobot();
+			} catch (AWTException e) {
 
-      throw new RuntimeException(e);
-    }
-  }
-  
-  
-  protected void testRobot() {
-    Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-    _robot.mouseMove(screen.width/2, screen.height/2);
-    _robot.waitForIdle();
-    Point p = MouseInfo.getPointerInfo().getLocation();
-    if(p.x != screen.width/2 || p.y != screen.height/2)
-    {
-      RuntimeException e =  new RuntimeException("Could not control mouse pointer. Check your OS's security/accessibility settings.");
-      LOGGER.error(e.getMessage());
-      throw e;
-    }
-  }
-  
+				throw new RuntimeException(e);
+			}
+	}
 
-  public void setCoordinates(Coordinates coords)
-  {
-    _coordinates = coords;
-  }
+	protected void testRobot() {
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		_robot.mouseMove(screen.width / 2, screen.height / 2);
+		_robot.waitForIdle();
+		Point p = MouseInfo.getPointerInfo().getLocation();
+		if (p.x != screen.width / 2 || p.y != screen.height / 2) {
+			RuntimeException e = new RuntimeException(
+					"Could not control mouse pointer. Check your OS's security/accessibility settings.");
+			LOGGER.error(e.getMessage());
+			throw e;
+		}
+	}
 
-  private boolean isMouse(int keyCode)
-  {
-    return keyCode >= MouseEvent.BUTTON1 && keyCode <= MouseEvent.BUTTON3;
-  }
+	public void setCoordinates(Coordinates coords) {
+		_coordinates = coords;
+	}
 
-  @Override
-  protected void press(PressCommand command, EfferentCommandHandler handler)
-  {
-    int keyCode = getCode(command, handler);
-    if (isMouse(keyCode))
-      switch (keyCode)
-      {
-        case MouseEvent.BUTTON1:
-          _robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-          break;
-        case MouseEvent.BUTTON2:
-          _robot.mousePress(InputEvent.BUTTON2_DOWN_MASK);
-          break;
-        case MouseEvent.BUTTON3:
-          _robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
-          break;
-      }
-    else
-      _robot.keyPress(keyCode);
-  }
+	private boolean isMouse(int keyCode) {
+		return keyCode >= MouseEvent.BUTTON1 && keyCode <= MouseEvent.BUTTON3;
+	}
 
-  @Override
-  protected void release(ReleaseCommand command, EfferentCommandHandler handler)
-  {
-    int keyCode = getCode(command, handler);
-    if (isMouse(keyCode))
-      switch (keyCode)
-      {
-        case MouseEvent.BUTTON1:
-          _robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-          break;
-        case MouseEvent.BUTTON2:
-          _robot.mouseRelease(InputEvent.BUTTON2_DOWN_MASK);
-          break;
-        case MouseEvent.BUTTON3:
-          _robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
-          break;
-      }
-    else
-      _robot.keyRelease(keyCode);
-  }
+	@Override
+	protected void press(PressCommand command, EfferentCommandHandler handler) {
+		int keyCode = getCode(command, handler);
+		if (isMouse(keyCode)) {
+			int mask = MouseEvent.getMaskForButton(keyCode);
+			if (_useMock)
+				_interface.mousePress(mask, keyCode);
+			else
+				_robot.mousePress(mask);
 
-  @Override
-  protected void positionMouse(TranslateCommand command,
-      EfferentCommandHandler handler, IEfferentObject mouse, double[] position)
-  {
-    /*
-     * position is retinotopic, need to convert back to screen first
-     */
-    Point2D retino = new Point2D.Double(position[0], position[1]);
-    Point2D inCM = _coordinates.fromRetinotopic(retino);
-    Point2D inPx = _coordinates.fromCentimeters(inCM);
-    Point onScreen = _coordinates.fromCenterOfScreen(inPx);
+		} else if (_useMock)
+			_interface.keyPress(keyCode);
+		else
+			_robot.keyPress(keyCode);
+	}
 
-    if (LOGGER.isDebugEnabled())
-    {
-      LOGGER.debug(String.format("Retino %s", retino));
-      LOGGER.debug(String.format("CM %s", inCM));
-      LOGGER.debug(String.format("Pixels %s", inPx));
-      LOGGER.debug(String.format("Screen %s", onScreen));
-    }
+	@Override
+	protected void release(ReleaseCommand command, EfferentCommandHandler handler) {
+		int keyCode = getCode(command, handler);
+		if (isMouse(keyCode)) {
+			int mask = MouseEvent.getMaskForButton(keyCode);
+			if (_useMock)
+				_interface.mouseRelease(mask, keyCode);
+			else
+				_robot.mouseRelease(mask);
 
-    _robot.mouseMove(onScreen.x, onScreen.y);
-  }
+		} else if (_useMock)
+			_interface.keyRelease(keyCode);
+		else
+			_robot.keyRelease(keyCode);
+	}
+
+	@Override
+	protected void positionMouse(TranslateCommand command, EfferentCommandHandler handler, IEfferentObject mouse,
+			double[] position) {
+		/*
+		 * position is retinotopic, need to convert back to screen first
+		 */
+		Point2D retino = new Point2D.Double(position[0], position[1]);
+		Point2D inCM = _coordinates.fromRetinotopic(retino);
+		Point2D inPx = _coordinates.fromCentimeters(inCM);
+		Point onScreen = _coordinates.fromCenterOfScreen(inPx);
+
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug(String.format("Retino %s", retino));
+			LOGGER.debug(String.format("CM %s", inCM));
+			LOGGER.debug(String.format("Pixels %s", inPx));
+			LOGGER.debug(String.format("Screen %s", onScreen));
+		}
+
+		if (_useMock)
+			_interface.mouseMove(onScreen.x, onScreen.y);
+		else
+			_robot.mouseMove(onScreen.x, onScreen.y);
+
+	}
 
 }

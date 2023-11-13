@@ -2,6 +2,7 @@ package org.commonreality.sensors.swing.processors;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Frame;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
@@ -77,6 +78,15 @@ public abstract class AbstractCreatorProcessor extends AbstractObjectCreator
 
       visible &= !(bounds.width == 0 && bounds.height == 0); // make empty
                                                              // bounds invisible
+      
+      /*
+       * Custom AWT Canvases, such as OpenGL rely upon
+       * Popup.DefaultFrame for their popups, but this is bugged
+       * and doesn't return isVisible correctly. so we bail, knowing
+       * its the last parent 
+       */
+      if(Frame.class.isInstance(visit)) break;
+      
       visible &= visit.isVisible() && visit.isDisplayable();
       visit = visit.getParent();
     }
