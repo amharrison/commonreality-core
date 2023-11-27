@@ -186,13 +186,14 @@ public class MockInterface
   {
 
     if (_currentComponent == null) return;
+    Component component = _currentComponent;
 
-    MouseEvent me = new MouseEvent(_currentComponent, MouseEvent.MOUSE_RELEASED,
+    MouseEvent me = new MouseEvent(component, MouseEvent.MOUSE_RELEASED,
         System.currentTimeMillis(), modifiers, _componentLocation.x,
         _componentLocation.y, _screenLocation.x, _screenLocation.y, 1, false,
         button);
 
-    MouseEvent clicked = new MouseEvent(_currentComponent,
+    MouseEvent clicked = new MouseEvent(component,
         MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), modifiers,
         _componentLocation.x, _componentLocation.y, _screenLocation.x,
         _screenLocation.y, 1, false, button);
